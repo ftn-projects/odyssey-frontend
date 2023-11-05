@@ -1,2 +1,2 @@
 # odyssey-frontend
-Frontend part of travel application Odyssey developed using Angular (TS, HTML, CSS).
+Web application which is part of Odyssey project developed using Angular (TS, HTML, CSS).
