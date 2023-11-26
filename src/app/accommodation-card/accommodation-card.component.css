@@ -1,0 +1,15 @@
+.cardContainer{
+    width:300px;
+}
+
+.imageContainer{
+    width:100%;
+    position:relative;
+}
+
+img{
+    position:absolute;
+    object-fit: cover;
+    width: 100%;
+    z-index: -1;
+}
