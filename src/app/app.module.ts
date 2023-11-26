@@ -4,6 +4,8 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './infrastructure/material/material.module';
 
 @NgModule({
     declarations: [
@@ -13,6 +15,8 @@ import { HomeComponent } from './home/home.component';
     imports: [
         BrowserModule,
         AppRoutingModule,
+        BrowserAnimationsModule,
+        MaterialModule
     ],
     providers: [
         provideClientHydration()
