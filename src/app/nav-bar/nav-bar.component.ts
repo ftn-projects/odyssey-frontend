@@ -10,7 +10,7 @@ import { NavAdminComponent } from './nav-tabs/nav-admin.component';
     styleUrl: './nav-bar.component.css'
 })
 export class NavBarComponent {
-    protected role = "ADMIN";
+    protected role = "HOST";
 
     get navTabs() {
         switch (this.role) {
@@ -30,7 +30,7 @@ export class NavBarComponent {
             case "GUEST":
                 return "../../../../assets/profile_example.png";
             case "HOST":
-                return "../../../../favicon.png";
+                return "../../../../assets/profile_example.png";
             case "ADMIN":
                 return "../../../../assets/profile_example.png";
             default:

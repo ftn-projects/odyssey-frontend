@@ -8,7 +8,7 @@ a {
     margin-inline: 15px;
     color: black;
     text-decoration: none;
-    font-size: medium;
+    font-size: small;
 }
 
 .horizontal-flex {
@@ -22,13 +22,12 @@ a {
 }
 
 .toolbar-profile-img {
-    max-height: 30px;
-    margin-left: 15px;
+    max-height: 22px;
+    margin-inline: 15px;
     cursor: pointer;
 }
 
 .app-name {
     font-size: large;
     font-weight: 600;
-    letter-spacing: 0px;
 }
