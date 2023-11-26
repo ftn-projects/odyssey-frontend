@@ -6,30 +6,35 @@
 }
 
 .formSide {
-    width: 70%;
+    width: 60%;
     height: 100%;
+}
+
+a {
+    color: #2DB5C7;
 }
 
 .backLink {
     display: block;
     margin: 20px;
-    color: #2DB5C7;
 }
 
 .imageSide {
-    width: 30%;
+    width: 40%;
     height: 100%;
     background-image: url("../../assets/image.png");
     background-repeat: no-repeat;
     background-position: right;
+    background-size: cover;
 }
 
 .phrase {
-    padding-top: 20%;
+    margin-top: 20%;
     text-align: center;
     font-size: x-large;
     width: 100%;
     height: fit-content;
+    line-height: 35px;
 }
 
 .formWrapper {
@@ -37,10 +42,40 @@
     display: flex;
     flex-direction: column;
     height: fit-content;
+    width: 60%;
+    margin: auto;
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: auto;
+    margin-top: 15%;
+}
+
+.textBox {
     width: 100%;
+    min-width: 200px;
 }
 
 .title {
     font-size: 3em;
     text-align: center;
+}
+
+.promptText {
+    margin-top: 2%;
+    text-align: center;
+    font-size: 16px;
+}
+
+#continue {
+    margin: auto;
+    margin-top: 10%;
+}
+
+.inputButton {
+    padding: 30px 35px;
+    font-size: 20px;
 }
