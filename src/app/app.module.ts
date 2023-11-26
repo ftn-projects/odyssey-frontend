@@ -7,12 +7,14 @@ import { HomeComponent } from './home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './infrastructure/material/material.module';
 import { AccommodationCardComponent } from './accommodation-card/accommodation-card.component';
+import { AccommodationListComponent } from './accommodation-list/accommodation-list.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         HomeComponent,
-        AccommodationCardComponent
+        AccommodationCardComponent,
+        AccommodationListComponent
     ],
     imports: [
         BrowserModule,
