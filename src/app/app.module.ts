@@ -7,13 +7,23 @@ import { MaterialModule } from './infrastructure/material/material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { AccountManagementComponent } from './account-management/account-management.component'
+import { AccountComponent } from './account/account.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { NavAdminComponent } from './nav-bar/nav-tabs/nav-admin.component';
+import { NavHostComponent } from './nav-bar/nav-tabs/nav-host.component';
+import { NavGuestComponent } from './nav-bar/nav-tabs/nav-guest.component';
+import { NavUnauthComponent } from './nav-bar/nav-tabs/nav-unauth.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         HomeComponent,
-        AccountManagementComponent
+        AccountComponent,
+        NavBarComponent,
+        NavAdminComponent,
+        NavHostComponent,
+        NavGuestComponent,
+        NavUnauthComponent
     ],
     imports: [
         BrowserModule,
