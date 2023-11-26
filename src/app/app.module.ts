@@ -26,7 +26,7 @@ import { NavUnauthComponent } from './nav-bar/nav-tabs/nav-unauth.component';
         NavAdminComponent,
         NavHostComponent,
         NavGuestComponent,
-        NavUnauthComponent
+        NavUnauthComponent,
     ],
     imports: [
         BrowserModule,

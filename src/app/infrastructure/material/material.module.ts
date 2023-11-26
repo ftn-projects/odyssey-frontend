@@ -12,6 +12,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { AutocompleteDropdownComponent } from '../../autocomplete-dropdown/autocomplete-dropdown.component';
 // Material Navigation
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -86,7 +87,8 @@ import { MatTableModule } from '@angular/material/table';
         MatSortModule,
         MatTableModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        AutocompleteDropdownComponent
     ],
     exports: [
         MatAutocompleteModule,
@@ -126,7 +128,8 @@ import { MatTableModule } from '@angular/material/table';
         MatTableModule,
         FormsModule,
         ReactiveFormsModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        AutocompleteDropdownComponent
     ],
 })
 export class MaterialModule { }
