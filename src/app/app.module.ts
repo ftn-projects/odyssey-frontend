@@ -4,9 +4,8 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { AccommodationCardComponent } from './accommodation-card/accommodation-card.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatIconModule} from '@angular/material/icon';
+import { MaterialModule } from './infrastructure/material/material.module';
 
 @NgModule({
     declarations: [
@@ -18,7 +17,7 @@ import {MatIconModule} from '@angular/material/icon';
         BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
-        MatIconModule
+        MaterialModule
     ],
     providers: [
         provideClientHydration()
