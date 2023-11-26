@@ -1,0 +1,12 @@
+<mat-toolbar id="header">
+    <a class="horizontal-flex" [routerLink]="''">
+        <img class="toolbar-logo-img" src="../../../favicon.png" />
+        <span class="app-name">Odyssey</span>
+    </a>
+    <div class="horizontal-flex">
+        <a [routerLink]="''">Home</a>
+        <a [routerLink]="'search'">Search</a>
+        <a [routerLink]="'contact'">Contact</a>
+        <ng-container class="horizontal-flex" *ngComponentOutlet="navTabs; inputs: {img}" />
+    </div>
+</mat-toolbar>
