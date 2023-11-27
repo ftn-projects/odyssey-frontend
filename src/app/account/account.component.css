@@ -1,0 +1,57 @@
+.destination-container {
+    height: 100%;
+    padding: 30px;
+}
+
+.card-section {
+    padding: 20px;
+    padding-inline: 35px;
+    margin: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.rounded-border {
+    border: 2px;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: rgb(0, 0, 0, 0.12);
+}
+
+#about-profile-img {
+    max-height: 90px;
+}
+
+#summary-section {
+    gap: 30px;
+    flex-direction: row;
+}
+
+#summary-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#summary-name {
+    font-size: large;
+    font-weight: 700;
+    margin: 0;
+}
+
+#summary-role {
+    font-size: medium;
+    color: gray;
+    font-weight: 500;
+    margin: 0;
+    margin-top: 5px;
+}
+
+.btn-edit:not(:disabled) {
+    margin-left: auto;
+    color: gray;
+}
+
+.section-row {
+    display: flex;
+}
