@@ -49,7 +49,7 @@ a {
     padding-bottom: 5%;
 }
 
-.loginForm {
+.registerForm {
     display: flex;
     flex-direction: column;
     width: 50%;
@@ -83,7 +83,7 @@ a {
     font-size: 20px;
 }
 
-.countrySelect * {
-    width: 100% !important;
-    margin: 0 !important;
+::ng-deep .countrySelect mat-form-field {
+    min-width: 200px;
+    width: 100%;
 }
