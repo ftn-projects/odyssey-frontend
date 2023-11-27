@@ -7,3 +7,8 @@ example-form {
   .example-full-width {
     width: 100%;
   }
+
+  .input-prefix{
+    margin-left: 10px;
+    color: #787575;
+}

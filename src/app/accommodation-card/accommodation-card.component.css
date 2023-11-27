@@ -13,15 +13,11 @@
     width: 100%;
     height: 100vh;
     padding: 10px;
-}
-
-.cardContainer {
-    width: 300px;
+    aspect-ratio: 3/4;
 }
 
 .imageContainer {
     position: relative;
-    height: 250px;
 }
 
 .imageContainer > img {

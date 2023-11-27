@@ -28,7 +28,7 @@ export interface User {
 })
 export class AutocompleteDropdownComponent implements OnInit{
     myControl = new FormControl<string | User>('');
-    options: User[] = [{name: 'Mary'}, {name: 'Shelley'}, {name: 'Igor'}];
+    options: User[] = [{name: 'Novi Sad, Serbia'}, {name: 'Belgrade, Serbia'}, {name: 'Nis, Serbia'}];
     filteredOptions!: Observable<User[]>;
   
     ngOnInit() {

@@ -14,6 +14,8 @@ import { NavAdminComponent } from './nav-bar/nav-tabs/nav-admin.component';
 import { NavHostComponent } from './nav-bar/nav-tabs/nav-host.component';
 import { NavGuestComponent } from './nav-bar/nav-tabs/nav-guest.component';
 import { NavUnauthComponent } from './nav-bar/nav-tabs/nav-unauth.component';
+import { ButtonBarComponent } from './button-bar/button-bar.component';
+import { RoundButtonComponent } from './round-button/round-button.component';
 
 @NgModule({
     declarations: [
@@ -27,6 +29,8 @@ import { NavUnauthComponent } from './nav-bar/nav-tabs/nav-unauth.component';
         NavHostComponent,
         NavGuestComponent,
         NavUnauthComponent,
+        ButtonBarComponent,
+        RoundButtonComponent,
     ],
     imports: [
         BrowserModule,

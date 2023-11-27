@@ -1,0 +1,7 @@
+<div class="container">
+    <button mat-icon-button (click)="scroll(-1)"><mat-icon>keyboard_arrow_left</mat-icon></button>
+    <div class="button-container" #scrollContainer cdkScrollable>
+        <app-round-button *ngFor="let button of buttons"></app-round-button>
+    </div> 
+    <button mat-icon-button (click)="scroll(1)"><mat-icon>keyboard_arrow_right</mat-icon></button>
+</div>

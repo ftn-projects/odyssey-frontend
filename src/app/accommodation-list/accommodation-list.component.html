@@ -1,43 +1,77 @@
 <div class="body-container">
     <div class="search-section">
-            <mat-form-field class="search-bar" subscriptSizing="dynamic">
-                <mat-label>Search accommodations</mat-label>
-                <input type="search" matInput>
-                <mat-icon matPrefix>search</mat-icon>
-              </mat-form-field>
+            
+            <div class="parameterSection">
+                <mat-form-field class="search-bar parameter-child" subscriptSizing="dynamic">
+                    <mat-label>Search</mat-label>
+                    <input type="search" matInput>
+                    <mat-icon matPrefix class="input-prefix">home</mat-icon>
+                </mat-form-field>
 
-              <app-autocomplete-dropdown class="auto-drop"></app-autocomplete-dropdown>
+                <app-autocomplete-dropdown  class="parameter-child"></app-autocomplete-dropdown>
 
-    <mat-form-field>
-      <mat-label>Choose Date Range</mat-label>
-      <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
-        <input matStartDate formControlName="start" placeholder="Start Date">
-        <input matEndDate formControlName="end" placeholder="End Date">
-      </mat-date-range-input>
-      <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
-      <mat-date-range-picker matSuffix #picker></mat-date-range-picker>
-    </mat-form-field>
+                <mat-form-field class="parameter-child" subscriptSizing="dynamic">
+                    <span matPrefix class="material-symbols-outlined input-prefix">
+                        people
+                    </span>
+                    <mat-label>Guests</mat-label>
+                    <input type="number" matInput>
+                </mat-form-field>
 
+                <mat-form-field class="parameter-child" subscriptSizing="dynamic">
+                    <mat-label>Choose Date Range</mat-label>
+                    <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+                        <input matStartDate formControlName="start" placeholder="Start Date">
+                        <input matEndDate formControlName="end" placeholder="End Date">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker matSuffix #picker></mat-date-range-picker>
+                </mat-form-field>
+                <button mat-fab color="primary" aria-label="Example icon button with a delete icon">
+                    <mat-icon>search</mat-icon>
+                  </button>
+            </div>
+
+            
+    
+            <!-- <div class="search-button-section">
+                <mat-button-toggle class="heart-toggle">
+                    <mat-icon>favorite</mat-icon>
+                  </mat-button-toggle>
+                <button mat-raised-button class="filter-button" color="accent">
+                    <mat-icon>tune</mat-icon>
+                    Filter
+                </button>
+                <button mat-flat-button color="primary">Search</button>
+            </div> -->
 
 
 
         
     </div>
-    <div class="list-section">
-        <app-accommodation-card/>
-        <app-accommodation-card/>
-        <app-accommodation-card/>
-        <app-accommodation-card/>
-        <app-accommodation-card/>
-        <app-accommodation-card/>
-        <app-accommodation-card/>
-        <app-accommodation-card/>
-        <app-accommodation-card/>
-        <app-accommodation-card/>
-        <app-accommodation-card/>
-        <app-accommodation-card/>
-        <app-accommodation-card/>
-        <app-accommodation-card/>
-        <app-accommodation-card/>
+    <mat-divider class="divider"></mat-divider>
+    <div class="list-section-container">
+
+
+    <app-button-bar class="types-bar"/>
+        <div class="list-section">
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+        
+        </div>
     </div>
 </div>
