@@ -6,5 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrl: './round-button.component.css'
 })
 export class RoundButtonComponent {
-
+@Input() icon: string = '';
+  @Input() text: string = '';
 }
