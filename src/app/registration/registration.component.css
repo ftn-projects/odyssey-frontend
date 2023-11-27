@@ -82,3 +82,8 @@ a {
     padding: 30px 35px;
     font-size: 20px;
 }
+
+.countrySelect * {
+    width: 100% !important;
+    margin: 0 !important;
+}
