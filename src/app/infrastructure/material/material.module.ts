@@ -10,6 +10,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSelectCountryModule } from '@angular-material-extensions/select-country';
 // Material Navigation
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -82,7 +83,8 @@ import { MatTableModule } from '@angular/material/table';
         MatTooltipModule,
         MatPaginatorModule,
         MatSortModule,
-        MatTableModule
+        MatTableModule,
+        MatSelectCountryModule.forRoot('en')
     ],
     exports: [
         MatAutocompleteModule,
@@ -119,7 +121,8 @@ import { MatTableModule } from '@angular/material/table';
         MatTooltipModule,
         MatPaginatorModule,
         MatSortModule,
-        MatTableModule
+        MatTableModule,
+        MatSelectCountryModule
     ]
 })
 export class MaterialModule { }

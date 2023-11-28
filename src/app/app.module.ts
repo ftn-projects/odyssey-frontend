@@ -3,6 +3,7 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './infrastructure/material/material.module';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,7 +14,8 @@ import { NavAdminComponent } from './nav-bar/nav-tabs/nav-admin.component';
 import { NavHostComponent } from './nav-bar/nav-tabs/nav-host.component';
 import { NavGuestComponent } from './nav-bar/nav-tabs/nav-guest.component';
 import { NavUnauthComponent } from './nav-bar/nav-tabs/nav-unauth.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './authentification/login/login.component';
+import { RegistrationComponent } from './authentification/registration/registration.component';
 
 @NgModule({
     declarations: [
@@ -25,13 +27,15 @@ import { LoginComponent } from './login/login.component';
         NavHostComponent,
         NavGuestComponent,
         NavUnauthComponent,
-        LoginComponent
+        LoginComponent,
+        RegistrationComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
-        MaterialModule
+        MaterialModule,
+        HttpClientModule
     ],
     providers: [
         provideClientHydration()

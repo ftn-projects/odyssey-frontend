@@ -31,8 +31,13 @@
                         ],
                         "tsConfig": "tsconfig.app.json",
                         "assets": [
-                            "src/favicon.png",
-                            "src/assets"
+                            "src/favicon.ico",
+                            "src/assets",
+                            {
+                                "glob": "**/*",
+                                "input": "./node_modules/svg-country-flags/svg",
+                                "output": "/assets/svg-country-flags/svg"
+                            }
                         ],
                         "styles": [
                             "@angular/material/prebuilt-themes/deeppurple-amber.css",
