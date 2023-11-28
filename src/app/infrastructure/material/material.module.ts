@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
 // Material Form Controls
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -10,6 +12,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSelectCountryModule } from '@angular-material-extensions/select-country';
+import { AutocompleteDropdownComponent } from '../../autocomplete-dropdown/autocomplete-dropdown.component';
 // Material Navigation
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -82,7 +86,11 @@ import { MatTableModule } from '@angular/material/table';
         MatTooltipModule,
         MatPaginatorModule,
         MatSortModule,
-        MatTableModule
+        MatTableModule,
+        MatSelectCountryModule.forRoot('en'),
+        FormsModule,
+        ReactiveFormsModule,
+        AutocompleteDropdownComponent
     ],
     exports: [
         MatAutocompleteModule,
@@ -119,7 +127,12 @@ import { MatTableModule } from '@angular/material/table';
         MatTooltipModule,
         MatPaginatorModule,
         MatSortModule,
-        MatTableModule
+        MatTableModule,
+        MatSelectCountryModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatNativeDateModule,
+        AutocompleteDropdownComponent
     ]
 })
 export class MaterialModule { }

@@ -1,0 +1,18 @@
+.imageScroll {
+    position: fixed;
+    right: 0;
+}
+
+.formScroll {
+    padding-bottom: 5%;
+}
+
+#continue {
+    margin: auto;
+    margin-top: 5%;
+}
+
+::ng-deep .countrySelect mat-form-field {
+    min-width: 200px;
+    width: 100%;
+}
