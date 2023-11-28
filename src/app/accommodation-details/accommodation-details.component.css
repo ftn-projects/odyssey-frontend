@@ -2,17 +2,75 @@
     box-sizing: border-box;
 }
 
+.body-container{
+    padding: 0 150px;
+    margin-top: 50px;
+}
+
+.image-container{
+    position:relative;
+    height: fit-content;
+    width: fit-content;
+    width: 100%;
+    margin: auto;
+    min-width: 750px;
+}
+
+
+.grid-container { 
+    width: 100%;
+    display: grid;
+    grid-template-columns:1fr 0.5fr 0.5fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px; /* Adjust the gap according to your design */
+    
+}
+
+.grid-item {
+    object-fit: cover;
+    width: 100%;
+    aspect-ratio: 16/9;
+}
+
+.grid-item:first-child {
+    grid-row: span 2;
+    border-radius: 15px 0 0 15px;
+}
+
+.grid-item:nth-child(3){
+    border-radius: 0 15px 0 0;
+}
+
+.grid-item:last-child{
+    border-radius: 0 0px 15px 0;
+
+}
+
+/* Adjust the height of rows based on the specified requirements */
+.grid-container > * {
+    height: 100%;
+}
+
+.show-more-button{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color:white;
+    margin: 10px;
+    background-color: rgba(120, 117, 117, 0.75);
+}
+
 .comment-section{
+    margin:auto;
     margin-top: 70px;
-    padding: 0 50px;
     width:100%;
     display:grid;
-    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap:100px;
 }
 
 .comment-section > .review-card{
     flex-basis: 350px;
     flex-grow: 1;
-    margin: 0 50px;
     margin-bottom: 50px;
 }
