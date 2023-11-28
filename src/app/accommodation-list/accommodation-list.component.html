@@ -1,0 +1,55 @@
+<div class="body-container">
+    <div class="search-section">
+            
+            <div class="parameterSection">
+                <app-autocomplete-dropdown   class="parameter-child"/>
+
+                <mat-form-field class="parameter-child" subscriptSizing="dynamic">
+                    <span matPrefix class="material-symbols-outlined input-prefix">
+                        people
+                    </span>
+                    <mat-label>Guests</mat-label>
+                    <input type="number" matInput>
+                </mat-form-field>
+
+                <app-search-daterange-picker class="parameter-child"/>
+
+
+                <button class="search-button" mat-stroked-button extended color="primary">
+                    <mat-icon>search</mat-icon>
+                </button>
+            </div>
+    </div>
+    <mat-divider class="divider"></mat-divider>
+    <div class="filter-container" [ngClass]="{'sticky': isSticky}">
+        <app-button-bar class="types-bar"/>
+        <mat-button-toggle class="heart-toggle">
+            <mat-icon>favorite</mat-icon>
+          </mat-button-toggle>
+        <button (click)="openDialog()" mat-stroked-button class="filter-button">
+            <mat-icon>tune</mat-icon>
+            Filter
+        </button>
+    </div>
+    
+    <div class="list-section-container">
+        <div class="list-section">
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+            <app-accommodation-card class="accommodation-card"/>
+        </div>
+    </div>
+</div>
