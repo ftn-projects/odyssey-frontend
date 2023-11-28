@@ -13,6 +13,7 @@ import { NavAdminComponent } from './nav-bar/nav-tabs/nav-admin.component';
 import { NavHostComponent } from './nav-bar/nav-tabs/nav-host.component';
 import { NavGuestComponent } from './nav-bar/nav-tabs/nav-guest.component';
 import { NavUnauthComponent } from './nav-bar/nav-tabs/nav-unauth.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import { NavUnauthComponent } from './nav-bar/nav-tabs/nav-unauth.component';
         NavAdminComponent,
         NavHostComponent,
         NavGuestComponent,
-        NavUnauthComponent
+        NavUnauthComponent,
+        LoginComponent
     ],
     imports: [
         BrowserModule,
