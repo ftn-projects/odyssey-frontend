@@ -8,6 +8,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { AccountComponent } from './account/account.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { NavAdminComponent } from './nav-bar/nav-tabs/nav-admin.component';
+import { NavHostComponent } from './nav-bar/nav-tabs/nav-host.component';
+import { NavGuestComponent } from './nav-bar/nav-tabs/nav-guest.component';
+import { NavUnauthComponent } from './nav-bar/nav-tabs/nav-unauth.component';
 import { LoginComponent } from './authentification/login/login.component';
 import { RegistrationComponent } from './authentification/registration/registration.component';
 
@@ -15,6 +21,12 @@ import { RegistrationComponent } from './authentification/registration/registrat
     declarations: [
         AppComponent,
         HomeComponent,
+        AccountComponent,
+        NavBarComponent,
+        NavAdminComponent,
+        NavHostComponent,
+        NavGuestComponent,
+        NavUnauthComponent,
         LoginComponent,
         RegistrationComponent
     ],

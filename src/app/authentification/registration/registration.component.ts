@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Country } from '@angular-material-extensions/select-country';
 
 @Component({
     selector: 'app-registration',
