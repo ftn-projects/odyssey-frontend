@@ -33,6 +33,6 @@ export class AccommodationListComponent {
   @HostListener('window:scroll', ['$event'])
   handleScroll(event: Event) {
     const scrollOffset = window.scrollY || document.documentElement.scrollTop;
-    this.isSticky = scrollOffset > 100;
+    this.isSticky = scrollOffset > 150;
   }
 }
