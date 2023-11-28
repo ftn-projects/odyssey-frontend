@@ -1,5 +1,8 @@
-<mat-form-field subscriptSizing="dynamic" class="example-full-width">
-    
+
+<mat-form-field subscriptSizing="dynamic" [class.is-sticky]="isSticky">
+    <span matPrefix class="material-symbols-outlined input-prefix">
+        location_on
+    </span>
     <mat-label>Location</mat-label>
     <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
     
@@ -9,7 +12,5 @@
       }
       
     </mat-autocomplete>
-    <span matPrefix class="material-symbols-outlined input-prefix">
-        location_on
-    </span>
+    
   </mat-form-field>

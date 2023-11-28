@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input, ViewEncapsulation } from '@angular/core';
 import {OnInit} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Observable} from 'rxjs';
@@ -27,6 +27,8 @@ export interface User {
   ]
 })
 export class AutocompleteDropdownComponent implements OnInit{
+    @Input() isSticky = false;
+
     myControl = new FormControl<string | User>('');
     options: User[] = [{name: 'Novi Sad, Serbia'}, {name: 'Belgrade, Serbia'}, {name: 'Nis, Serbia'}];
     filteredOptions!: Observable<User[]>;
@@ -40,14 +42,13 @@ export class AutocompleteDropdownComponent implements OnInit{
         }),
       );
     }
-  
+
     displayFn(user: User): string {
       return user && user.name ? user.name : '';
     }
   
     private _filter(name: string): User[] {
       const filterValue = name.toLowerCase();
-  
       return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
     }
 }

@@ -16,6 +16,9 @@ import { NavGuestComponent } from './nav-bar/nav-tabs/nav-guest.component';
 import { NavUnauthComponent } from './nav-bar/nav-tabs/nav-unauth.component';
 import { ButtonBarComponent } from './button-bar/button-bar.component';
 import { RoundButtonComponent } from './round-button/round-button.component';
+import { AccommodationFilterComponent } from './accommodation-list/accommodation-filter/accommodation-filter.component';
+import { FilterDialogComponent } from './accommodation-list/filter-dialog/filter-dialog.component';
+import { SearchDaterangePickerComponent } from './accommodation-list/search-daterange-picker/search-daterange-picker.component';
 
 @NgModule({
     declarations: [
@@ -31,6 +34,9 @@ import { RoundButtonComponent } from './round-button/round-button.component';
         NavUnauthComponent,
         ButtonBarComponent,
         RoundButtonComponent,
+        AccommodationFilterComponent,
+        FilterDialogComponent,
+        SearchDaterangePickerComponent,
     ],
     imports: [
         BrowserModule,

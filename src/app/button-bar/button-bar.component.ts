@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import {ViewChild, ElementRef } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-button-bar',
@@ -55,6 +56,8 @@ buttonPool: { icon: string; text: string }[] = [
     // Add more items to the button pool as needed
   ];
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   buttons: { icon: string; text: string }[] = [];
 
   scrollDistance: number = 0; // Adjusted dynamically based on container width
@@ -66,12 +69,13 @@ buttonPool: { icon: string; text: string }[] = [
   }
     
     generateRandomButtons() {
-        const numberOfButtons = 30; // Adjust the number of buttons as needed
+        const numberOfButtons = 50; // Adjust the number of buttons as needed
     
         this.buttons = Array.from({ length: numberOfButtons }, () => {
           const randomIndex = Math.floor(Math.random() * this.buttonPool.length);
           return this.buttonPool[randomIndex];
         });
+        this.cdr.detectChanges();
       }
   
     scroll(direction: number) {

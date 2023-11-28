@@ -1,14 +1,15 @@
-example-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
-  }
-  
-  .example-full-width {
-    width: 100%;
-  }
+:host{
+  display: flex; 
+  flex:1;
+  min-width: 0;
+}
 
-  .input-prefix{
-    margin-left: 10px;
-    color: #787575;
+.input-prefix {
+  margin-left: 10px;
+  color: #787575;
+}
+
+mat-form-field {
+  flex: 1;
+  min-width: none !important;
 }

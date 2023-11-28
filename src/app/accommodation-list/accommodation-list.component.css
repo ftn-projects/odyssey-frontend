@@ -9,29 +9,48 @@
     justify-content:space-evenly;
     flex-wrap: nowrap;
     align-items:center;
-    width: 75%;
-    margin:auto;
-    background-color: #D5F5F5;
+    width: 70%;
+    margin:30px auto;
     padding: 15px;
     gap: 10px 15px;
-    margin-top: 75px;
+    margin-top: 45px;
     border-radius: 15px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    background-color: white;
     height: auto;
+    transition: all 0.5s ease-in-out;
+}
+
+
+
+.search-container.is-sticky{
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    box-shadow: none;
+    justify-content: center;
+    background-color: white;
+}
+
+.search-container.is-sticky .search-section{
+    width:65%;
+    box-shadow: none;
 }
 
 .filter-container{
     box-sizing: border-box;
     background-color: white;
-    top:0;
     position:sticky;
     display:flex;
     flex-direction: row;
     align-items: center;
-    gap:15px;
     width: 100%;
-    padding: 0px 150px;
+    padding: 0px 50px;
     z-index: 1;
+    gap:15px;
+    top:0px;
+    transition: all 0.5s ease-in-out;
 }
 
 
@@ -44,64 +63,37 @@
     color: #787575;
 }
 
-
+.filter-button{
+    height: 50px;
+}
 
 .parameterSection{
     display:flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
     width: 100%;
     gap: 5px;
     height: 100%;
     translate: all 0.5s ease-in-out;
 }
 
-
-
-.parameter-child
-{
-    min-width: 150px !important;
-    flex:1 !important;
-    height: 100% !important;
-    overflow: hidden;    
+.parameter-child{
+    flex:1;
 }
-
-#first-parameter{
-    border-radius: 999px 0 0 999px;
-}
-
-#last-parameter{
-    border-radius: 0 999px 999px 0;
-}
-
-/* ::ng-deep app-autocomplete-dropdown.is-sticky .mat-primary,
-.parameter-child.is-sticky
-{
-    height: 500px !important; 
-} */
 .search-bar{
     width:100%;
     border-radius: 15px;
+}
+
+.heart-toggle{
+    width:50px;
 }
 
 .heart-toggle.mat-button-toggle-checked{
     color:#EA4335;
     background-color: rgba(234, 67, 53, 0.3);
 }
-
-.search-button-section{
-    display:flex;
-    flex-direction: row;
-    justify-content: end;
-    width: 100%;
-    gap:15px;
-    align-items: center;
-}
-
-.divider{
-    margin-top: 50px;
-}
-
 
 .list-section{
     margin-top: 70px;
@@ -118,3 +110,18 @@
     margin-bottom: 50px;
 }
 
+.search-button{
+    width: 57px;
+    height: 57px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-button > .mat-icon{
+    margin:0;
+    padding: 0;
+    font-size: 30px;
+    width: fit-content;
+    height: fit-content;
+}

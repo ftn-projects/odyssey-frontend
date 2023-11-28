@@ -11,6 +11,11 @@ button {
   border-radius: 50%;
 }
 
+mat-icon{
+  color:#787575;
+}
+
 .button-label{
   white-space: nowrap;
+  color:#787575;
 }

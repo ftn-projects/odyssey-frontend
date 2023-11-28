@@ -1,14 +1,8 @@
 <div class="body-container">
     <div class="search-section">
             
-            <div class="parameterSection" >
-                <mat-form-field id="first-parameter" class="search-bar parameter-child" subscriptSizing="dynamic">
-                    <mat-label>Search</mat-label>
-                    <input type="search" matInput>
-                    <mat-icon matPrefix class="input-prefix">home</mat-icon>
-                </mat-form-field>
-
-                <app-autocomplete-dropdown/>
+            <div class="parameterSection">
+                <app-autocomplete-dropdown   class="parameter-child"/>
 
                 <mat-form-field class="parameter-child" subscriptSizing="dynamic">
                     <span matPrefix class="material-symbols-outlined input-prefix">
@@ -18,36 +12,13 @@
                     <input type="number" matInput>
                 </mat-form-field>
 
-                <mat-form-field id="last-parameter" class="parameter-child" subscriptSizing="dynamic">
-                    <mat-label>Choose Date Range</mat-label>
-                    <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
-                        <input matStartDate formControlName="start" placeholder="Start Date">
-                        <input matEndDate formControlName="end" placeholder="End Date">
-                    </mat-date-range-input>
-                    <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
-                    <mat-date-range-picker matSuffix #picker></mat-date-range-picker>
-                </mat-form-field>
-                <button class="search-icon" mat-fab color="primary" aria-label="Example icon button with a delete icon">
+                <app-search-daterange-picker class="parameter-child"/>
+
+
+                <button class="search-button" mat-stroked-button extended color="primary">
                     <mat-icon>search</mat-icon>
-                  </button>
-            </div>
-
-            
-    
-            <!-- <div class="search-button-section">
-                <mat-button-toggle class="heart-toggle">
-                    <mat-icon>favorite</mat-icon>
-                  </mat-button-toggle>
-                <button mat-raised-button class="filter-button" color="accent">
-                    <mat-icon>tune</mat-icon>
-                    Filter
                 </button>
-                <button mat-flat-button color="primary">Search</button>
-            </div> -->
-
-
-
-        
+            </div>
     </div>
     <mat-divider class="divider"></mat-divider>
     <div class="filter-container" [ngClass]="{'sticky': isSticky}">
@@ -55,15 +26,13 @@
         <mat-button-toggle class="heart-toggle">
             <mat-icon>favorite</mat-icon>
           </mat-button-toggle>
-        <button mat-raised-button class="filter-button" color="accent">
+        <button (click)="openDialog()" mat-stroked-button class="filter-button">
             <mat-icon>tune</mat-icon>
             Filter
         </button>
     </div>
     
     <div class="list-section-container">
-
-
         <div class="list-section">
             <app-accommodation-card class="accommodation-card"/>
             <app-accommodation-card class="accommodation-card"/>
@@ -81,7 +50,6 @@
             <app-accommodation-card class="accommodation-card"/>
             <app-accommodation-card class="accommodation-card"/>
             <app-accommodation-card class="accommodation-card"/>
-        
         </div>
     </div>
 </div>
