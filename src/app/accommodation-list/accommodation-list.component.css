@@ -1,3 +1,8 @@
+*{
+    box-sizing: border-box;
+}
+
+
 .search-section{
     display:flex;
     flex-direction: column;
@@ -11,6 +16,27 @@
     gap: 10px 15px;
     margin-top: 75px;
     border-radius: 15px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    height: auto;
+}
+
+.filter-container{
+    box-sizing: border-box;
+    background-color: white;
+    top:0;
+    position:sticky;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    gap:15px;
+    width: 100%;
+    padding: 0px 150px;
+    z-index: 1;
+}
+
+
+.filter-container.sticky{
+    box-shadow: rgba(149, 157, 165, 0.5) 0px 8px 24px;
 }
 
 .input-prefix{
@@ -18,20 +44,41 @@
     color: #787575;
 }
 
+
+
 .parameterSection{
     display:flex;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
     gap: 5px;
+    height: 100%;
+    translate: all 0.5s ease-in-out;
 }
 
-.parameter-child{
-    min-width: 150px;
-    flex:1;
-    border-radius: 50px;
+
+
+.parameter-child
+{
+    min-width: 150px !important;
+    flex:1 !important;
+    height: 100% !important;
+    overflow: hidden;    
 }
 
+#first-parameter{
+    border-radius: 999px 0 0 999px;
+}
+
+#last-parameter{
+    border-radius: 0 999px 999px 0;
+}
+
+/* ::ng-deep app-autocomplete-dropdown.is-sticky .mat-primary,
+.parameter-child.is-sticky
+{
+    height: 500px !important; 
+} */
 .search-bar{
     width:100%;
     border-radius: 15px;
@@ -55,22 +102,19 @@
     margin-top: 50px;
 }
 
-.list-section-container{
-    padding:50px;
-}
 
 .list-section{
     margin-top: 70px;
+    padding: 0 50px;
     width:100%;
-    display:flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap:90px 20px;
-    flex-wrap: wrap;
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 }
 
 .list-section > .accommodation-card{
     flex-basis: 350px;
     flex-grow: 1;
+    margin:10px;
+    margin-bottom: 50px;
 }
 

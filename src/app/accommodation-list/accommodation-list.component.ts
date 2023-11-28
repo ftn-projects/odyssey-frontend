@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -11,8 +11,18 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './accommodation-list.component.css'
 })
 export class AccommodationListComponent {
+
+    applyParameterChildClass: boolean = false;
     dateRange = new FormGroup({
         start: new FormControl(),
         end: new FormControl()
       });
+
+      isSticky: boolean = false;
+
+  @HostListener('window:scroll', ['$event'])
+  handleScroll(event: Event) {
+    const scrollOffset = window.scrollY || document.documentElement.scrollTop;
+    this.isSticky = scrollOffset > 50;
+  }
 }

@@ -1,14 +1,14 @@
 <div class="body-container">
     <div class="search-section">
             
-            <div class="parameterSection">
-                <mat-form-field class="search-bar parameter-child" subscriptSizing="dynamic">
+            <div class="parameterSection" >
+                <mat-form-field id="first-parameter" class="search-bar parameter-child" subscriptSizing="dynamic">
                     <mat-label>Search</mat-label>
                     <input type="search" matInput>
                     <mat-icon matPrefix class="input-prefix">home</mat-icon>
                 </mat-form-field>
 
-                <app-autocomplete-dropdown  class="parameter-child"></app-autocomplete-dropdown>
+                <app-autocomplete-dropdown/>
 
                 <mat-form-field class="parameter-child" subscriptSizing="dynamic">
                     <span matPrefix class="material-symbols-outlined input-prefix">
@@ -18,7 +18,7 @@
                     <input type="number" matInput>
                 </mat-form-field>
 
-                <mat-form-field class="parameter-child" subscriptSizing="dynamic">
+                <mat-form-field id="last-parameter" class="parameter-child" subscriptSizing="dynamic">
                     <mat-label>Choose Date Range</mat-label>
                     <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
                         <input matStartDate formControlName="start" placeholder="Start Date">
@@ -27,7 +27,7 @@
                     <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
                     <mat-date-range-picker matSuffix #picker></mat-date-range-picker>
                 </mat-form-field>
-                <button mat-fab color="primary" aria-label="Example icon button with a delete icon">
+                <button class="search-icon" mat-fab color="primary" aria-label="Example icon button with a delete icon">
                     <mat-icon>search</mat-icon>
                   </button>
             </div>
@@ -50,10 +50,20 @@
         
     </div>
     <mat-divider class="divider"></mat-divider>
+    <div class="filter-container" [ngClass]="{'sticky': isSticky}">
+        <app-button-bar class="types-bar"/>
+        <mat-button-toggle class="heart-toggle">
+            <mat-icon>favorite</mat-icon>
+          </mat-button-toggle>
+        <button mat-raised-button class="filter-button" color="accent">
+            <mat-icon>tune</mat-icon>
+            Filter
+        </button>
+    </div>
+    
     <div class="list-section-container">
 
 
-    <app-button-bar class="types-bar"/>
         <div class="list-section">
             <app-accommodation-card class="accommodation-card"/>
             <app-accommodation-card class="accommodation-card"/>
