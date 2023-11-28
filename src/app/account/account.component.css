@@ -1,14 +1,22 @@
+p {
+    margin: 0;
+}
+
 .destination-container {
-    height: 100%;
+    height: auto;
     padding: 30px;
+    padding-inline: 50px;
+    display: inline-block;
 }
 
 .card-section {
-    padding: 20px;
-    padding-inline: 35px;
-    margin: 50px;
-    display: flex;
-    flex-direction: column;
+    padding: 25px;
+    margin: 30px;
+    min-width: auto;
+    display: grid;
+    grid-template-columns: 4fr 5fr;
+    row-gap: 20px;
+    column-gap: 30px;
 }
 
 .rounded-border {
@@ -24,6 +32,7 @@
 
 #summary-section {
     gap: 30px;
+    display: flex;
     flex-direction: row;
 }
 
@@ -36,22 +45,76 @@
 #summary-name {
     font-size: large;
     font-weight: 700;
-    margin: 0;
 }
 
 #summary-role {
-    font-size: medium;
-    color: gray;
+    font-size: small;
     font-weight: 500;
-    margin: 0;
-    margin-top: 5px;
+    margin-top: 2px;
 }
 
 .btn-edit:not(:disabled) {
     margin-left: auto;
     color: gray;
+    text-wrap: nowrap;
 }
 
-.section-row {
+.section-header {
     display: flex;
+    grid-column: 1 / 3;
+}
+
+#about-value {
+    margin-right: 150px;
+    grid-column: 1 / 3;
+}
+
+.about-section {
+    grid-template-columns: 1fr;
+}
+
+.about-section {
+    grid-column: 1;
+}
+
+.section-title {
+    font-size: medium;
+    font-weight: 700;
+}
+
+.field-label {
+    font-size: smaller;
+    font-weight: 500;
+    color: gray;
+}
+
+.field-value {
+    font-size: medium;
+    font-weight: 500;
+}
+
+#btn-deactivate {
+    margin-top: 10px;
+    text-wrap: nowrap;
+    width: min-content;
+    background-color: warn;
+}
+
+@media only screen and (max-width: 800px) {
+    .card-section {
+        grid-template-columns: 1fr;
+    }
+
+    #about-value {
+        margin-right: 0;
+    }
+
+    .section-header {
+        display: flex;
+        grid-column: 1;
+    }
+
+    #about-value {
+        grid-column: 1;
+    }
 }

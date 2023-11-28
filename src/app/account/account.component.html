@@ -9,17 +9,88 @@
             <mat-icon>edit</mat-icon>Edit image
         </button>
     </section>
+
     <section id="info-section" class="card-section rounded-border">
-        <div class="section-row">
-            <p>Basic info</p>
+        <div class="section-header">
+            <p class="section-title">Basic info</p>
             <button mat-stroked-button id="btn-edit-info" class="btn-edit">
-                <mat-icon>edit</mat-icon>Edit image
+                <mat-icon>edit</mat-icon>Edit
             </button>
         </div>
 
-        <div id="summary-details">
-            <p id="summary-name">John Johnson</p>
-            <p id="summary-role">Host</p>
+        <div>
+            <p class="field-label">First name</p>
+            <p id="first-name-value" class="field-value">John</p>
         </div>
+        <div>
+            <p class="field-label">Last name</p>
+            <p id="last-name-value" class="field-value">Johnson</p>
+        </div>
+        <div>
+            <p class="field-label">Email address</p>
+            <p id="email-value" class="field-value">john.johnson&#64;gmail.commmmmmmmmmm</p>
+        </div>
+        <div>
+            <p class="field-label">Phone</p>
+            <p class="field-value">
+                (<span id="phone-region-value">+381</span>)&nbsp;
+                <span id="phone-number-value">65 8736471</span>
+            </p>
+        </div>
+    </section>
+
+    <section id="about-section" class="card-section rounded-border">
+        <div class="section-header">
+            <p class="section-title">About</p>
+            <button mat-stroked-button id="btn-edit-about" class="btn-edit">
+                <mat-icon>edit</mat-icon>Edit
+            </button>
+        </div>
+
+        <p id="about-value" class="field-value">Hello, I'm a marine biologist from Madrid. I have properties all
+            over the south coast. Hope you have a great time traveling!</p>
+    </section>
+
+    <section id="address-section" class="card-section rounded-border">
+        <div class="section-header">
+            <p class="section-title">Address</p>
+            <button mat-stroked-button id="btn-edit-address" class="btn-edit">
+                <mat-icon>edit</mat-icon>Edit
+            </button>
+        </div>
+
+        <div>
+            <p class="field-label">Street</p>
+            <p id="street-value" class="field-value">Bulevar oslobođenja 54</p>
+        </div>
+        <div>
+            <p class="field-label">City</p>
+            <p id="city-value" class="field-value">Novi Sad</p>
+        </div>
+        <div>
+            <p class="field-label">Country</p>
+            <p id="country-value" class="field-value">Serbia</p>
+        </div>
+        <div>
+            <p class="field-label">Postal code</p>
+            <p id="postal-value" class="field-value">21000</p>
+        </div>
+    </section>
+
+    <section id="account-section" class="card-section rounded-border">
+        <div class="section-header">
+            <p class="section-title">Password</p>
+            <button mat-stroked-button id="btn-edit-password" class="btn-edit">
+                <mat-icon>edit</mat-icon>Edit password
+            </button>
+        </div>
+
+        <div style="grid-column: 1 / 3;">
+            <p class="field-label">Password</p>
+            <p id="password-value" class="field-value">•••••••••••••••</p>
+        </div>
+        <button mat-raised-button id="btn-deactivate" color="warn">
+            <mat-icon>warning</mat-icon>Deactivate account
+        </button>
     </section>
 </div>
