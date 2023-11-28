@@ -1,0 +1,18 @@
+*{
+    box-sizing: border-box;
+}
+
+.comment-section{
+    margin-top: 70px;
+    padding: 0 50px;
+    width:100%;
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+}
+
+.comment-section > .review-card{
+    flex-basis: 350px;
+    flex-grow: 1;
+    margin: 0 50px;
+    margin-bottom: 50px;
+}
