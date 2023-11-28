@@ -4,10 +4,16 @@
 
 .body-container{
     padding: 0 150px;
-    margin-top: 50px;
+    margin-top: 25px;
     display:flex;
     flex-direction: column;
     gap:50px;
+}
+
+.header-name-image-container{
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .image-container{
@@ -64,13 +70,16 @@
 }
 
 
-
+.accommodation-name-container{
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
 .accommodation-name{
     display:flex;
     justify-content: space-between;
     align-items: end;
-    padding: 20px 0;
 }
 
 .title-text{
@@ -78,6 +87,15 @@
     font-weight: 600;
 }
 
+.location-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
+
+.location-icon{
+    color:red;
+}
 
 mat-divider{
     background-color: #787575;
@@ -311,6 +329,31 @@ mat-divider{
     width: 100%;
     height: 100%;
 }
+
+.add-comment-section{
+    display:flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.add-comment-input-section{
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: start;
+}
+
+.add-comment-input{
+    width: 100%;
+}
+
+.add-comment-submit-section{
+    display:flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+}
+
 
 .comment-section{
     margin:auto;

@@ -25,6 +25,7 @@ import { FilterDialogComponent } from './accommodation-list/filter-dialog/filter
 import { SearchDaterangePickerComponent } from './accommodation-list/search-daterange-picker/search-daterange-picker.component';
 import { AccommodationDetailsComponent } from './accommodation-details/accommodation-details.component';
 import { ReviewCardComponent } from './review-card/review-card.component';
+import { StarRatingComponent } from './star-rating/star-rating.component';
 
 @NgModule({
     declarations: [
@@ -47,6 +48,7 @@ import { ReviewCardComponent } from './review-card/review-card.component';
         SearchDaterangePickerComponent,
         AccommodationDetailsComponent,
         ReviewCardComponent,
+        StarRatingComponent,
     ],
     imports: [
         BrowserModule,

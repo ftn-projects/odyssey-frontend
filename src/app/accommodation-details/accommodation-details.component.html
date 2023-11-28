@@ -1,26 +1,38 @@
 <div class="body-container">
-    <div class="accommodation-name">
-        <div class="title-text">The Willow</div>
-        <div class="rating-container">
-            <button mat-stroked-button>
-                <mat-icon>favorite</mat-icon>
-                Save
+    <div class="header-name-image-container">
+        <div class="accommodation-name-container">
+            <div class="accommodation-name">
+                <div class="title-text">The Willow</div>
+                <div class="rating-container">
+                    <button mat-stroked-button>
+                        <mat-icon>favorite</mat-icon>
+                        Save
+                    </button>
+                </div>
+            </div>
+            <div class="location-header">
+                <div class="location-icon-container">
+                    <mat-icon class="location-icon">location_on</mat-icon>
+                </div>
+                <div class="location-text-container">
+                    <div class="location-text">Novi Sad, Serbia</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="image-container">
+            <div class="grid-container">
+                <img src="assets/accommodation_image.webp" alt="accommodation image" class="grid-item">
+                <img src="assets/accommodation_image_1.webp" alt="accommodation image" class="grid-item">
+                <img src="assets/accommodation_image_2.webp" alt="accommodation image" class="grid-item">
+                <img src="assets/accommodation_image_3.webp" alt="accommodation image" class="grid-item">
+                <img src="assets/accommodation_image_4.webp" alt="accommodation image" class="grid-item">
+            </div>
+            <button class="show-more-button" mat-fab extended>
+                <mat-icon>window</mat-icon>
+                Show more
             </button>
         </div>
-    </div>
-
-    <div class="image-container">
-        <div class="grid-container">
-            <img src="assets/accommodation_image.webp" alt="accommodation image" class="grid-item">
-            <img src="assets/accommodation_image_1.webp" alt="accommodation image" class="grid-item">
-            <img src="assets/accommodation_image_2.webp" alt="accommodation image" class="grid-item">
-            <img src="assets/accommodation_image_3.webp" alt="accommodation image" class="grid-item">
-            <img src="assets/accommodation_image_4.webp" alt="accommodation image" class="grid-item">
-        </div>
-        <button class="show-more-button" mat-fab extended>
-            <mat-icon>window</mat-icon>
-            Show more
-        </button>
     </div>
     <div class="accommodation-split-container">
         <div class="split-container-column">
@@ -183,7 +195,28 @@
     </div>
     
 
-
+    <div class="add-comment-section">
+        <div class="amenities-title">
+            Reviews
+        </div>
+        <div class="add-comment-input-section">
+            <app-star-rating/>
+            <mat-form-field class="add-comment-input" subscriptSizing="dynamic">
+                <mat-label>Comment</mat-label>
+                <textarea 
+                matInput 
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="5"
+                cdkAutosizeMaxRows="10"
+                placeholder="Write something nice"></textarea>
+            </mat-form-field>
+        </div> 
+        <div class="add-comment-submit-section">
+            <div class="add-comment-button-container">
+                <button mat-flat-button color="primary">Submit review</button>
+            </div>
+        </div>
+    </div>
 
     <div class="comment-section">
         <app-review-card class="review-card"/>
