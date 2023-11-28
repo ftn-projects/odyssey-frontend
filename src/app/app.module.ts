@@ -3,6 +3,8 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './infrastructure/material/material.module';
+import { HttpClientModule } from '@angular/common/http';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -14,6 +16,8 @@ import { NavAdminComponent } from './nav-bar/nav-tabs/nav-admin.component';
 import { NavHostComponent } from './nav-bar/nav-tabs/nav-host.component';
 import { NavGuestComponent } from './nav-bar/nav-tabs/nav-guest.component';
 import { NavUnauthComponent } from './nav-bar/nav-tabs/nav-unauth.component';
+import { LoginComponent } from './authentification/login/login.component';
+import { RegistrationComponent } from './authentification/registration/registration.component';
 import { ButtonBarComponent } from './button-bar/button-bar.component';
 import { RoundButtonComponent } from './round-button/round-button.component';
 import { AccommodationFilterComponent } from './accommodation-list/accommodation-filter/accommodation-filter.component';
@@ -32,6 +36,8 @@ import { SearchDaterangePickerComponent } from './accommodation-list/search-date
         NavHostComponent,
         NavGuestComponent,
         NavUnauthComponent,
+        LoginComponent,
+        RegistrationComponent,
         ButtonBarComponent,
         RoundButtonComponent,
         AccommodationFilterComponent,
@@ -42,7 +48,8 @@ import { SearchDaterangePickerComponent } from './accommodation-list/search-date
         BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
-        MaterialModule
+        MaterialModule,
+        HttpClientModule
     ],
     providers: [
         provideClientHydration()
