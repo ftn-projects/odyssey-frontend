@@ -10,7 +10,7 @@
     
   }
   
-  .is-sticky *{
+  is-sticky *{
     font-size: 10px !important;
   }
   
