@@ -4,7 +4,7 @@ import { Country } from '@angular-material-extensions/select-country';
 @Component({
     selector: 'app-registration',
     templateUrl: './registration.component.html',
-    styleUrl: './registration.component.css'
+    styleUrls: ['./registration.component.css', '../style.css']
 })
 export class RegistrationComponent {
     selected = "guest";

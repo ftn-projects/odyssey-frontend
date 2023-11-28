@@ -8,8 +8,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { RegistrationComponent } from './registration/registration.component';
+import { LoginComponent } from './authentification/login/login.component';
+import { RegistrationComponent } from './authentification/registration/registration.component';
 
 @NgModule({
     declarations: [
