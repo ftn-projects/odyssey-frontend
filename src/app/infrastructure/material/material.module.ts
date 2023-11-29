@@ -13,7 +13,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectCountryModule } from '@angular-material-extensions/select-country';
-import { AutocompleteDropdownComponent } from '../../autocomplete-dropdown/autocomplete-dropdown.component';
 // Material Navigation
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -89,8 +88,7 @@ import { MatTableModule } from '@angular/material/table';
         MatTableModule,
         MatSelectCountryModule.forRoot('en'),
         FormsModule,
-        ReactiveFormsModule,
-        AutocompleteDropdownComponent
+        ReactiveFormsModule
     ],
     exports: [
         MatAutocompleteModule,
@@ -131,8 +129,7 @@ import { MatTableModule } from '@angular/material/table';
         MatSelectCountryModule,
         FormsModule,
         ReactiveFormsModule,
-        MatNativeDateModule,
-        AutocompleteDropdownComponent
+        MatNativeDateModule
     ]
 })
 export class MaterialModule { }

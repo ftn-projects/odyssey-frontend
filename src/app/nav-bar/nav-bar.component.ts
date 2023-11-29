@@ -10,7 +10,7 @@ import { NavAdminComponent } from './nav-tabs/nav-admin.component';
     styleUrl: './nav-bar.component.css'
 })
 export class NavBarComponent {
-    protected role = "HOST";
+    protected role = "ADMIN";
 
     get navTabs() {
         switch (this.role) {
