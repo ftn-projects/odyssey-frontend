@@ -1,0 +1,22 @@
+<div class="reviews-summary">
+    <h3>Reviews Summary</h3>
+  
+    <div class="rating-summary">
+      <div class="rating">
+        <span class="average">{{ calculateAverageRating() | number: '1.1-1' }}</span>
+        <mat-icon>star</mat-icon>
+      </div>
+      <div class="total-reviews">{{ totalReviews }} reviews</div>
+    </div>
+  
+    <div class="rating-bar" *ngFor="let rating of [5, 4, 3, 2, 1]">
+      <div class="rating-label">{{ rating }}</div>
+      <mat-progress-bar
+        mode="determinate"
+        color="primary"
+        [value]="totalReviews !== 0 ? (getStarCount(rating) / totalReviews) * 100 : 0"
+      />
+      <div class="reviews-count">{{ getStarCount(rating) }} reviews</div>
+    </div>
+  </div>
+  
