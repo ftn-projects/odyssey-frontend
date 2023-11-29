@@ -1,8 +1,4 @@
 import { Component } from '@angular/core';
-import { NavUnauthComponent } from './nav-tabs/nav-unauth.component';
-import { NavGuestComponent } from './nav-tabs/nav-guest.component';
-import { NavHostComponent } from './nav-tabs/nav-host.component';
-import { NavAdminComponent } from './nav-tabs/nav-admin.component';
 
 @Component({
     selector: 'app-nav-bar',
@@ -10,20 +6,7 @@ import { NavAdminComponent } from './nav-tabs/nav-admin.component';
     styleUrl: './nav-bar.component.css'
 })
 export class NavBarComponent {
-    protected role = "ADMIN";
-
-    get navTabs() {
-        switch (this.role) {
-            case "GUEST":
-                return NavGuestComponent;
-            case "HOST":
-                return NavHostComponent;
-            case "ADMIN":
-                return NavAdminComponent;
-            default:
-                return NavUnauthComponent;
-        }
-    }
+    protected role = "UNAUTH";
 
     get img(): string {
         switch (this.role) {
