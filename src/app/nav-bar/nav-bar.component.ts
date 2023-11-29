@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
     styleUrl: './nav-bar.component.css'
 })
 export class NavBarComponent {
-    protected role = "UNAUTH";
+    protected role = "GUEST";
 
     get img(): string {
         switch (this.role) {
