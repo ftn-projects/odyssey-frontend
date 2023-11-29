@@ -9,20 +9,16 @@
 .formSide {
     width: 60%;
     height: 100%;
+    padding-top: 5%;
 }
 
 a {
     color: #2DB5C7;
 }
 
-.backLink {
-    display: block;
-    margin: 20px;
-}
-
 .imageScroll {
     width: 100%;
-    flex:1;
+    flex: 1;
 }
 
 .imageSide {

@@ -1,0 +1,193 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@import url("https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+
+@include mat.core();
+
+
+$odyssey-yellow: (
+    50 : #fffdf3,
+    100 : #fff9e2,
+    200 : #fff6ce,
+    300 : #fff2ba,
+    400 : #ffefac,
+    500 : #ffec9d,
+    600 : #ffea95,
+    700 : #ffe78b,
+    800 : #ffe481,
+    900 : #ffdf6f,
+    A100 : #ffffff,
+    A200 : #ffffff,
+    A400 : #ffffff,
+    A700 : #fffdf7,
+    contrast: (50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$odyssey-orange: (
+    50 : #fcf7ed,
+    100 : #f8ebd2,
+    200 : #f4ddb4,
+    300 : #efcf95,
+    400 : #ebc57f,
+    500 : #e8bb68,
+    600 : #e5b560,
+    700 : #e2ac55,
+    800 : #dea44b,
+    900 : #d8963a,
+    A100 : #ffffff,
+    A200 : #fff9f1,
+    A400 : #ffe2be,
+    A700 : #ffd7a4,
+    contrast: (50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+$odyssey-light-blue: (
+    50 : #edeef4,
+    100 : #d2d4e4,
+    200 : #b5b8d2,
+    300 : #979cc0,
+    400 : #8086b3,
+    500 : #6a71a5,
+    600 : #62699d,
+    700 : #575e93,
+    800 : #4d548a,
+    900 : #3c4279,
+    A100 : #ccd1ff,
+    A200 : #99a3ff,
+    A400 : #6675ff,
+    A700 : #4d5eff,
+    contrast: (50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #ffffff,
+    )
+);
+
+
+$odyssey-blue: (
+    50 : #e7e7ed,
+    100 : #c2c2d3,
+    200 : #9a99b6,
+    300 : #717098,
+    400 : #525282,
+    500 : #34336c,
+    600 : #2f2e64,
+    700 : #272759,
+    800 : #21204f,
+    900 : #15143d,
+    A100 : #7b7bff,
+    A200 : #4848ff,
+    A400 : #1515ff,
+    A700 : #0000fb,
+    contrast: (50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$odyssey-dark-blue: (
+    50 : #e1e4e7,
+    100 : #b5bbc3,
+    200 : #848e9b,
+    300 : #536172,
+    400 : #2e3f54,
+    500 : #091d36,
+    600 : #081a30,
+    700 : #061529,
+    800 : #051122,
+    900 : #020a16,
+    A100 : #5684ff,
+    A200 : #235fff,
+    A400 : #0041ef,
+    A700 : #003ad5,
+    contrast: (50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+
+$odyssey-primary: mat.define-palette($odyssey-blue, 500);
+$odyssey-secondary: mat.define-palette($odyssey-light-blue, 500);
+$odyssey-accent: mat.define-palette($odyssey-yellow, 500);
+
+$odyssey-theme: mat.define-light-theme((color: (primary: $odyssey-primary, accent: $odyssey-accent ),
+            typography: mat.define-typography-config(),
+            density: 0,
+        ));
+
+@include mat.all-component-themes($odyssey-theme);
