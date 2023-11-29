@@ -23,6 +23,10 @@ import { RoundButtonComponent } from './round-button/round-button.component';
 import { AccommodationFilterComponent } from './accommodation-list/accommodation-filter/accommodation-filter.component';
 import { FilterDialogComponent } from './accommodation-list/filter-dialog/filter-dialog.component';
 import { SearchDaterangePickerComponent } from './accommodation-list/search-daterange-picker/search-daterange-picker.component';
+import { AccommodationDetailsComponent } from './accommodation-details/accommodation-details.component';
+import { ReviewCardComponent } from './review-card/review-card.component';
+import { StarRatingComponent } from './star-rating/star-rating.component';
+import { RatingSummaryComponent } from './rating-summary/rating-summary.component';
 
 @NgModule({
     declarations: [
@@ -43,6 +47,10 @@ import { SearchDaterangePickerComponent } from './accommodation-list/search-date
         AccommodationFilterComponent,
         FilterDialogComponent,
         SearchDaterangePickerComponent,
+        AccommodationDetailsComponent,
+        ReviewCardComponent,
+        StarRatingComponent,
+        RatingSummaryComponent,
     ],
     imports: [
         BrowserModule,

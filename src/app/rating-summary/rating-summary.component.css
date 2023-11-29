@@ -1,0 +1,49 @@
+/* reviews-summary.component.css */
+.reviews-summary {
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-top: 20px;
+  }
+  
+  .rating-summary {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .rating {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    margin-right: 10px;
+  }
+  
+  .average {
+    margin-right: 5px;
+  }
+  
+  .total-reviews {
+    color: #777;
+    justify-self: end; /* Align to the end of the grid item */
+  }
+  
+
+
+  .rating-bar {
+    display: grid;
+    grid-template-columns: 30px 1fr 100px; /* Three columns: auto, 1fr (fill remaining space), auto */
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .rating-label {
+    width: 20px; /* Adjust width based on your preference */
+  }
+  
+  
+  .reviews-count {
+    color: #777;
+    justify-self: end; /* Align to the end of the grid item */
+  }
+  
