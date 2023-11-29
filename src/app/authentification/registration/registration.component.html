@@ -56,7 +56,8 @@
                 </mat-form-field>
             </form>
 
-            <button mat-flat-button class="inputButton" color="primary" id="continue">Continue</button>
+            <button mat-flat-button class="inputButton" color="primary" id="continue"
+                [routerLink]="'../login'">Continue</button>
             <p class="promptText">Have an account? <a [routerLink]="'../login'">Login</a></p>
         </div>
     </div>

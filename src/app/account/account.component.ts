@@ -43,8 +43,11 @@ export class AccountComponent {
     private displaySnack(text: string) {
         this.snackbar.open(text, '', { duration: 1000 });
     }
-    deactivateAccount() {
-        // deactivate
+    onDeactivate() {
+        this.displaySnack('Account deactivation.');
+    }
+    onLogout() {
+        this.displaySnack('Logout.');
     }
 
     selectedCountry: Country = { alpha2Code: "RS" };
