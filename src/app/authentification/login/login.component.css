@@ -2,7 +2,3 @@
     margin: auto;
     margin-top: 10%;
 }
-
-.loginWrapper {
-    height: calc(100vh - 60px) !important;
-}
