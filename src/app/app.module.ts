@@ -26,6 +26,7 @@ import { SearchDaterangePickerComponent } from './accommodation-list/search-date
 import { AccommodationDetailsComponent } from './accommodation-details/accommodation-details.component';
 import { ReviewCardComponent } from './review-card/review-card.component';
 import { StarRatingComponent } from './star-rating/star-rating.component';
+import { RatingSummaryComponent } from './rating-summary/rating-summary.component';
 
 @NgModule({
     declarations: [
@@ -49,6 +50,7 @@ import { StarRatingComponent } from './star-rating/star-rating.component';
         AccommodationDetailsComponent,
         ReviewCardComponent,
         StarRatingComponent,
+        RatingSummaryComponent,
     ],
     imports: [
         BrowserModule,

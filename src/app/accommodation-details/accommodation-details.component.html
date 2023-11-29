@@ -199,6 +199,7 @@
         <div class="amenities-title">
             Reviews
         </div>
+        
         <div class="add-comment-input-section">
             <app-star-rating/>
             <mat-form-field class="add-comment-input" subscriptSizing="dynamic">
@@ -211,12 +212,21 @@
                 placeholder="Write something nice"></textarea>
             </mat-form-field>
         </div> 
+        
         <div class="add-comment-submit-section">
             <div class="add-comment-button-container">
                 <button mat-flat-button color="primary">Submit review</button>
             </div>
         </div>
     </div>
+
+    <app-rating-summary
+    [fiveStarCount]="1590"
+    [fourStarCount]="1414"
+    [threeStarCount]="353"
+    [twoStarCount]="106"
+    [oneStarCount]="71"
+  ></app-rating-summary>
 
     <div class="comment-section">
         <app-review-card class="review-card"/>
