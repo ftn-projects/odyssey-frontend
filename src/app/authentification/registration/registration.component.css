@@ -1,6 +1,6 @@
 .imageScroll {
-    position: fixed;
-    right: 0;
+    position: sticky !important;
+    top: 60px;
 }
 
 .formScroll {

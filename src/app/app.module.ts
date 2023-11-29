@@ -26,6 +26,8 @@ import { AccommodationDetailsComponent } from './accommodation-details/accommoda
 import { ReviewCardComponent } from './review-card/review-card.component';
 import { StarRatingComponent } from './star-rating/star-rating.component';
 import { RatingSummaryComponent } from './rating-summary/rating-summary.component';
+import { AutocompleteDropdownComponent } from './autocomplete-dropdown/autocomplete-dropdown.component';
+import { SearchDaterangePickerComponent } from './accommodation-list/search-daterange-picker/search-daterange-picker.component';
 
 @NgModule({
     declarations: [
