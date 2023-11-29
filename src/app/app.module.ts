@@ -23,6 +23,7 @@ import { RoundButtonComponent } from './round-button/round-button.component';
 import { AccommodationFilterComponent } from './accommodation-list/accommodation-filter/accommodation-filter.component';
 import { FilterDialogComponent } from './accommodation-list/filter-dialog/filter-dialog.component';
 import { SearchDaterangePickerComponent } from './accommodation-list/search-daterange-picker/search-daterange-picker.component';
+import { AutocompleteDropdownComponent } from './autocomplete-dropdown/autocomplete-dropdown.component';
 
 @NgModule({
     declarations: [
@@ -49,7 +50,8 @@ import { SearchDaterangePickerComponent } from './accommodation-list/search-date
         AppRoutingModule,
         BrowserAnimationsModule,
         MaterialModule,
-        HttpClientModule
+        HttpClientModule,
+        AutocompleteDropdownComponent
     ],
     providers: [
         provideClientHydration()

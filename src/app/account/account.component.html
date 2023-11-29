@@ -1,62 +1,94 @@
 <div class="destination-container">
     <section id="summary-section" class="card-section rounded-border">
         <img id="about-profile-img" src="../../assets/profile_example.png" />
-        <div id="summary-details">
+        <div id="summary-details" *ngIf="!editingImage">
             <p id="summary-name">John Johnson</p>
             <p id="summary-role">Host</p>
         </div>
-        <button mat-stroked-button id="btn-edit-image" class="btn-edit">
-            <mat-icon>edit</mat-icon>Edit image
-        </button>
+
+        <input type="file" class="file-input" [accept]="requiredFileType" (change)="onFileSelected($event)" #fileUpload>
+        <div class="file-upload" *ngIf="editingImage">
+            <mat-label>{{fileName || "No file uploaded yet."}}</mat-label>
+            <button mat-raised-button color="primary" class="upload-btn" (click)="fileUpload.click()">
+                <mat-icon>attach_file</mat-icon>Upload image
+            </button>
+        </div>
+
+        <div class="form-buttons">
+            <button mat-stroked-button id="btn-edit-image" *ngIf="!editingImage" (click)="editingImage = true">
+                <mat-icon>edit</mat-icon>Edit image
+            </button>
+            <button mat-raised-button id="btn-save-image" *ngIf="editingImage" color="primary"
+                (click)="onImageSaveToggle()">
+                Save
+            </button>
+            <button mat-stroked-button id=" btn-cancel-image" *ngIf="editingImage" (click)="editingImage = false">
+                Cancel
+            </button>
+        </div>
     </section>
 
     <section id="info-section" class="card-section rounded-border">
         <div class="section-header">
             <p class="section-title">Basic info</p>
-            <button mat-stroked-button id="btn-edit-info" class="btn-edit">
-                <mat-icon>edit</mat-icon>Edit
-            </button>
+            <div class="form-buttons">
+                <button mat-stroked-button id="btn-edit-info" *ngIf="!editingInfo" (click)="editingInfo = true">
+                    <mat-icon>edit</mat-icon>Edit
+                </button>
+                <button mat-raised-button id="btn-save-info" color="primary" *ngIf="editingInfo"
+                    (click)="onInfoSaveToggle()">
+                    Save
+                </button>
+                <button mat-stroked-button id="btn-cancel-info" *ngIf="editingInfo" (click)="editingInfo = false">
+                    Cancel
+                </button>
+            </div>
         </div>
 
-        <div>
-            <div hidden="true">
-                <mat-label class="field-label">First name</mat-label>
-                <p id="first-name-value" class="field-value">John</p>
-            </div>
-            <mat-form-field>
-                <mat-label>First name</mat-label>
-                <input matInput type="text" value="John">
-            </mat-form-field>
+        <div *ngIf="!editingInfo">
+            <mat-label class="field-label">First name</mat-label>
+            <p id="first-name-value" class="field-value">John</p>
         </div>
-        <div>
-            <div hidden="true">
-                <mat-label class="field-label">Last name</mat-label>
-                <p id="last-name-value" class="field-value">Johnson</p>
-            </div>
-            <mat-form-field>
-                <mat-label>Last name</mat-label>
-                <input matInput type="text" value="Johnson">
-            </mat-form-field>
+        <mat-form-field *ngIf="editingInfo">
+            <mat-label>First name</mat-label>
+            <input matInput type="text" value="John">
+        </mat-form-field>
+
+        <div *ngIf="!editingInfo">
+            <mat-label class="field-label">Last name</mat-label>
+            <p id="last-name-value" class="field-value">Johnson</p>
         </div>
-        <div>
-            <div hidden="true">
-                <mat-label class="field-label">Email address</mat-label>
-                <p id="email-value" class="field-value">john.johnson&#64;gmail.commmmmmmmmmm</p>
-            </div>
-            <mat-form-field>
-                <mat-label>Email address</mat-label>
-                <input matInput type="text" value="john.johnson&#64;gmail.commmmmmmmmmm">
-            </mat-form-field>
+        <mat-form-field *ngIf="editingInfo">
+            <mat-label>Last name</mat-label>
+            <input matInput type="text" value="Johnson">
+        </mat-form-field>
+
+        <div *ngIf="!editingInfo">
+            <mat-label class="field-label">Email address</mat-label>
+            <p id="email-value" class="field-value">john.johnson&#64;gmail.commmmmmmmmmm</p>
         </div>
-        <div>
-            <div hidden="true">
-                <p class="field-label">Phone</p>
-                <p class="field-value">
-                    (<span id="phone-region-value">+381</span>)&nbsp;
-                    <span id="phone-number-value">65 8736471</span>
-                </p>
-            </div>
-            <div>
+        <mat-form-field *ngIf="editingInfo">
+            <mat-label>Email address</mat-label>
+            <input matInput type="text" value="john.johnson&#64;gmail.commmmmmmmmmm">
+        </mat-form-field>
+
+        <div *ngIf="!editingInfo">
+            <p class="field-label">Phone</p>
+            <p class="field-value">
+                (<span id="phone-region-value">+381</span>)&nbsp;
+                <span id="phone-number-value">65 8736471</span>
+            </p>
+        </div>
+        <div *ngIf="editingInfo" style="display: inline-block; width: 80%;">
+            <div class="phone-group">
+                <mat-select-country class="call-code-select" appearance="fill" label="Calling code"
+                    [value]="selectedCallingCode" (onCountrySelected)="onCallingCodeSelected($event)"
+                    [showCallingCode]="true">
+                </mat-select-country>
+                <mat-form-field style="overflow: visible;">
+                    <mat-label>Number</mat-label>
+                    <input matInput type="text" value="65 8736471">
+                </mat-form-field>
             </div>
         </div>
     </section>
@@ -64,54 +96,125 @@
     <section id="about-section" class="card-section rounded-border">
         <div class="section-header">
             <p class="section-title">About</p>
-            <button mat-stroked-button id="btn-edit-about" class="btn-edit">
-                <mat-icon>edit</mat-icon>Edit
-            </button>
+            <div class="form-buttons">
+                <button mat-stroked-button id="btn-edit-about" *ngIf="!editingAbout" (click)="editingAbout = true">
+                    <mat-icon>edit</mat-icon>Edit
+                </button>
+                <button mat-raised-button id="btn-save-about" color="primary" *ngIf="editingAbout"
+                    (click)="onAboutSaveToggle()">
+                    Save
+                </button>
+                <button mat-stroked-button id="btn-cancel-about" *ngIf="editingAbout" (click)="editingAbout = false">
+                    Cancel
+                </button>
+            </div>
         </div>
 
-        <p id="about-value" class="field-value">Hello, I'm a marine biologist from Madrid. I have properties all
+        <p *ngIf="!editingAbout" id="about-value" class="field-value">Hello, I'm a marine biologist from Madrid. I have
+            properties all
             over the south coast. Hope you have a great time traveling!</p>
+        <mat-form-field id="about-form" *ngIf="editingAbout">
+            <textarea matInput id="about-textarea" type="text" rows="5"
+                value="Hello, I'm a marine biologist from Madrid. I have properties all over the south coast. Hope you have a great time traveling!">
+            </textarea>
+        </mat-form-field>
     </section>
 
     <section id="address-section" class="card-section rounded-border">
         <div class="section-header">
             <p class="section-title">Address</p>
-            <button mat-stroked-button id="btn-edit-address" class="btn-edit">
-                <mat-icon>edit</mat-icon>Edit
-            </button>
+            <div class="form-buttons">
+                <button mat-stroked-button id="btn-edit-address" *ngIf="!editingAddress"
+                    (click)="editingAddress = true">
+                    <mat-icon>edit</mat-icon>Edit
+                </button>
+                <button mat-raised-button id="btn-save-address" color="primary" *ngIf="editingAddress"
+                    (click)="onAddressSaveToggle()">
+                    Save
+                </button>
+                <button mat-stroked-button id="btn-cancel-address" *ngIf="editingAddress"
+                    (click)="editingAddress = false">
+                    Cancel
+                </button>
+            </div>
         </div>
 
-        <div>
+
+        <div *ngIf="!editingAddress">
             <p class="field-label">Street</p>
             <p id="street-value" class="field-value">Bulevar oslobođenja 54</p>
         </div>
-        <div>
+        <mat-form-field *ngIf="editingAddress" style="width: 80%;">
+            <mat-label>Street</mat-label>
+            <input matInput type="text" value="Bulevar oslobođenja 54">
+        </mat-form-field>
+
+        <div *ngIf="!editingAddress">
             <p class="field-label">City</p>
             <p id="city-value" class="field-value">Novi Sad</p>
         </div>
-        <div>
+        <mat-form-field *ngIf="editingAddress">
+            <mat-label>City</mat-label>
+            <input matInput type="text" value="Novi Sad">
+        </mat-form-field>
+
+        <div *ngIf="!editingAddress">
             <p class="field-label">Country</p>
             <p id="country-value" class="field-value">Serbia</p>
         </div>
-        <div>
+        <mat-select-country class="country-select" appearance="fill" label="Country" [value]="selectedCountry"
+            (onCountrySelected)="onCountrySelected($event)" *ngIf="editingAddress">
+        </mat-select-country>
+
+        <div *ngIf="!editingAddress">
             <p class="field-label">Postal code</p>
             <p id="postal-value" class="field-value">21000</p>
         </div>
+        <mat-form-field *ngIf="editingAddress" style="width: 40%;">
+            <mat-label>Postal code</mat-label>
+            <input matInput type="text" value="21000">
+        </mat-form-field>
     </section>
 
     <section id="account-section" class="card-section rounded-border">
         <div class="section-header">
             <p class="section-title">Password</p>
-            <button mat-stroked-button id="btn-edit-password" class="btn-edit">
-                <mat-icon>edit</mat-icon>Edit password
-            </button>
+            <div class="form-buttons">
+                <button mat-stroked-button id="btn-edit-password" *ngIf="!editingPassword"
+                    (click)="editingPassword = true">
+                    <mat-icon>edit</mat-icon>Edit password
+                </button>
+                <button mat-raised-button id="btn-save-password" color="primary" *ngIf="editingPassword"
+                    (click)="onPasswordSaveToggle()">
+                    Save
+                </button>
+                <button mat-stroked-button id="btn-cancel-password" *ngIf="editingPassword"
+                    (click)="editingPassword = false">
+                    Cancel
+                </button>
+            </div>
         </div>
 
-        <div style="grid-column: 1 / 3;">
+        <div *ngIf="!editingPassword">
             <p class="field-label">Password</p>
             <p id="password-value" class="field-value">•••••••••••••••</p>
         </div>
-        <button mat-raised-button id="btn-deactivate" color="warn">
+
+        <mat-form-field *ngIf="editingPassword">
+            <mat-label>Old password</mat-label>
+            <input matInput type="password" value="•••••••••••••••">
+        </mat-form-field>
+        <mat-form-field *ngIf="editingPassword">
+            <mat-label>New password</mat-label>
+            <input matInput type="password" value="•••••••••••••••">
+        </mat-form-field>
+        <mat-form-field *ngIf="editingPassword">
+            <mat-label>Confirm new password</mat-label>
+            <input matInput type="password" value="•••••••••••••••">
+        </mat-form-field>
+
+        <button mat-raised-button id="btn-deactivate" color="warn" style="grid-column: 1 / 4;"
+            (click)="deactivateAccount()">
             <mat-icon>warning</mat-icon>Deactivate account
         </button>
     </section>
