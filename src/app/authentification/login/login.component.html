@@ -11,7 +11,7 @@
 
                 <mat-form-field class="textBox">
                     <mat-label>Password</mat-label>
-                    <input matInput [type]="hide ? 'password' : 'text'">
+                    <input matInput [type]="hide ? 'password' : 'text'" name="password" formControlName="password">
                     <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </mat-form-field>
             </form>
