@@ -1,0 +1,16 @@
+:host{
+    display: flex; 
+    flex:1;
+    min-width: 0;
+  }
+
+  mat-form-field {
+    flex: 1;
+    min-width: none !important;
+    
+  }
+  
+  is-sticky *{
+    font-size: 10px !important;
+  }
+  

@@ -1,0 +1,32 @@
+<div class="imageContainer" [routerLink]="'../accommodation-details'">
+    <div class="heartContainer">
+        <div class="iconContainer">
+            <span class="material-symbols-outlined heart-icon">
+                favorite
+            </span>
+        </div>
+    </div>
+    <img src="assets/accommodation_image.webp">
+</div>
+
+<div class="infoContainer">
+    <div class="nameContainer">
+        <div class="title_text">{{ accommodation.name }}</div>
+        <div class="ratingContainer">
+            <span class="material-symbols-outlined star-icon">
+                star
+            </span>
+            <span class="rating_text">{{ accommodation.rating | number:'1.1-1'}}</span>
+        </div>
+    </div>
+    <div class="location_container">
+        <span class="location_text">{{ accommodation.location }}</span><span class="text_dot">·</span><span
+            class="location_distance">{{accommodation.distance}} away</span>
+    </div>
+    <div class="price_container">
+        <span class="price_number">${{ accommodation.price}}</span>
+        <span class="pricing_type"> {{accommodation.pricingType}}</span>
+        <span class="text_dot">·</span>
+        <span class="price_total">${{accommodation.totalPrice}} total</span>
+    </div>
+</div>

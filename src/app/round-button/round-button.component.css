@@ -1,0 +1,21 @@
+.round-button-container {
+  text-align: center;
+  flex-direction: column;
+  width: fit-content;
+  gap:5px;
+}
+
+button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+mat-icon{
+  color:#787575;
+}
+
+.button-label{
+  white-space: nowrap;
+  color:#787575;
+}

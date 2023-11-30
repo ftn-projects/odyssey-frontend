@@ -1,0 +1,177 @@
+p {
+    margin: 0;
+}
+
+.destination-container {
+    height: auto;
+    width: 100%;
+    padding: 30px;
+    padding-inline: 80px;
+    display: inline-block;
+}
+
+.card-section {
+    padding: 25px;
+    padding-left: 40px;
+    margin-top: 30px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 20px;
+    /* column-gap: 30px; */
+}
+
+.rounded-border {
+    border: 2px;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: rgb(0, 0, 0, 0.12);
+}
+
+#about-profile-img {
+    max-height: 90px;
+}
+
+#summary-section {
+    gap: 30px;
+    display: flex;
+    flex-direction: row;
+}
+
+#summary-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#summary-name {
+    font-size: large;
+    font-weight: 700;
+}
+
+#summary-role {
+    font-size: small;
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+#account-section {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+#account-section>.section-header {
+    grid-column: 1 / 4;
+}
+
+.section-header {
+    display: flex;
+    grid-column: 1 / 3;
+}
+
+#about-value,
+#about-form {
+    grid-column: 1 / 3;
+}
+
+.about-section {
+    grid-template-columns: 1fr;
+}
+
+.about-section {
+    grid-column: 1;
+}
+
+.section-title {
+    font-size: medium;
+    font-weight: 700;
+}
+
+.field-label {
+    font-size: smaller;
+    font-weight: 500;
+    color: gray;
+}
+
+.field-value {
+    font-size: medium;
+    font-weight: 500;
+}
+
+#btn-deactivate {
+    margin-top: 10px;
+    text-wrap: nowrap;
+    width: min-content;
+    background-color: warn;
+}
+
+.card-section>mat-form-field:not(#account-section) {
+    width: 80%;
+}
+
+button:not(:disabled) {
+    width: min-content;
+    text-wrap: nowrap;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+
+.form-buttons,
+#btn-edit-image {
+    margin-left: auto;
+}
+
+.file-input {
+    display: none;
+}
+
+.file-upload {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+::ng-deep .country-select mat-form-field {
+    width: 80%;
+}
+
+.phone-group {
+    display: grid;
+    grid-template-columns: 4fr 3fr;
+    gap: 5px;
+}
+
+.phone-group>* {
+    width: 100%;
+}
+
+::ng-deep .call-code-select mat-form-field {
+    width: 100%;
+}
+
+.page-title {
+    font-size: 2em;
+    font-weight: 700;
+    text-align: center;
+}
+
+@media only screen and (max-width: 800px) {
+
+    .card-section,
+    #account-section {
+        grid-template-columns: 1fr;
+    }
+
+    #about-value,
+    #about-form {
+        grid-column: 1;
+    }
+
+    .section-header {
+        display: flex;
+        grid-column: 1;
+    }
+}

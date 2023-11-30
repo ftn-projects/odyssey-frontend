@@ -1,0 +1,9 @@
+<mat-form-field id="last-parameter" [class.is-sticky]="isSticky" subscriptSizing="dynamic">
+    <mat-label>Choose Date Range</mat-label>
+    <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+        <input matStartDate formControlName="start" placeholder="Start Date">
+        <input matEndDate formControlName="end" placeholder="End Date">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker matSuffix #picker></mat-date-range-picker>
+</mat-form-field>

@@ -1,0 +1,40 @@
+<div class="filter-container">
+    <div class="filter-header">
+        <span>Filter</span>
+        <button mat-icon-button class="close-button" aria-label="Close">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div class="filter-body">
+        <div class="filter-section">
+            <h3>Price</h3>
+            <mat-slider mshowTickMarks min="200" max="1000" discrete [displayWith]="formatLabel">
+                <input value="0" matSliderStartThumb>
+                <input value="800" matSliderEndThumb>
+            </mat-slider>
+        </div>
+        <div class="filter-section">
+            <h3>Accommodation type</h3>
+            <mat-form-field>
+                <mat-label>Select accommodation type</mat-label>
+                <mat-select>
+                    <mat-option value="house">House</mat-option>
+                    <mat-option value="apartment">Apartment</mat-option>
+                    <mat-option value="hotel">Hotel</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="filter-section">
+            <h3>Amenities</h3>
+            <div class="amenities-grid">
+                <div *ngFor="let amenity of amenities" class="amenity-checkbox">
+                    <mat-checkbox color="primary" [(ngModel)]="amenity.checked">{{ amenity.name }}</mat-checkbox>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="filter-footer">
+        <button mat-stroked-button>Clear filters</button>
+        <button mat-raised-button color="primary">Apply filters</button>
+    </div>
+</div>
