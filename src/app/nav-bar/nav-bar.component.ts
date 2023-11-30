@@ -13,7 +13,7 @@ export class NavBarComponent {
 
     ngOnInit(): void {
         role.subscribe((result) => {
-            this.currentRole = result;
+            this.currentRole = result.toUpperCase();
         })
     }
 
