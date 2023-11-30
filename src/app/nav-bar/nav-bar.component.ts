@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { role } from '../app.component';
 
 @Component({
     selector: 'app-nav-bar',
@@ -6,18 +7,17 @@ import { Component } from '@angular/core';
     styleUrl: './nav-bar.component.css'
 })
 export class NavBarComponent {
-    protected role = "GUEST";
+    currentRole = "UNAUTH";
+    constructor() {
+    }
+
+    ngOnInit(): void {
+        role.subscribe((result) => {
+            this.currentRole = result;
+        })
+    }
 
     get img(): string {
-        switch (this.role) {
-            case "GUEST":
-                return "../../../../assets/profile_example.png";
-            case "HOST":
-                return "../../../../assets/profile_example.png";
-            case "ADMIN":
-                return "../../../../assets/profile_example.png";
-            default:
-                return "";
-        }
+        return "../../../../assets/profile_example.png";
     }
 }

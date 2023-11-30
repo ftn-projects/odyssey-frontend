@@ -7,15 +7,15 @@
         <a [routerLink]="''">Home</a>
         <a [routerLink]="'accommodations-list'">Search</a>
         <a [routerLink]="'contact'">Contact</a>
-        <a [routerLink]="'guest-reservations'" *ngIf="role == 'GUEST'">My reservations</a>
-        <a [routerLink]="'host-reservations'" *ngIf="role == 'HOST'">Reservations</a>
-        <a [routerLink]="'host-accommodations'" *ngIf="role == 'HOST'">My accommodations</a>
-        <a [routerLink]="'admin-reviews'" *ngIf="role == 'ADMIN'">Reviews</a>
-        <a [routerLink]="'admin-accommodations'" *ngIf="role == 'ADMIN'">Accommodations</a>
-        <a [routerLink]="'admin-users'" *ngIf="role == 'ADMIN'">Users</a>
+        <a [routerLink]="'guest-reservations'" *ngIf="currentRole == 'GUEST'">My reservations</a>
+        <a [routerLink]="'host-reservations'" *ngIf="currentRole == 'HOST'">Reservations</a>
+        <a [routerLink]="'host-accommodations'" *ngIf="currentRole == 'HOST'">My accommodations</a>
+        <a [routerLink]="'admin-reviews'" *ngIf="currentRole == 'ADMIN'">Reviews</a>
+        <a [routerLink]="'admin-accommodations'" *ngIf="currentRole == 'ADMIN'">Accommodations</a>
+        <a [routerLink]="'admin-users'" *ngIf="currentRole == 'ADMIN'">Users</a>
         <img class="toolbar-profile-img" [routerLink]="'account'" src="{{img}}"
-            *ngIf="['ADMIN', 'HOST', 'GUEST'].includes(role)" />
-        <a [routerLink]="'login'" *ngIf="!['ADMIN', 'HOST', 'GUEST'].includes(role)">Log in</a>
-        <a [routerLink]="'registration'" *ngIf="!['ADMIN', 'HOST', 'GUEST'].includes(role)">Sign up</a>
+            *ngIf="['ADMIN', 'HOST', 'GUEST'].includes(currentRole)" />
+        <a [routerLink]="'login'" *ngIf="!['ADMIN', 'HOST', 'GUEST'].includes(currentRole)">Log in</a>
+        <a [routerLink]="'registration'" *ngIf="!['ADMIN', 'HOST', 'GUEST'].includes(currentRole)">Sign up</a>
     </div>
 </mat-toolbar>

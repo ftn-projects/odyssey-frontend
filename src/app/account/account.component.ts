@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { Subscription, finalize } from 'rxjs';
 import { Country } from '@angular-material-extensions/select-country';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { role } from '../app.component';
 
 @Component({
     selector: 'app-account',
@@ -47,7 +48,7 @@ export class AccountComponent {
         this.displaySnack('Account deactivation.');
     }
     onLogout() {
-        this.displaySnack('Logout.');
+        role.next("UNAUTH");
     }
 
     selectedCountry: Country = { alpha2Code: "RS" };

@@ -3,10 +3,10 @@
         <div class="formWrapper">
             <p class="title">LOGIN</p>
 
-            <form class="authForm">
+            <form class="authForm" [formGroup]="signinForm">
                 <mat-form-field class="textBox">
                     <mat-label>Email</mat-label>
-                    <input matInput type="email">
+                    <input matInput type="email" name="email" formControlName="email">
                 </mat-form-field>
 
                 <mat-form-field class="textBox">
@@ -17,8 +17,8 @@
             </form>
 
             <p class="promptText">Forgot password? <a href="">Click here</a></p>
-            <button mat-flat-button class="inputButton" color="primary" id="continue"
-                [routerLink]="'../'">Continue</button>
+            <button mat-flat-button class="inputButton" color="primary" id="continue" (click)="onLogin()"
+                [routerLink]="''">Continue</button>
             <p class="promptText">No account? <a [routerLink]="'../registration'">Register now</a></p>
         </div>
     </div>
