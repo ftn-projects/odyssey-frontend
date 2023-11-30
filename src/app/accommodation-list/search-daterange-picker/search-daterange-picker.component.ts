@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Accommodation } from '../accommodation-model';
 
 @Component({
   selector: 'app-search-daterange-picker',
@@ -12,5 +13,4 @@ export class SearchDaterangePickerComponent {
         start: new FormControl(),
         end: new FormControl()
       });
-
 }

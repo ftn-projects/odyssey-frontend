@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Accommodation } from '../accommodation-list/accommodation-model';
 
 
 @Component({
@@ -7,5 +8,8 @@ import { Component } from '@angular/core';
     styleUrl: './accommodation-card.component.css'
 })
 export class AccommodationCardComponent {
+    @Input()
+    accommodation!: Accommodation;
 
+    
 }

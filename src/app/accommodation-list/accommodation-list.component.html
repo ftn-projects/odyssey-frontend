@@ -31,22 +31,7 @@
 
     <div class="list-section-container">
         <div class="list-section">
-            <app-accommodation-card class="accommodation-card" />
-            <app-accommodation-card class="accommodation-card" />
-            <app-accommodation-card class="accommodation-card" />
-            <app-accommodation-card class="accommodation-card" />
-            <app-accommodation-card class="accommodation-card" />
-            <app-accommodation-card class="accommodation-card" />
-            <app-accommodation-card class="accommodation-card" />
-            <app-accommodation-card class="accommodation-card" />
-            <app-accommodation-card class="accommodation-card" />
-            <app-accommodation-card class="accommodation-card" />
-            <app-accommodation-card class="accommodation-card" />
-            <app-accommodation-card class="accommodation-card" />
-            <app-accommodation-card class="accommodation-card" />
-            <app-accommodation-card class="accommodation-card" />
-            <app-accommodation-card class="accommodation-card" />
-            <app-accommodation-card class="accommodation-card" />
+            <app-accommodation-card *ngFor="let accommodation of accommodations" [accommodation]="accommodation" class="accommodation-card" />
         </div>
     </div>
 </div>

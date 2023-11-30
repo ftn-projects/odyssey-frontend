@@ -11,22 +11,22 @@
 
 <div class="infoContainer">
     <div class="nameContainer">
-        <div class="title_text">The Willow</div>
+        <div class="title_text">{{ accommodation.name }}</div>
         <div class="ratingContainer">
             <span class="material-symbols-outlined star-icon">
                 star
             </span>
-            <span class="rating_text">4.8</span>
+            <span class="rating_text">{{ accommodation.rating | number:'1.1-1'}}</span>
         </div>
     </div>
     <div class="location_container">
-        <span class="location_text">Novi Sad, Serbia</span><span class="text_dot">·</span><span
-            class="location_distance">428km away</span>
+        <span class="location_text">{{ accommodation.location }}</span><span class="text_dot">·</span><span
+            class="location_distance">{{accommodation.distance}} away</span>
     </div>
     <div class="price_container">
-        <span class="price_number">$346</span>
-        <span class="pricing_type"> per night</span>
+        <span class="price_number">${{ accommodation.price}}</span>
+        <span class="pricing_type"> {{accommodation.pricingType}}</span>
         <span class="text_dot">·</span>
-        <span class="price_total">$1,730 total</span>
+        <span class="price_total">${{accommodation.totalPrice}} total</span>
     </div>
 </div>
