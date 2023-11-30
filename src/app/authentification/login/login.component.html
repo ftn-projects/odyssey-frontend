@@ -3,15 +3,15 @@
         <div class="formWrapper">
             <p class="title">LOGIN</p>
 
-            <form class="authForm" [formGroup]="signinForm">
+            <form class="authForm" [formGroup]="loginForm">
                 <mat-form-field class="textBox">
                     <mat-label>Email</mat-label>
-                    <input matInput type="email" name="email" formControlName="email">
+                    <input matInput type="email" formControlName="email">
                 </mat-form-field>
 
                 <mat-form-field class="textBox">
                     <mat-label>Password</mat-label>
-                    <input matInput [type]="hide ? 'password' : 'text'" name="password" formControlName="password">
+                    <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
                     <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </mat-form-field>
             </form>
