@@ -2,11 +2,12 @@
     padding-inline: 30px;
     height: 60px;
     justify-content: space-between;
+    background-color: #2b7f97;
 }
 
 a {
     margin-inline: 15px;
-    color: black;
+    color: white;
     text-decoration: none;
     font-size: small;
 }

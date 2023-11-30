@@ -1,4 +1,13 @@
 <div class="destination-container">
+
+    <div style="display: flex; margin: 20px; align-items: center;">
+        <h1 class="page-title">Account management</h1>
+        <button mat-raised-button color="primary" class="logout-btn" style="margin-left: auto;"
+            [routerLink]="'../login'" (click)="onLogout()">
+            <mat-icon>logout</mat-icon>Logout
+        </button>
+    </div>
+
     <section id="summary-section" class="card-section rounded-border">
         <img id="about-profile-img" src="../../assets/profile_example.png" />
         <div id="summary-details" *ngIf="!editingImage">
@@ -69,7 +78,7 @@
         </div>
         <mat-form-field *ngIf="editingInfo">
             <mat-label>Email address</mat-label>
-            <input matInput type="text" value="john.johnson&#64;gmail.commmmmmmmmmm">
+            <input matInput type="text" value="john.johnson&#64;gmail.com">
         </mat-form-field>
 
         <div *ngIf="!editingInfo">
@@ -110,12 +119,12 @@
             </div>
         </div>
 
-        <p *ngIf="!editingAbout" id="about-value" class="field-value">Hello, I'm a marine biologist from Madrid. I have
-            properties all
-            over the south coast. Hope you have a great time traveling!</p>
+        <p *ngIf="!editingAbout" id="about-value" class="field-value">As your host on Odyssey, my commitment is to
+            provide a memorable and comfortable stay,
+            tailored to your needs and ensuring a delightful experience throughout your visit.</p>
         <mat-form-field id="about-form" *ngIf="editingAbout">
             <textarea matInput id="about-textarea" type="text" rows="5"
-                value="Hello, I'm a marine biologist from Madrid. I have properties all over the south coast. Hope you have a great time traveling!">
+                value="As your host on Odyssey, my commitment is to provide a memorable and comfortable stay, tailored to your needs and ensuring a delightful experience throughout your visit.">
             </textarea>
         </mat-form-field>
     </section>
@@ -213,8 +222,7 @@
             <input matInput type="password" value="•••••••••••••••">
         </mat-form-field>
 
-        <button mat-raised-button id="btn-deactivate" color="warn" style="grid-column: 1 / 4;"
-            (click)="deactivateAccount()">
+        <button mat-raised-button id="btn-deactivate" color="warn" style="grid-column: 1 / 4;" (click)="onDeactivate()">
             <mat-icon>warning</mat-icon>Deactivate account
         </button>
     </section>

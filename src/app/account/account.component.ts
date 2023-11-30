@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { Subscription, finalize } from 'rxjs';
 import { Country } from '@angular-material-extensions/select-country';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { role } from '../app.component';
 
 @Component({
     selector: 'app-account',
@@ -43,8 +44,11 @@ export class AccountComponent {
     private displaySnack(text: string) {
         this.snackbar.open(text, '', { duration: 1000 });
     }
-    deactivateAccount() {
-        // deactivate
+    onDeactivate() {
+        this.displaySnack('Account deactivation.');
+    }
+    onLogout() {
+        role.next("UNAUTH");
     }
 
     selectedCountry: Country = { alpha2Code: "RS" };

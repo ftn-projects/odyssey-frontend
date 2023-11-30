@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
-import { NavUnauthComponent } from './nav-tabs/nav-unauth.component';
-import { NavGuestComponent } from './nav-tabs/nav-guest.component';
-import { NavHostComponent } from './nav-tabs/nav-host.component';
-import { NavAdminComponent } from './nav-tabs/nav-admin.component';
+import { role } from '../app.component';
 
 @Component({
     selector: 'app-nav-bar',
@@ -10,31 +7,17 @@ import { NavAdminComponent } from './nav-tabs/nav-admin.component';
     styleUrl: './nav-bar.component.css'
 })
 export class NavBarComponent {
-    protected role = "ADMIN";
+    currentRole = "UNAUTH";
+    constructor() {
+    }
 
-    get navTabs() {
-        switch (this.role) {
-            case "GUEST":
-                return NavGuestComponent;
-            case "HOST":
-                return NavHostComponent;
-            case "ADMIN":
-                return NavAdminComponent;
-            default:
-                return NavUnauthComponent;
-        }
+    ngOnInit(): void {
+        role.subscribe((result) => {
+            this.currentRole = result.toUpperCase();
+        })
     }
 
     get img(): string {
-        switch (this.role) {
-            case "GUEST":
-                return "../../../../assets/profile_example.png";
-            case "HOST":
-                return "../../../../assets/profile_example.png";
-            case "ADMIN":
-                return "../../../../assets/profile_example.png";
-            default:
-                return "";
-        }
+        return "../../../../assets/profile_example.png";
     }
 }

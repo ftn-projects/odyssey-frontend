@@ -1,12 +1,21 @@
 <mat-toolbar id="header">
     <a class="horizontal-flex" [routerLink]="''">
-        <img class="toolbar-logo-img" src="../../../favicon.png" />
+        <img class="toolbar-logo-img" src="assets/logo.png" />
         <span class="app-name">Odyssey</span>
     </a>
     <div class="horizontal-flex">
         <a [routerLink]="''">Home</a>
-        <a [routerLink]="'search'">Search</a>
+        <a [routerLink]="'accommodations-list'">Search</a>
         <a [routerLink]="'contact'">Contact</a>
-        <ng-container class="horizontal-flex" *ngComponentOutlet="navTabs; inputs: {img}" />
+        <a [routerLink]="'guest-reservations'" *ngIf="currentRole == 'GUEST'">My reservations</a>
+        <a [routerLink]="'host-reservations'" *ngIf="currentRole == 'HOST'">Reservations</a>
+        <a [routerLink]="'host-accommodations'" *ngIf="currentRole == 'HOST'">My accommodations</a>
+        <a [routerLink]="'admin-reviews'" *ngIf="currentRole == 'ADMIN'">Reviews</a>
+        <a [routerLink]="'admin-accommodations'" *ngIf="currentRole == 'ADMIN'">Accommodations</a>
+        <a [routerLink]="'admin-users'" *ngIf="currentRole == 'ADMIN'">Users</a>
+        <img class="toolbar-profile-img" [routerLink]="'account'" src="{{img}}"
+            *ngIf="['ADMIN', 'HOST', 'GUEST'].includes(currentRole)" />
+        <a [routerLink]="'login'" *ngIf="!['ADMIN', 'HOST', 'GUEST'].includes(currentRole)">Log in</a>
+        <a [routerLink]="'registration'" *ngIf="!['ADMIN', 'HOST', 'GUEST'].includes(currentRole)">Sign up</a>
     </div>
 </mat-toolbar>

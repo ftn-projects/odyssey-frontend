@@ -1,0 +1,103 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@import url("https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+
+@include mat.core();
+
+
+$odyssey-primary-palette: (
+    50 : #fffdf3,
+    100 : #fff9e2,
+    200 : #fff6ce,
+    300 : #fff2ba,
+    400 : #ffefac,
+    // PRIMARY (change here)
+    500 : #c84473,
+    // Primary alt
+    600 : #03577b,
+    // Primary third
+    700 : #ffe78b,
+    800 : #ffe481,
+    900 : #ffdf6f,
+    A100 : #ffffff,
+    A200 : #ffffff,
+    A400 : #ffffff,
+    A700 : #fffdf7,
+    contrast: (50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+
+$odyssey-accent-palette: (
+    50 : #edeef4,
+    100 : #d2d4e4,
+    200 : #b5b8d2,
+    300 : #979cc0,
+    400 : #8086b3,
+    // SECONDARY (change here)
+    500 : #2b7f97,
+    // secondary alt
+    600 : #f4ba00,
+    // secondary third
+    700 : #575e93,
+    800 : #4d548a,
+    900 : #3c4279,
+    A100 : #ccd1ff,
+    A200 : #99a3ff,
+    A400 : #6675ff,
+    A700 : #4d5eff,
+    contrast: (50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #ffffff,
+    )
+);
+
+
+
+$odyssey-primary: mat.define-palette($odyssey-primary-palette, 500, 600, 700);
+$odyssey-accent: mat.define-palette($odyssey-accent-palette, 500, 600, 700);
+
+$odyssey-theme: mat.define-light-theme((color: (accent: $odyssey-accent, primary: $odyssey-primary ),
+            typography: mat.define-typography-config(),
+            density: 0,
+        ));
+
+@include mat.all-component-themes($odyssey-theme);

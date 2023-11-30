@@ -1,14 +1,12 @@
 <div class="wrapper">
     <div class="formSide">
-        <a href="" class="backLink">&lt;&lt; Back to main site</a>
-
         <div class="formWrapper">
             <p class="title">LOGIN</p>
 
-            <form class="authForm">
+            <form class="authForm" [formGroup]="loginForm">
                 <mat-form-field class="textBox">
                     <mat-label>Email</mat-label>
-                    <input matInput type="email">
+                    <input matInput type="email" formControlName="email">
                 </mat-form-field>
 
                 <mat-form-field class="textBox">
@@ -19,13 +17,15 @@
             </form>
 
             <p class="promptText">Forgot password? <a href="">Click here</a></p>
-            <button mat-flat-button class="inputButton" color="primary" id="continue">Continue</button>
-            <p class="promptText">No account? <a href="">Register now</a></p>
+            <button mat-flat-button class="inputButton" color="primary" id="continue" (click)="onLogin()"
+                [routerLink]="''">Continue</button>
+            <p class="promptText">No account? <a [routerLink]="'../registration'">Register now</a></p>
         </div>
     </div>
-
-    <div class="imageSide">
-        <p class="phrase">Become a part<br>of something<br>amazing</p>
+    <div class="imageScroll">
+        <div class="imageSide">
+            <p class="phrase">Become a part<br>of something<br>amazing</p>
+        </div>
     </div>
 
 </div>

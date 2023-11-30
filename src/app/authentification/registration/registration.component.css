@@ -1,7 +1,10 @@
-.imageScroll {
-    position: fixed;
-    right: 0;
+.imageSide{
+    position: sticky !important;
+    top: 0 !important;
+    height: 100vh !important;
+    width: 100% !important;
 }
+
 
 .formScroll {
     padding-bottom: 5%;

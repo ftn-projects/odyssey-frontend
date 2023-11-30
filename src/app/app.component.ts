@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HomeComponent } from './home/home.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -9,3 +9,4 @@ import { HomeComponent } from './home/home.component';
 export class AppComponent {
     title = 'odyssey';
 }
+export const role = new BehaviorSubject("UNAUTH");

@@ -1,14 +1,12 @@
 <div class="wrapper">
     <div class="formSide">
-        <a href="" class="backLink">&lt;&lt; Back to main site</a>
-
         <div class="formWrapper formScroll">
             <p class="title">REGISTER</p>
 
-            <form class="authForm">
+            <form class="authForm" [formGroup]="registrationForm">
                 <mat-form-field class="textBox">
                     <mat-label>Role</mat-label>
-                    <mat-select [(value)]="selected" placeholder="Mode">
+                    <mat-select [(value)]="selectedRole" placeholder="Mode" [required]="true">
                         <mat-option value="guest">Guest</mat-option>
                         <mat-option value="host">Host</mat-option>
                     </mat-select>
@@ -16,55 +14,58 @@
 
                 <mat-form-field class="textBox">
                     <mat-label>Email</mat-label>
-                    <input matInput type="email">
+                    <input matInput type="email" formControlName="email">
                 </mat-form-field>
 
                 <mat-form-field class="textBox">
                     <mat-label>Name</mat-label>
-                    <input matInput type="text">
+                    <input matInput type="text" formControlName="name">
                 </mat-form-field>
 
                 <mat-form-field class="textBox">
                     <mat-label>Surname</mat-label>
-                    <input matInput type="text">
+                    <input matInput type="text" formControlName="surname">
                 </mat-form-field>
 
                 <mat-form-field class="textBox">
                     <mat-label>Address</mat-label>
-                    <input matInput type="text">
+                    <input matInput type="text" formControlName="address">
                 </mat-form-field>
 
                 <mat-form-field class="textBox">
                     <mat-label>City</mat-label>
-                    <input matInput type="text">
+                    <input matInput type="text" formControlName="city">
                 </mat-form-field>
 
-                <mat-select-country class="countrySelect" appearance="fill" label="Country">
+                <mat-select-country class="countrySelect" appearance="fill" label="Country" [value]="selectedCountry"
+                    [required]="true">
                 </mat-select-country>
 
                 <mat-form-field class="textBox">
                     <mat-label>Phone number</mat-label>
-                    <input matInput type="text">
+                    <input matInput type="text" formControlName="phone">
                 </mat-form-field>
 
                 <mat-form-field class="textBox">
                     <mat-label>Password</mat-label>
-                    <input matInput type="text">
+                    <input matInput type="text" formControlName="password">
                 </mat-form-field>
 
                 <mat-form-field class="textBox">
                     <mat-label>Confirm password</mat-label>
-                    <input matInput type="text">
+                    <input matInput type="text" formControlName="confirmedPassword">
                 </mat-form-field>
             </form>
 
-            <button mat-flat-button class="inputButton" color="primary" id="continue">Continue</button>
-            <p class="promptText">Have an account? <a href="">Login</a></p>
+            <button mat-flat-button class="inputButton" color="primary" id="continue"
+                [routerLink]="'../login'">Continue</button>
+            <p class="promptText">Have an account? <a [routerLink]="'../login'">Login</a></p>
         </div>
     </div>
-
-    <div class="imageSide imageScroll">
-        <p class="phrase">Become a part<br>of something<br>amazing</p>
+    <div class="imageScroll">
+        <div class="imageSide">
+            <p class="phrase">Become a part<br>of something<br>amazing</p>
+        </div>
     </div>
 
 </div>
