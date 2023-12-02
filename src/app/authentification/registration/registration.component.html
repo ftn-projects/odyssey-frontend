@@ -1,5 +1,7 @@
 <div class="wrapper">
     <div class="formSide">
+        <a [routerLink]="'/'" class="backLink">&lt;&lt; Back to main site</a>
+
         <div class="formWrapper formScroll">
             <p class="title">REGISTER</p>
 
@@ -58,8 +60,8 @@
             </form>
 
             <button mat-flat-button class="inputButton" color="primary" id="continue"
-                [routerLink]="'../login'">Continue</button>
-            <p class="promptText">Have an account? <a [routerLink]="'../login'">Login</a></p>
+                [routerLink]="'/login'">Continue</button>
+            <p class="promptText">Have an account? <a [routerLink]="'/login'">Login</a></p>
         </div>
     </div>
     <div class="imageScroll">

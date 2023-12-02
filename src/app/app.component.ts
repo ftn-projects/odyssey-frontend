@@ -10,3 +10,4 @@ export class AppComponent {
     title = 'odyssey';
 }
 export const role = new BehaviorSubject("UNAUTH");
+export const displayNav = new BehaviorSubject(true);

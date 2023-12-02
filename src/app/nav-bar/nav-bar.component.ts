@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { role } from '../app.component';
+import { displayNav, role } from '../app.component';
 
 @Component({
     selector: 'app-nav-bar',
@@ -8,12 +8,14 @@ import { role } from '../app.component';
 })
 export class NavBarComponent {
     currentRole = "UNAUTH";
-    constructor() {
-    }
+    displayed = true;
 
     ngOnInit(): void {
         role.subscribe((result) => {
             this.currentRole = result.toUpperCase();
+        })
+        displayNav.subscribe((result) => {
+            this.displayed = result;
         })
     }
 

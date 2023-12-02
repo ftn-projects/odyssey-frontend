@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Country } from '@angular-material-extensions/select-country';
+import { displayNav } from '../../app.component';
 
 @Component({
     selector: 'app-registration',
@@ -20,4 +21,7 @@ export class RegistrationComponent {
         password: new FormControl('', [Validators.required]),
         confirmedPassword: new FormControl('', [Validators.required])
     });
+
+    ngOnInit() { displayNav.next(false); }
+    ngOnDestroy() { displayNav.next(true); }
 }

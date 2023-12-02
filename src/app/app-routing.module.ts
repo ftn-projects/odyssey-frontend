@@ -7,12 +7,13 @@ import { AccommodationListComponent } from './accommodation-list/accommodation-l
 import { AccommodationDetailsComponent } from './accommodation-details/accommodation-details.component';
 
 const routes: Routes = [
-    { path: "", pathMatch: "full", redirectTo: "accommodation-list" },
-    { component: AccommodationListComponent, path: "accommodation-list" },
-    { component: AccommodationDetailsComponent, path: "accommodation-details" },
-    { component: AccountComponent, path: "account" },
-    { component: LoginComponent, path: "login" },
-    { component: RegistrationComponent, path: "registration" },
+    { path: '', pathMatch: 'full', redirectTo: 'accommodationList' },
+    { path: 'accommodationList', component: AccommodationListComponent },
+    { path: 'accommodationDetails', component: AccommodationDetailsComponent },
+    // { path: 'accommodation', AccommodationsModule.loadChildren() },
+    { path: 'account', component: AccountComponent },
+    { path: 'login', component: LoginComponent },
+    { path: 'registration', component: RegistrationComponent },
 ];
 
 @NgModule({
