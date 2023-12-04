@@ -1,6 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 // Material Form Controls
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -50,7 +48,6 @@ import { MatTableModule } from '@angular/material/table';
 @NgModule({
     declarations: [],
     imports: [
-        CommonModule,
         MatAutocompleteModule,
         MatCheckboxModule,
         MatDatepickerModule,
@@ -87,8 +84,9 @@ import { MatTableModule } from '@angular/material/table';
         MatSortModule,
         MatTableModule,
         MatSelectCountryModule.forRoot('en'),
-        FormsModule,
-        ReactiveFormsModule
+        MatNativeDateModule
+        // FormsModule,
+        // ReactiveFormsModule
     ],
     exports: [
         MatAutocompleteModule,
@@ -127,8 +125,6 @@ import { MatTableModule } from '@angular/material/table';
         MatSortModule,
         MatTableModule,
         MatSelectCountryModule,
-        FormsModule,
-        ReactiveFormsModule,
         MatNativeDateModule
     ]
 })
