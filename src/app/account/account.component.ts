@@ -47,9 +47,7 @@ export class AccountComponent {
     onDeactivate() {
         this.displaySnack('Account deactivation.');
     }
-    onLogout() {
-        role.next("UNAUTH");
-    }
+    onLogout() { role.next("UNAUTH"); }
 
     selectedCountry: Country = { alpha2Code: "RS" };
     onCountrySelected(country: Country) { console.log("Country changed", country); }

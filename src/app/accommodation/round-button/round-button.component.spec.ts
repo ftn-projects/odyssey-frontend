@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccountComponent } from './account.component';
+import { RoundButtonComponent } from './round-button.component';
 
-describe('AccountComponent', () => {
-    let component: AccountComponent;
-    let fixture: ComponentFixture<AccountComponent>;
+describe('RoundButtonComponent', () => {
+    let component: RoundButtonComponent;
+    let fixture: ComponentFixture<RoundButtonComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [AccountComponent]
+            declarations: [RoundButtonComponent]
         })
             .compileComponents();
 
-        fixture = TestBed.createComponent(AccountComponent);
+        fixture = TestBed.createComponent(RoundButtonComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

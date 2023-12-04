@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { displayNav, role } from '../app.component';
 
 @Component({
@@ -6,7 +6,7 @@ import { displayNav, role } from '../app.component';
     templateUrl: './nav-bar.component.html',
     styleUrl: './nav-bar.component.css'
 })
-export class NavBarComponent {
+export class NavBarComponent implements OnInit {
     currentRole = "UNAUTH";
     displayed = true;
 

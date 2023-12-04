@@ -1,0 +1,15 @@
+<mat-form-field subscriptSizing="dynamic" [class.is-sticky]="isSticky">
+    <span matPrefix class="material-symbols-outlined input-prefix">
+        location_on
+    </span>
+    <mat-label>Location</mat-label>
+    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        @for (option of filteredOptions | async; track option) {
+        <mat-option [value]="option">{{option.name}}</mat-option>
+        }
+
+    </mat-autocomplete>
+
+</mat-form-field>
