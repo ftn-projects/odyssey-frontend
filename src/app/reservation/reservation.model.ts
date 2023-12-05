@@ -1,10 +1,12 @@
+import { TimeSlot } from "../accommodation/time-slot.model";
+
 export interface Reservation {
     price?: number;
     guestNumber?: number;
     requestDate?: Date;
     reservationDate?: Date;
     status?: Status;
-    timeSlot?: number; //bice TimeSlot nakon merge
+    timeSlot?: TimeSlot;
     guestId?: number;
     accommodationId?: number;
 }
