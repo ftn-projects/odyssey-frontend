@@ -15,7 +15,7 @@ export class FilterDialogComponent {
     }
 
     applyFilters(): void {
-        filteredAmenities = this.amenities.filter((amenity) => amenity.checked);
+        const filteredAmenities = this.amenities.filter((amenity) => amenity.checked);
         this.dialogRef.close();
     }
 

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 
 @Component({
     selector: 'app-search-daterange-picker',
@@ -7,9 +7,12 @@ import { FormControl, FormGroup } from '@angular/forms';
     styleUrl: './search-daterange-picker.component.css'
 })
 export class SearchDaterangePickerComponent {
+    constructor (private rootFormGroup : FormGroupDirective) { }
+
     @Input() isSticky = false;
-    dateRange = new FormGroup({
-        start: new FormControl(),
-        end: new FormControl()
-    });
+    form!: FormGroup;
+
+    ngOnInit(): void {
+        this.form = this.rootFormGroup.control;
+    }
 }
