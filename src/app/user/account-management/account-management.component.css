@@ -124,16 +124,6 @@ button:not(:disabled) {
     margin-left: auto;
 }
 
-.file-input {
-    display: none;
-}
-
-.file-upload {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
 ::ng-deep .country-select mat-form-field {
     width: 80%;
 }

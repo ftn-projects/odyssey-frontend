@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AuthModule } from './infrastructure/auth/auth.module';
-import { AccountModule } from './account/account.module';
+import { AccountModule } from './user/user.module';
 import { AccommodationModule } from './accommodation/accommodation.module';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { MaterialModule } from './infrastructure/material/material.module';
