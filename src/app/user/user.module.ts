@@ -1,21 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../infrastructure/material/material.module';
-import { AccountComponent } from './account.component';
+import { AccountManagementComponent } from './account-management/account-management.component';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { FileUploaderModule } from '../infrastructure/file-uploader/file-uploader.module';
+import { FormsModule } from '@angular/forms';
 
 
 
 @NgModule({
     declarations: [
-        AccountComponent
+        AccountManagementComponent
     ],
     imports: [
         CommonModule,
         HttpClientModule,
         MaterialModule,
-        RouterModule
+        RouterModule,
+        FileUploaderModule,
+        FormsModule
     ]
 })
 export class AccountModule { }
