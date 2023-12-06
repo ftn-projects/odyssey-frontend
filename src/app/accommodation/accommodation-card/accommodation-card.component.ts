@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Accommodation } from '../accommodation-list/accommodation.model';
+import { Accommodation } from '../accommodation-list/../model/accommodation.model';
 
 
 @Component({

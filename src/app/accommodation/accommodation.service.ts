@@ -1,11 +1,25 @@
 import { Injectable } from '@angular/core';
 import { AvailabilitySlot } from './availability-slot.model';
+import { Accommodation } from './model/accommodation.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../../env/env';
+import { User } from '../account/model/user.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AccommodationService {
-    constructor() { }
+    constructor(private httpClient: HttpClient) {
+    }
+
+    getAll(): Observable<Accommodation[]> {
+        return this.httpClient.get<Accommodation[]>(environment.apiHost + 'accommodations')
+      }
+
+    
+
+
     joinSlots(first: AvailabilitySlot, second: AvailabilitySlot): AvailabilitySlot {
         let joined: AvailabilitySlot = {
             price: 0,
