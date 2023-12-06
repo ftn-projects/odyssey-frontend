@@ -11,3 +11,4 @@ export class AppComponent {
 }
 export const role = new BehaviorSubject("UNAUTH");
 export const displayNav = new BehaviorSubject(true);
+export const userId = new BehaviorSubject(1);
