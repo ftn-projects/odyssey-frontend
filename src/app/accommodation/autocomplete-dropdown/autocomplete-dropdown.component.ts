@@ -1,12 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
-export interface User {
-    name: string;
-}
 
 @Component({
     selector: 'app-autocomplete-dropdown',
@@ -15,27 +12,33 @@ export interface User {
 })
 export class AutocompleteDropdownComponent implements OnInit {
     @Input() isSticky = false;
-
-    myControl = new FormControl<string | User>('');
-    options: User[] = [{ name: 'Novi Sad, Serbia' }, { name: 'Belgrade, Serbia' }, { name: 'Nis, Serbia' }];
-    filteredOptions!: Observable<User[]>;
+    form!: FormGroup;
+    constructor (private rootFormGroup : FormGroupDirective) { }
+    myControl = new FormControl('');
+    options: String[] = [ 'Novi Sad, Serbia' ,  'Belgrade, Serbia' , 'Nis, Serbia' ];
+    filteredOptions!: Observable<String[]>;
 
     ngOnInit() {
         this.filteredOptions = this.myControl.valueChanges.pipe(
             startWith(''),
             map(value => {
-                const name = typeof value === 'string' ? value : value?.name;
+                console.log("Value:" + value);
+                const name = typeof value === 'string' ? value : value;
                 return name ? this._filter(name as string) : this.options.slice();
             }),
         );
+
+        if(this.rootFormGroup){
+            this.form = this.rootFormGroup.control;
+            }
     }
 
-    displayFn(user: User): string {
-        return user && user.name ? user.name : '';
+    displayFn(user: string): string {
+        return user ? user : '';
     }
 
-    private _filter(name: string): User[] {
+    private _filter(name: string): String[] {
         const filterValue = name.toLowerCase();
-        return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
+        return this.options.filter(option => option.toLowerCase().includes(filterValue));
     }
 }

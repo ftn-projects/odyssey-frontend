@@ -4,6 +4,7 @@ import { FilterDialogComponent } from './filter-dialog/filter-dialog.component';
 import { Accommodation } from '../model/accommodation.model';
 import { User } from '../../account/model/user.model';
 import { AccommodationService } from '../accommodation.service';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
     selector: 'app-accommodation-list',
@@ -12,7 +13,22 @@ import { AccommodationService } from '../accommodation.service';
 })
 export class AccommodationListComponent {
 
-    constructor(private dialog: MatDialog, private service: AccommodationService) { }
+    searchParameters: FormGroup;
+
+    constructor(private dialog: MatDialog, private service: AccommodationService) {
+        this.searchParameters = new FormGroup({
+            location: new FormGroup({
+                address: new FormControl('')
+            }),
+            dateRange: new FormGroup({
+              start: new FormControl<Date | null>(null),
+              end: new FormControl<Date | null>(null)
+            }),
+            guestGroup: new FormGroup({
+              guests: new FormControl(0)
+            })
+          });
+     }
 
 
     accommodations: Accommodation[] = [];
@@ -31,7 +47,22 @@ export class AccommodationListComponent {
 
 
 
-      
+    search(){
+        const locationAddress = this.searchParameters.get('location.address')?.value;
+        const startDate = this.searchParameters.get('dateRange.start')?.value.getTime();
+        const endDate = this.searchParameters.get('dateRange.end')?.value.getTime();
+        const guestNumber = this.searchParameters.get('guestGroup.guests')?.value;
+
+        this.service.getAll(startDate,endDate,guestNumber).subscribe({
+            next: (data: Accommodation[]) => {
+              this.accommodations = data
+              this.accommodations.forEach((accommodation) => {
+                console.log(accommodation)
+              })
+            },
+            error: (_) => {console.log("Greska!")}
+          })
+    }
 
 
 

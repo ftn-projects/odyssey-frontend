@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AvailabilitySlot } from './availability-slot.model';
 import { Accommodation } from './model/accommodation.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../env/env';
 import { User } from '../account/model/user.model';
@@ -13,8 +13,26 @@ export class AccommodationService {
     constructor(private httpClient: HttpClient) {
     }
 
-    getAll(): Observable<Accommodation[]> {
-        return this.httpClient.get<Accommodation[]>(environment.apiHost + 'accommodations')
+    getAll(
+        dateStart?: number,
+        dateEnd?: number,
+        guestNumber?: number,
+        amenities?: string[],
+        type?: string,
+        priceStart?: number,
+        priceEnd?: number
+      ): Observable<Accommodation[]> {
+        // Construct query parameters
+        let params = new HttpParams();
+        if (dateStart) params = params.set('dateStart', dateStart.toString());
+        if (dateEnd) params = params.set('dateEnd', dateEnd.toString());
+        if (guestNumber) params = params.set('guestNumber', guestNumber.toString());
+        if (amenities) params = params.set('amenities', amenities.join(','));
+        if (type) params = params.set('type', type);
+        if (priceStart) params = params.set('priceStart', priceStart.toString());
+        if (priceEnd) params = params.set('priceEnd', priceEnd.toString());
+    
+        return this.httpClient.get<Accommodation[]>(environment.apiHost + 'accommodations', { params });
       }
 
     getById(id: number): Observable<Accommodation> {

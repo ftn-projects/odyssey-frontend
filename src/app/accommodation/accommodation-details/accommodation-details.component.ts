@@ -3,7 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Accommodation } from '../model/accommodation.model';
 import { AccommodationService } from '../accommodation.service';
 import { Observable } from 'rxjs';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
+import { ReservationService } from '../../reservation/reservation.service';
+import { Reservation, Status } from '../../reservation/reservation.model';
+import { TimeSlot } from '../time-slot.model';
 
 @Component({
     selector: 'app-accommodation-details',
@@ -20,6 +23,7 @@ import { FormControl, FormGroup } from '@angular/forms';
     constructor(
       private route: ActivatedRoute,
       private service: AccommodationService,
+      private resService : ReservationService,
       private cdr: ChangeDetectorRef
     ) {
       this.reservationDetails = new FormGroup({
@@ -44,6 +48,35 @@ import { FormControl, FormGroup } from '@angular/forms';
       });
     }
   
+    sendReservation() {
+        this.accommodation.subscribe((accommodation: Accommodation) => {
+        // Create a new TimeSlot for demonstration purposes
+        const timeSlot: TimeSlot = {
+            start: this.reservationDetails.get('dateRange.start')?.value,
+            end: this.reservationDetails.get('dateRange.end')?.value,
+        };
+    
+        // Create a new Reservation object
+        const newReservation: Reservation = {
+            price: this.totalPrice, // Replace with the actual price
+            guestNumber: this.reservationDetails.get('guestGroup.guests')?.value, // Replace with the actual guest number
+            requestDate: new Date(), // Replace with the actual request date
+            reservationDate: new Date(), // Replace with the actual reservation date
+            status: Status.REQUESTED, // Replace with the desired status
+            timeSlot: timeSlot, // Assign the TimeSlot object
+            guestId: 10, // Replace with the actual guest ID
+            accommodationId: accommodation.id, // Replace with the actual accommodation ID
+        };
+    
+        // Now you can use the newReservation object as needed, for example, send it to the server
+        console.log("Sending reservation:", newReservation);
+        this.resService.add(newReservation).subscribe((reservation: Reservation) => {
+            console.log("Reservation sent successfully:", reservation);
+        });
+    });
+    }
+
+
     calculateTotalPrice() {
       this.accommodation.subscribe((accommodation: Accommodation) => {
         const pricingType = accommodation.pricing;
@@ -87,4 +120,5 @@ import { FormControl, FormGroup } from '@angular/forms';
   
       return numberOfDays;
     }
+
   }

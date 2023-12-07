@@ -13,6 +13,8 @@ export class SearchDaterangePickerComponent {
     form!: FormGroup;
 
     ngOnInit(): void {
+        if(this.rootFormGroup){
         this.form = this.rootFormGroup.control;
+        }
     }
 }
