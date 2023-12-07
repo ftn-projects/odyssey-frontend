@@ -1,15 +1,12 @@
 import { TimeSlot } from "../accommodation/model/time-slot.model";
+import { Status } from "./reservation.model";
 
-export interface Reservation {
+export interface ReservationRequest {
+    id?: number,
     price?: number;
     guestNumber?: number;
     requestDate?: Date;
-    status?: Status;
     timeSlot?: TimeSlot;
-    guestId?: number;
     accommodationId?: number;
-}
-
-export enum Status {
-    REQUESTED, DECLINED, CANCELLED_REQUEST, CANCELLED_RESERVATION, ACCEPTED
+    guestId?: number;
 }

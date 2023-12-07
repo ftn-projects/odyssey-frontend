@@ -78,10 +78,10 @@
             <p class="field-label">Phone</p>
             <p class="field-value">{{user.phone}}</p>
         </div>
-        <div *ngIf="sections[1]" style="display: inline-block; width: 80%;">
+        <mat-form-field *ngIf="sections[1]" style="display: inline-block; width: 80%;">
             <mat-label>Phone</mat-label>
             <input matInput type="text" [(ngModel)]="editedUser.phone">
-        </div>
+        </mat-form-field>
     </section>
 
     <section id="about-section" class="card-section rounded-border" *ngIf="isHost()">

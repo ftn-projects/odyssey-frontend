@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AvailabilitySlot } from './availability-slot.model';
+import { AvailabilitySlot } from './model/availability-slot.model';
 import { Accommodation } from './model/accommodation.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -22,7 +22,7 @@ export class AccommodationService {
         type?: string,
         priceStart?: number,
         priceEnd?: number
-      ): Observable<Accommodation[]> {
+    ): Observable<Accommodation[]> {
         // Construct query parameters
         let params = new HttpParams();
         if (dateStart) params = params.set('dateStart', dateStart.toString());
@@ -32,28 +32,26 @@ export class AccommodationService {
         if (type) params = params.set('type', type);
         if (priceStart) params = params.set('priceStart', priceStart.toString());
         if (priceEnd) params = params.set('priceEnd', priceEnd.toString());
-    
+
         return this.httpClient.get<Accommodation[]>(environment.apiHost + 'accommodations', { params });
-      }
+    }
 
     getById(id: number): Observable<Accommodation> {
         return this.httpClient.get<Accommodation>(environment.apiHost + 'accommodations/' + id);
     }
 
-    
-    private path: string = environment.apiHost + 'accommodations';
 
-    constructor(private http: HttpClient) { }
+    private path: string = environment.apiHost + 'accommodations';
 
     // create(Accommodation accommodation): Observable<Accommodation> {
     //     this.http.post(this.path, accommodation);
     // }
 
     getAmenities(): Observable<Amenity[]> {
-        return this.http.get<Amenity[]>(this.path + '/amenities');
+        return this.httpClient.get<Amenity[]>(this.path + '/amenities');
     }
 
-  
+
     joinSlots(first: AvailabilitySlot, second: AvailabilitySlot): AvailabilitySlot {
         let joined: AvailabilitySlot = {
             price: 0,
