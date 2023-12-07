@@ -6,7 +6,6 @@ import { AccommodationListComponent } from './accommodation-list/accommodation-l
 import { AccommodationFilterComponent } from './accommodation-list/accommodation-filter/accommodation-filter.component';
 import { MaterialModule } from '../infrastructure/material/material.module';
 import { SearchDaterangePickerComponent } from './accommodation-list/search-daterange-picker/search-daterange-picker.component';
-import { AppRoutingModule } from '../app-routing.module';
 import { ButtonBarComponent } from './button-bar/button-bar.component';
 import { RatingSummaryComponent } from './rating-summary/rating-summary.component';
 import { ReviewCardComponent } from './review-card/review-card.component';
@@ -16,6 +15,7 @@ import { FilterDialogComponent } from './accommodation-list/filter-dialog/filter
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoundButtonComponent } from './round-button/round-button.component';
 import { RouterModule } from '@angular/router';
+import { AccommodationCreateComponent } from './accommodation-create/accommodation-create.component';
 
 
 
@@ -33,7 +33,8 @@ import { RouterModule } from '@angular/router';
         FilterDialogComponent,
         RatingSummaryComponent,
         AutocompleteDropdownComponent,
-        SearchDaterangePickerComponent
+        SearchDaterangePickerComponent,
+        AccommodationCreateComponent
     ],
     imports: [
         RouterModule,
