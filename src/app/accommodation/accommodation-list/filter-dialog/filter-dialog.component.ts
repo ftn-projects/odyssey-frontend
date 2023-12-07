@@ -14,6 +14,11 @@ export class FilterDialogComponent {
         this.dialogRef.close();
     }
 
+    applyFilters(): void {
+        const filteredAmenities = this.amenities.filter((amenity) => amenity.checked);
+        this.dialogRef.close();
+    }
+
 
     formatLabel(value: number): string {
         if (value >= 1000) {

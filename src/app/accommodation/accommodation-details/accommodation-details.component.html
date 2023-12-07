@@ -1,8 +1,8 @@
-<div class="body-container">
+<div class="body-container" *ngIf="accommodation | async as accommodationData">
     <div class="header-name-image-container">
         <div class="accommodation-name-container">
             <div class="accommodation-name">
-                <div class="title-text">The Willow</div>
+                <div class="title-text">{{accommodationData.title}}</div>
                 <div class="rating-container">
                     <button mat-stroked-button>
                         <mat-icon>favorite</mat-icon>
@@ -15,7 +15,7 @@
                     <mat-icon class="location-icon">location_on</mat-icon>
                 </div>
                 <div class="location-text-container">
-                    <div class="location-text">Novi Sad, Serbia</div>
+                    <div class="location-text">{{accommodationData.address.city + ", " + accommodationData.address.country}}</div>
                 </div>
             </div>
         </div>
@@ -46,11 +46,7 @@
                             <div class="host-text-info-container">
                                 <div class="hosted-by-container">
                                     <span class="hosted-by">Hosted by </span>
-                                    <span class="host-name">Svetlana Radivojevic</span>
-                                </div>
-                                <div class="member-since-container">
-                                    <span class="member-since">Member since </span>
-                                    <span class="member-since-date">2019</span>
+                                    <span class="host-name">{{accommodationData.host.name + " " + accommodationData.host.surname}}</span>
                                 </div>
                             </div>
                         </div>
@@ -60,13 +56,10 @@
                     </div>
                     <div class="about-host-section">
                         <div class="about-host-title">
-                            About Svetlana
+                            About {{accommodationData.host.name}}
                         </div>
                         <div class="about-host-container">
-                            Hi, I am Svetlana. I am a mother of two, and I love to travel.
-                            I have been to many places, and I know how important it is to have a nice place to stay.
-                            I hope you will enjoy your stay at our apartment.
-                            If you have any questions, feel free to contact me, and I will be happy to help you.
+                            {{accommodationData.host.bio}}
                         </div>
                     </div>
                 </div>
@@ -76,49 +69,9 @@
                     Amenities
                 </div>
                 <div class="amenities-container">
-                    <div class="amenities-item">
+                    <div class="amenities-item" *ngFor="let amenity of accommodationData.amenities">
                         <mat-icon>bathtub</mat-icon>
-                        <div class="amenities-text">1 bath</div>
-                    </div>
-                    <div class="amenities-item">
-                        <mat-icon>king_bed</mat-icon>
-                        <div class="amenities-text">1 king bed</div>
-                    </div>
-                    <div class="amenities-item">
-                        <mat-icon>ac_unit</mat-icon>
-                        <div class="amenities-text">Air conditioning</div>
-                    </div>
-                    <div class="amenities-item">
-                        <mat-icon>tv</mat-icon>
-                        <div class="amenities-text">TV</div>
-                    </div>
-                    <div class="amenities-item">
-                        <mat-icon>local_laundry_service</mat-icon>
-                        <div class="amenities-text">Washer</div>
-                    </div>
-                    <div class="amenities-item">
-                        <mat-icon>local_parking</mat-icon>
-                        <div class="amenities-text">Free parking</div>
-                    </div>
-                    <div class="amenities-item">
-                        <mat-icon>local_dining</mat-icon>
-                        <div class="amenities-text">Kitchen</div>
-                    </div>
-                    <div class="amenities-item">
-                        <mat-icon>local_fire_department</mat-icon>
-                        <div class="amenities-text">Smoke alarm</div>
-                    </div>
-                    <div class="amenities-item">
-                        <mat-icon>beach_access</mat-icon>
-                        <div class="amenities-text">Beach access</div>
-                    </div>
-                    <div class="amenities-item">
-                        <mat-icon>smoking_rooms</mat-icon>
-                        <div class="amenities-text">Smoking room</div>
-                    </div>
-                    <div class="amenities-item">
-                        <mat-icon>wifi</mat-icon>
-                        <div class="amenities-text">Wifi</div>
+                        <div class="amenities-text">{{amenity.title}}</div>
                     </div>
                 </div>
             </div>
@@ -142,38 +95,35 @@
                 <div class="reserve-header-container">
                     <div class="header-price-unit">
                         <span class="header-price">$</span>
-                        <span class="header-price-value">50</span>
-                        <span class="header-price-unit"> per night</span>
+                        <span class="header-price-value">{{accommodationData.defaultPrice}} </span>
+                        <span class="header-price-unit">{{accommodationData.pricing.replace('_', ' ').toLowerCase()}}</span>
                     </div>
                     <div class="header-guest-count">
-                        3-5 guests
+                        {{accommodationData.minGuests}} - {{accommodationData.maxGuests}} guests
                     </div>
                 </div>
-                <div class="reserve-input-section">
-                    <app-search-daterange-picker class="reservation-range-input" />
-                    <mat-form-field class="reservation-guests-input" subscriptSizing="dynamic">
+                <div class="reserve-input-section" [formGroup]="reservationDetails" >
+                    <app-search-daterange-picker formGroupName="dateRange" class="reservation-range-input" />
+                    <mat-form-field class="reservation-guests-input" subscriptSizing="dynamic" formGroupName="guestGroup">
                         <span matPrefix class="material-symbols-outlined input-prefix">
                             people
                         </span>
                         <mat-label>Guests</mat-label>
-                        <input type="number" matInput>
+                        <input matInput type="number" formControlName="guests">
                     </mat-form-field>
                 </div>
-                <div class="reservation-pricing-section">
+                <div class="reservation-pricing-section" *ngIf="totalPrice">
                     <div class="pricing-item-section">
                         <div class="pricing-reason">
-                            $254 x 6 nights
+                            <ng-container *ngIf="accommodationData.pricing === 'PER_PERSON'; else perAccommodation">
+                                ${{ accommodationData.defaultPrice }} x {{ reservationDetails.get('guestGroup.guests')?.value }} guests x {{ numberOfDays }} nights
+                            </ng-container>
+                            <ng-template #perAccommodation>
+                                ${{ accommodationData.defaultPrice }} x {{ numberOfDays }} nights
+                            </ng-template>
                         </div>
                         <div class="pricing-value">
-                            $1524
-                        </div>
-                    </div>
-                    <div class="pricing-item-section">
-                        <div class="pricing-reason">
-                            Additional fees
-                        </div>
-                        <div class="pricing-value">
-                            $103
+                            ${{totalPrice}}
                         </div>
                     </div>
                     <mat-divider />
@@ -182,12 +132,12 @@
                             Total
                         </div>
                         <div class="pricing-value-total">
-                            $1627
+                            ${{totalPrice}}
                         </div>
                     </div>
                 </div>
                 <div class="complete-button-container">
-                    <button mat-flat-button color="primary">Complete</button>
+                    <button mat-flat-button color="primary" (click)="sendReservation()">Complete</button>
                 </div>
             </div>
         </div>
