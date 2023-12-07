@@ -24,7 +24,7 @@
     </div>
     <div class="price_container">
         <span class="price_number">${{ accommodation.defaultPrice}}</span>
-        <span class="pricing_type"> {{accommodation.pricing}}</span>
+        <span class="pricing_type"> {{accommodation.pricing.replace('_', ' ').toLowerCase()}}</span>
         <span class="text_dot">·</span>
         <span class="price_total">${{accommodation.totalPrice}} total</span>
     </div>
