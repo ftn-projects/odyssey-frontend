@@ -21,47 +21,47 @@ export class AccommodationListComponent {
                 address: new FormControl('')
             }),
             dateRange: new FormGroup({
-              start: new FormControl<Date | null>(null),
-              end: new FormControl<Date | null>(null)
+                start: new FormControl<Date | null>(null),
+                end: new FormControl<Date | null>(null)
             }),
             guestGroup: new FormGroup({
-              guests: new FormControl(0)
+                guests: new FormControl(0)
             })
-          });
-     }
+        });
+    }
 
 
     accommodations: Accommodation[] = [];
 
     ngOnInit(): void {
         this.service.getAll().subscribe({
-          next: (data: Accommodation[]) => {
-            this.accommodations = data
-            this.accommodations.forEach((accommodation) => {
-              console.log(accommodation)
-            })
-          },
-          error: (_) => {console.log("Greska!")}
+            next: (data: Accommodation[]) => {
+                this.accommodations = data
+                this.accommodations.forEach((accommodation) => {
+                    console.log(accommodation)
+                })
+            },
+            error: (_) => { console.log("Greska!") }
         })
-      }
+    }
 
 
 
-    search(){
+    search() {
         const locationAddress = this.searchParameters.get('location.address')?.value;
-        const startDate = this.searchParameters.get('dateRange.start')?.value.getTime();
-        const endDate = this.searchParameters.get('dateRange.end')?.value.getTime();
+        const startDate = this.searchParameters.get('dateRange.start')?.value?.getTime();
+        const endDate = this.searchParameters.get('dateRange.end')?.value?.getTime();
         const guestNumber = this.searchParameters.get('guestGroup.guests')?.value;
 
-        this.service.getAll(startDate,endDate,guestNumber).subscribe({
+        this.service.getAll(startDate, endDate, guestNumber).subscribe({
             next: (data: Accommodation[]) => {
-              this.accommodations = data
-              this.accommodations.forEach((accommodation) => {
-                console.log(accommodation)
-              })
+                this.accommodations = data
+                this.accommodations.forEach((accommodation) => {
+                    console.log(accommodation)
+                })
             },
-            error: (_) => {console.log("Greska!")}
-          })
+            error: (_) => { console.log("Greska!") }
+        })
     }
 
 
