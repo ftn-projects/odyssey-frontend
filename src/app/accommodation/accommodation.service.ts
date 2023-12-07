@@ -5,6 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../env/env';
 import { User } from '../account/model/user.model';
+import { Amenity } from './amenity.model';
 
 @Injectable({
     providedIn: 'root'
@@ -40,8 +41,19 @@ export class AccommodationService {
     }
 
     
+    private path: string = environment.apiHost + 'accommodations';
 
+    constructor(private http: HttpClient) { }
 
+    // create(Accommodation accommodation): Observable<Accommodation> {
+    //     this.http.post(this.path, accommodation);
+    // }
+
+    getAmenities(): Observable<Amenity[]> {
+        return this.http.get<Amenity[]>(this.path + '/amenities');
+    }
+
+  
     joinSlots(first: AvailabilitySlot, second: AvailabilitySlot): AvailabilitySlot {
         let joined: AvailabilitySlot = {
             price: 0,
