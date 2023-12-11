@@ -13,18 +13,16 @@ export class Interceptor implements HttpInterceptor {
         req: HttpRequest<any>,
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
-        // const accessToken: any = localStorage.getItem('user');
-        // if (req.headers.get('skip')) return next.handle(req);
+        const accessToken: any = localStorage.getItem('user');
+        if (req.headers.get('skip')) return next.handle(req);
 
-        // if (accessToken) {
-        //     const cloned = req.clone({
-        //         headers: req.headers.set('X-Auth-Token', accessToken),
-        //     });
+        if (accessToken) {
+            const cloned = req.clone({
+                headers: req.headers.set('Authorization', "Bearer " + accessToken),
+            });
 
-        //     return next.handle(cloned);
-        // } else {
-        //     return next.handle(req);
-        // }
+            return next.handle(cloned);
+        }
         return next.handle(req);
     }
 }
