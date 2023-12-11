@@ -41,7 +41,7 @@ export class AccommodationListComponent {
                     console.log(accommodation)
                 })
             },
-            error: (_) => { console.log("Greska!") }
+            error: (err) => { console.log(err) }
         })
     }
 
@@ -60,7 +60,7 @@ export class AccommodationListComponent {
                     console.log(accommodation)
                 })
             },
-            error: (_) => { console.log("Greska!") }
+            error: (err) => { console.log(err) }
         })
     }
 

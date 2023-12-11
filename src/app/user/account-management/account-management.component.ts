@@ -6,6 +6,7 @@ import { User, UserRole } from '../model/user.model';
 import { AccountService } from '../user.service';
 import { PasswordUpdate } from '../model/password-update.model';
 import { Router } from '@angular/router';
+import { AuthService } from '../../infrastructure/auth/auth.service';
 
 @Component({
     selector: 'app-account',
@@ -22,7 +23,7 @@ export class AccountManagementComponent implements OnInit {
     protected password: PasswordUpdate = {};
     protected newPasswordConfirm: string = "";
 
-    constructor(private router: Router, protected service: AccountService, private snackbar: MatSnackBar) {
+    constructor(private router: Router, protected service: AccountService, private snackbar: MatSnackBar, private authService: AuthService) {
     }
 
     ngOnInit(): void {
@@ -79,8 +80,14 @@ export class AccountManagementComponent implements OnInit {
     }
 
     protected onLogout() {
-        role.next("UNAUTH");
-        this.router.navigateByUrl('/');
+        this.authService.logout().subscribe({
+            next: () => {
+                localStorage.removeItem("user");
+                this.authService.setUser();
+                this.router.navigate(['']);
+            },
+            error: (err) => console.log(err)
+        });
     }
 
     private displaySnack(text: string) { this.snackbar.open(text, '', { duration: 1000 }); }

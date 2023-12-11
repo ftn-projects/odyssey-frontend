@@ -7,15 +7,15 @@
         <a [routerLink]="'/'">Home</a>
         <a [routerLink]="'/accommodationList'">Search</a>
         <a [routerLink]="'/'">Contact</a>
-        <a [routerLink]="'/'" *ngIf="currentRole == 'GUEST'">My reservations</a>
-        <a [routerLink]="'/'" *ngIf="currentRole == 'HOST'">Reservations</a>
-        <a [routerLink]="'/'" *ngIf="currentRole == 'HOST'">My accommodations</a>
-        <a [routerLink]="'/'" *ngIf="currentRole == 'ADMIN'">Reviews</a>
-        <a [routerLink]="'/'" *ngIf="currentRole == 'ADMIN'">Accommodations</a>
-        <a [routerLink]="'/'" *ngIf="currentRole == 'ADMIN'">Users</a>
+        <a [routerLink]="'/'" *ngIf="role == 'GUEST'">My reservations</a>
+        <a [routerLink]="'/'" *ngIf="role == 'HOST'">Reservations</a>
+        <a [routerLink]="'/'" *ngIf="role == 'HOST'">My accommodations</a>
+        <a [routerLink]="'/'" *ngIf="role == 'ADMIN'">Reviews</a>
+        <a [routerLink]="'/'" *ngIf="role == 'ADMIN'">Accommodations</a>
+        <a [routerLink]="'/'" *ngIf="role == 'ADMIN'">Users</a>
         <img class="toolbar-profile-img" [routerLink]="'/account'" src="{{img}}"
-            *ngIf="['ADMIN', 'HOST', 'GUEST'].includes(currentRole)" />
-        <a [routerLink]="'/login'" *ngIf="!['ADMIN', 'HOST', 'GUEST'].includes(currentRole)">Log in</a>
-        <a [routerLink]="'/registration'" *ngIf="!['ADMIN', 'HOST', 'GUEST'].includes(currentRole)">Sign up</a>
+            *ngIf="['ADMIN', 'HOST', 'GUEST'].includes(role)" />
+        <a [routerLink]="'/login'" *ngIf="!['ADMIN', 'HOST', 'GUEST'].includes(role)">Log in</a>
+        <a [routerLink]="'/registration'" *ngIf="!['ADMIN', 'HOST', 'GUEST'].includes(role)">Sign up</a>
     </div>
 </mat-toolbar>
