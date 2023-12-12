@@ -1,0 +1,20 @@
+<div class="wrapper">
+    <div class="formSide">
+        <a [routerLink]="'/login'" class="backLink" *ngIf="success">&lt;&lt; Back to login</a>
+        <a [routerLink]="'/registration'" class="backLink" *ngIf="!success">&lt;&lt; Back to registration</a>
+        <div class="formWrapper">
+            <p class="title" *ngIf="success">WELCOME</p>
+            <p class="title" *ngIf="!success">FAILED</p>
+            <p id="description" *ngIf="success">You have successfully confirmed your account and are now able to login.
+                Enjoy!</p>
+            <p id="description" *ngIf="!success">Your confirmation link has expired. If you still want to create a new
+                account you have to register.</p>
+        </div>
+    </div>
+
+    <div class="imageScroll">
+        <div class="imageSide">
+            <p class="phrase">Become a part<br>of something<br>amazing</p>
+        </div>
+    </div>
+</div>

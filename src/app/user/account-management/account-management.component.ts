@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { COUNTRIES_DB_EU, Country } from '@angular-material-extensions/select-country';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { role, userId } from '../../app.component';
-import { User, UserRole } from '../model/user.model';
+import { User } from '../model/user.model';
 import { AccountService } from '../user.service';
 import { PasswordUpdate } from '../model/password-update.model';
 import { Router } from '@angular/router';
@@ -91,5 +91,5 @@ export class AccountManagementComponent implements OnInit {
     }
 
     private displaySnack(text: string) { this.snackbar.open(text, '', { duration: 1000 }); }
-    protected isHost(): boolean { return this.user.role == UserRole.Host; }
+    protected isHost(): boolean { return this.user.role == "Host"; }
 }

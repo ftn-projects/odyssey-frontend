@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { PasswordUpdate } from './model/password-update.model';
 import { environment } from '../../env/env';
+import { RegisteredUser } from '../infrastructure/auth/registration/registration.model';
 
 @Injectable({
     providedIn: 'root'
@@ -31,5 +32,13 @@ export class AccountService {
 
     block(userId: number) {
         return this.http.delete(this.path + '/block/' + userId);
+    }
+
+    add(user: RegisteredUser): Observable<RegisteredUser> {
+        return this.http.post<RegisteredUser>(this.path + "/register", user);
+    }
+
+    activateEmail(email: string): Observable<Object> {
+        return this.http.put(this.path + "/emailConfirmation/" + email, null);
     }
 }

@@ -4,8 +4,8 @@ import { displayNav, role } from '../../../app.component';
 import { Login } from './login.model';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
-import { response } from 'express';
 import { AuthResponse } from '../auth-response.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-login',
@@ -14,7 +14,7 @@ import { AuthResponse } from '../auth-response.model';
 })
 export class LoginComponent {
     constructor(private authService: AuthService,
-        private router: Router) {
+        private router: Router, private snackbar: MatSnackBar) {
 
     }
 
@@ -44,6 +44,12 @@ export class LoginComponent {
                     this.router.navigate([""])
                 }
             })
+            this.displaySnack("Successful login!");
+        }
+        else {
+            this.displaySnack("Fill out every input correctly.");
         }
     }
+
+    private displaySnack(text: string) { this.snackbar.open(text, '', { duration: 1000 }); }
 }
