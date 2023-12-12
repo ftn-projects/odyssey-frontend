@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { AccountService } from '../../../user/user.service';
+import { UserService } from '../../../user/user.service';
+import { SharedService } from '../../../shared/shared.service';
 
 @Component({
     selector: 'app-email-confirmation',
@@ -8,9 +9,15 @@ import { AccountService } from '../../../user/user.service';
 })
 export class EmailConfirmationComponent {
     success: boolean = false;
-    constructor(private service: AccountService) { }
+    constructor(private service: UserService, private sharedService: SharedService) {
+    }
 
     ngOnInit() {
-        this.service.activateEmail("masa.ivanov04.10@gmail.com");
+        this.sharedService.hideNavbar();
+        this.service.activateEmail("masa.ivanov04.10@gmail.com").subscribe({
+            next: () => this.success = true,
+            error: () => this.success = false
+        });
     }
+    ngOnDestroy() { this.sharedService.showNavbar(); }
 }

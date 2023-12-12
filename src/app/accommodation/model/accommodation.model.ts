@@ -1,6 +1,7 @@
-import { Address, User } from "../../account/model/user.model";
 import { AvailabilitySlot } from "./availability-slot.model";
 import { Amenity } from "./amenity.model";
+import { Address } from "../../shared/model/address.model";
+import { User } from "../../user/model/user.model";
 
 export interface Accommodation {
     id: number;

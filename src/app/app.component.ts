@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -9,6 +8,3 @@ import { BehaviorSubject } from 'rxjs';
 export class AppComponent {
     title = 'odyssey';
 }
-export const role = new BehaviorSubject("UNAUTH");
-export const displayNav = new BehaviorSubject(true);
-export const userId = new BehaviorSubject(1);

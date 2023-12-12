@@ -1,4 +1,4 @@
-import { TimeSlot } from "../accommodation/model/time-slot.model";
+import { TimeSlot } from "../shared/model/time-slot.model";
 import { Status } from "./reservation.model";
 
 export interface ReservationRequest {

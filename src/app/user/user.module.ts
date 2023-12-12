@@ -4,7 +4,7 @@ import { MaterialModule } from '../infrastructure/material/material.module';
 import { AccountManagementComponent } from './account-management/account-management.component';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { FileUploaderModule } from '../infrastructure/file-uploader/file-uploader.module';
+import { FileUploaderModule } from '../shared/file-uploader/file-uploader.module';
 import { FormsModule } from '@angular/forms';
 
 
@@ -22,4 +22,4 @@ import { FormsModule } from '@angular/forms';
         FormsModule
     ]
 })
-export class AccountModule { }
+export class UserModule { }

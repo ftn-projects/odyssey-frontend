@@ -9,13 +9,18 @@ import { RegisteredUser } from '../infrastructure/auth/registration/registration
 @Injectable({
     providedIn: 'root'
 })
-export class AccountService {
+export class UserService {
     private path: string = environment.apiHost + 'users';
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+    }
 
-    get(userId: number): Observable<User> {
-        return this.http.get<User>(this.path + '/' + userId);
+    findById(id: number): Observable<User> {
+        return this.http.get<User>(this.path + '/' + id);
+    }
+
+    findByEmail(email: string): Observable<User> {
+        return this.http.get<User>(this.path + '/email/' + email);
     }
 
     update(user: User): Observable<User> {

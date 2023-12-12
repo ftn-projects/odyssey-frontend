@@ -2,7 +2,6 @@ import { Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FilterDialogComponent } from './filter-dialog/filter-dialog.component';
 import { Accommodation } from '../model/accommodation.model';
-import { User } from '../../account/model/user.model';
 import { AccommodationService } from '../accommodation.service';
 import { FormGroup, FormControl } from '@angular/forms';
 

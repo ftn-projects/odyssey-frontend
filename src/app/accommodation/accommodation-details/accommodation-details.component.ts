@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { ReservationService } from '../../reservation/reservation.service';
 import { Reservation, Status } from '../../reservation/reservation.model';
-import { TimeSlot } from '../model/time-slot.model';
+import { TimeSlot } from '../../shared/model/time-slot.model';
 
 @Component({
     selector: 'app-accommodation-details',

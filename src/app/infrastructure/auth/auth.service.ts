@@ -19,7 +19,6 @@ export class AuthService {
     userState = this.user$.asObservable();
 
     constructor(private http: HttpClient) {
-        localStorage.clear();
         this.user$.next(this.getRole());
     }
 
@@ -36,10 +35,18 @@ export class AuthService {
     }
 
     getRole(): any {
+        return this.decodeToken()?.role[0].name;
+    }
+
+    getEmail(): any {
+        return this.decodeToken()?.sub;
+    }
+
+    private decodeToken(): any {
         if (this.isLoggedIn()) {
             const accessToken: any = localStorage.getItem('user');
             const helper = new JwtHelperService();
-            return helper.decodeToken(accessToken).role[0].name;
+            return helper.decodeToken(accessToken);
         }
         return null;
     }

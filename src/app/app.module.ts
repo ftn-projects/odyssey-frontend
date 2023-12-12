@@ -6,18 +6,16 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LayoutModule } from '@angular/cdk/layout';
 import { AuthModule } from './infrastructure/auth/auth.module';
-import { AccountModule } from './user/user.module';
+import { UserModule } from './user/user.module';
 import { AccommodationModule } from './accommodation/accommodation.module';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { MaterialModule } from './infrastructure/material/material.module';
+import { LayoutModule } from './layout/layout.module';
 
 
 @NgModule({
     declarations: [
         AppComponent,
-        NavBarComponent
     ],
     imports: [
         BrowserModule,
@@ -25,7 +23,8 @@ import { MaterialModule } from './infrastructure/material/material.module';
         MaterialModule,
         BrowserAnimationsModule,
         AccommodationModule,
-        AccountModule,
+        LayoutModule,
+        UserModule,
         AuthModule,
     ],
     providers: [

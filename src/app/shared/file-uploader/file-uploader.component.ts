@@ -13,7 +13,8 @@ export class FileUploaderComponent {
     fileName = '';
     uploadSub: Subscription | null = null;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+    }
 
     onFileSelected(event?: Event) {
         if (!event) return;
