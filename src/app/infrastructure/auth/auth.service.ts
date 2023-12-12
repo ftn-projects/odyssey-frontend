@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, map } from "rxjs";
 import { AuthResponse } from './auth-response.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../../env/env';
