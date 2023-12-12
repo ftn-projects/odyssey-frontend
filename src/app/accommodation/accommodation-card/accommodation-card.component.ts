@@ -1,5 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { Accommodation } from '../accommodation-list/../model/accommodation.model';
+import { AccommodationService } from '../accommodation.service';
+import { map } from 'rxjs';
+// import FileReader
+
 
 
 @Component({
@@ -10,4 +14,20 @@ import { Accommodation } from '../accommodation-list/../model/accommodation.mode
 export class AccommodationCardComponent {
     @Input()
     accommodation!: Accommodation;
+    constructor(private service: AccommodationService){}
+    imageUrl!: string;
+    imageUrls!: string[];
+
+    ngOnInit(): void {
+        this.service.getImageUrls(this.accommodation.id).subscribe({
+          next: (data: string[]) => {
+            this.imageUrls = data;
+            this.imageUrl = this.service.getImageUrl(this.accommodation.id, data[0]);
+            console.log(this.imageUrls);
+          },
+          error: (err) => {
+            console.error('Error fetching image URLs:', err);
+          },
+        });
+      }
 }

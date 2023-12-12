@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AvailabilitySlot } from './model/availability-slot.model';
 import { Accommodation } from './model/accommodation.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map } from 'rxjs';
 import { environment } from '../../env/env';
 import { User } from '../account/model/user.model';
 import { Amenity } from './amenity.model';
@@ -43,32 +43,19 @@ export class AccommodationService {
 
     private path: string = environment.apiHost + 'accommodations';
 
-    // create(Accommodation accommodation): Observable<Accommodation> {
-    //     this.http.post(this.path, accommodation);
-    // }
 
     getAmenities(): Observable<Amenity[]> {
         return this.httpClient.get<Amenity[]>(this.path + '/amenities');
     }
 
-
-    joinSlots(first: AvailabilitySlot, second: AvailabilitySlot): AvailabilitySlot {
-        let joined: AvailabilitySlot = {
-            price: 0,
-            start: new Date(),
-            end: new Date()
-        };
-        if (first.price == second.price) {
-            joined.price = first.price;
-
-            if (first.start < second.start) joined.start = first.start;
-            else joined.start = second.start;
-
-            if (first.end > second.end) joined.end = first.end;
-            else joined.end = second.end;
-        }
-        return joined;
+    getImageUrls(id: number): Observable<string[]> {
+        return this.httpClient.get<string[]>(this.path + '/' + id + "/images");
     }
+
+    getImageUrl(id: number, imageName: string): string {
+        return this.path + '/' + id  +'/images/' + imageName;
+    }
+    
 
     splitSlots(first: AvailabilitySlot, second: AvailabilitySlot): AvailabilitySlot[] {
         let spliced: AvailabilitySlot[] = [];
@@ -84,4 +71,6 @@ export class AccommodationService {
 
         return spliced;
     }
+
+    
 }

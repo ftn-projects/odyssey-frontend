@@ -9,8 +9,8 @@ import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 export class SearchDaterangePickerComponent {
     constructor (private rootFormGroup : FormGroupDirective) { }
 
-    @Input() isSticky = false;
     form!: FormGroup;
+
 
     ngOnInit(): void {
         if(this.rootFormGroup){

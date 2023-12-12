@@ -1,5 +1,5 @@
 <ng-container [formGroup]="form"> 
-    <mat-form-field id="last-parameter" [class.is-sticky]="isSticky" subscriptSizing="dynamic">
+    <mat-form-field id="last-parameter" subscriptSizing="dynamic">
         <mat-label>Choose Date Range</mat-label>
         <mat-date-range-input [rangePicker]="picker" formGroupName="dateRange">
             <input matStartDate formControlName="start" placeholder="Start Date">
