@@ -16,14 +16,12 @@ export class AccommodationCardComponent {
     accommodation!: Accommodation;
     constructor(private service: AccommodationService){}
     imageUrl!: string;
-    imageUrls!: string[];
 
     ngOnInit(): void {
         this.service.getImageUrls(this.accommodation.id).subscribe({
           next: (data: string[]) => {
-            this.imageUrls = data;
             this.imageUrl = this.service.getImageUrl(this.accommodation.id, data[0]);
-            console.log(this.imageUrls);
+            console.log(this.imageUrl);
           },
           error: (err) => {
             console.error('Error fetching image URLs:', err);
