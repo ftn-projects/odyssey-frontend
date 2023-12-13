@@ -23,7 +23,7 @@ const routes: Routes = [
     },
     { path: 'login', component: LoginComponent },
     { path: 'registration', component: RegistrationComponent },
-    { path: 'emailConfirmation', component: EmailConfirmationComponent }
+    { path: 'emailConfirmation/:id', component: EmailConfirmationComponent }
 ];
 
 @NgModule({

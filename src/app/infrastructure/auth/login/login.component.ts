@@ -39,12 +39,15 @@ export class LoginComponent {
             };
             this.authService.login(login).subscribe({
                 next: (response: AuthResponse) => {
-                    this.authService.setUser(response.token)
-                    this.router.navigate([''])
+                    this.authService.setUser(response.token);
+                    this.sharedService.displaySnack('Successful login!');
+                    this.router.navigate(['']);
                 },
-                error: (err) => console.log(err)
+                error: (err) => {
+                    console.log(err);
+                    this.sharedService.displaySnack('Invalid email or password!');
+                }
             });
-            this.sharedService.displaySnack('Successful login!');
         }
         else {
             this.sharedService.displaySnack('Fill out every input correctly.');
