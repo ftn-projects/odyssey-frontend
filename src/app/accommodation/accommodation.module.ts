@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoundButtonComponent } from './round-button/round-button.component';
 import { RouterModule } from '@angular/router';
 import { AccommodationCreateComponent } from './accommodation-create/accommodation-create.component';
+import { AccommodationImagesDialogComponent } from './accommodation-images-dialog/accommodation-images-dialog.component';
 
 
 
@@ -34,7 +35,8 @@ import { AccommodationCreateComponent } from './accommodation-create/accommodati
         RatingSummaryComponent,
         AutocompleteDropdownComponent,
         SearchDaterangePickerComponent,
-        AccommodationCreateComponent
+        AccommodationCreateComponent,
+        AccommodationImagesDialogComponent
     ],
     imports: [
         RouterModule,

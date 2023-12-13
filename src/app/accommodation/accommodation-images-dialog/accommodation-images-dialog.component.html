@@ -1,0 +1,13 @@
+<div mat-dialog-title class="dialog-header">
+    <button mat-icon-button class="close-button" (click)="closeDialog()" aria-label="Close">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<div class="image-section-container">
+    <div *ngFor="let imageUrl of imageNames">
+        <img [src]="imageUrl" class="grid-item" alt="Accommodation Image">
+    </div>
+</div>
+<div *ngIf="imageNames.length === 0">
+    <p class="no-images-text">No images available :(</p>
+  </div>

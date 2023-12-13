@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AvailabilitySlot } from './model/availability-slot.model';
 import { Accommodation } from './model/accommodation.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map } from 'rxjs';
 import { environment } from '../../env/env';
 import { Amenity } from './amenity.model';
 
@@ -14,10 +14,10 @@ export class AccommodationService {
     }
 
     getAll(
-        dateStart?: number,
-        dateEnd?: number,
+        dateStart?: Date,
+        dateEnd?: Date,
         guestNumber?: number,
-        amenities?: string[],
+        amenities?: number[] | null,
         type?: string,
         priceStart?: number,
         priceEnd?: number
@@ -26,11 +26,11 @@ export class AccommodationService {
         let params = new HttpParams();
         if (dateStart) params = params.set('dateStart', dateStart.toString());
         if (dateEnd) params = params.set('dateEnd', dateEnd.toString());
-        if (guestNumber) params = params.set('guestNumber', guestNumber.toString());
+        if (guestNumber) params = params.set('guestNumber', guestNumber);
         if (amenities) params = params.set('amenities', amenities.join(','));
-        if (type) params = params.set('type', type);
-        if (priceStart) params = params.set('priceStart', priceStart.toString());
-        if (priceEnd) params = params.set('priceEnd', priceEnd.toString());
+        if (type) params = params.set('type', type.toString());
+        if (priceStart) params = params.set('priceStart', priceStart);
+        if (priceEnd) params = params.set('priceEnd', priceEnd);
 
         return this.httpClient.get<Accommodation[]>(environment.apiHost + 'accommodations', { params });
     }
@@ -42,32 +42,19 @@ export class AccommodationService {
 
     private path: string = environment.apiHost + 'accommodations';
 
-    // create(Accommodation accommodation): Observable<Accommodation> {
-    //     this.http.post(this.path, accommodation);
-    // }
 
     getAmenities(): Observable<Amenity[]> {
         return this.httpClient.get<Amenity[]>(this.path + '/amenities');
     }
 
-
-    joinSlots(first: AvailabilitySlot, second: AvailabilitySlot): AvailabilitySlot {
-        let joined: AvailabilitySlot = {
-            price: 0,
-            start: new Date(),
-            end: new Date()
-        };
-        if (first.price == second.price) {
-            joined.price = first.price;
-
-            if (first.start < second.start) joined.start = first.start;
-            else joined.start = second.start;
-
-            if (first.end > second.end) joined.end = first.end;
-            else joined.end = second.end;
-        }
-        return joined;
+    getImageUrls(id: number): Observable<string[]> {
+        return this.httpClient.get<string[]>(this.path + '/' + id + "/images");
     }
+
+    getImageUrl(id: number, imageName: string): string {
+        return this.path + '/' + id  +'/images/' + imageName;
+    }
+    
 
     splitSlots(first: AvailabilitySlot, second: AvailabilitySlot): AvailabilitySlot[] {
         let spliced: AvailabilitySlot[] = [];
@@ -83,4 +70,6 @@ export class AccommodationService {
 
         return spliced;
     }
+
+    
 }

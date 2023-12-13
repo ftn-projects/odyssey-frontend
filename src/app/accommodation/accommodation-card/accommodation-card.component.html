@@ -6,7 +6,7 @@
             </span>
         </div>
     </div>
-    <img src="assets/accommodation_image.webp">
+    <img [src]="imageUrl">
 </div>
 
 <div class="infoContainer">
@@ -25,7 +25,6 @@
     <div class="price_container">
         <span class="price_number">${{ accommodation.defaultPrice}}</span>
         <span class="pricing_type"> {{accommodation.pricing.replace('_', ' ').toLowerCase()}}</span>
-        <span class="text_dot">·</span>
-        <span class="price_total">${{accommodation.totalPrice}} total</span>
+        <span *ngIf="accommodation.totalPrice!=-1" class="price_total"><span class="text_dot">·</span>${{accommodation.totalPrice}} total</span>
     </div>
 </div>

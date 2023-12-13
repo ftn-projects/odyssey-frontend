@@ -22,13 +22,10 @@
 
         <div class="image-container">
             <div class="grid-container">
-                <img src="assets/accommodation_image.webp" alt="accommodation image" class="grid-item">
-                <img src="assets/accommodation_image_1.webp" alt="accommodation image" class="grid-item">
-                <img src="assets/accommodation_image_2.webp" alt="accommodation image" class="grid-item">
-                <img src="assets/accommodation_image_3.webp" alt="accommodation image" class="grid-item">
-                <img src="assets/accommodation_image_4.webp" alt="accommodation image" class="grid-item">
+                <img *ngFor="let image of imageNames" [src]="image" alt="accommodation image" class="grid-item">
+                
             </div>
-            <button class="show-more-button" mat-fab extended>
+            <button class="show-more-button" (click)="openDialog()" mat-fab extended>
                 <mat-icon>window</mat-icon>
                 Show more
             </button>

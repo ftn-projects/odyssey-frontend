@@ -19,7 +19,6 @@
     </div>
     <mat-divider class="divider"></mat-divider>
     <div class="filter-container" [ngClass]="{'sticky': isSticky}">
-        <app-button-bar class="types-bar" />
         <mat-button-toggle class="heart-toggle">
             <mat-icon>favorite</mat-icon>
         </mat-button-toggle>
@@ -28,7 +27,7 @@
             Filter
         </button>
     </div>
-
+    
     <div class="list-section-container">
         <div class="list-section">
             <app-accommodation-card *ngFor="let accommodation of accommodations" [accommodation]="accommodation"

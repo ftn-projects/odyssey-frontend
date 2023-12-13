@@ -40,23 +40,13 @@
     object-fit: cover;
     width: 100%;
     aspect-ratio: 16/9;
+    border-radius: 15px;
 }
 
 .grid-item:first-child {
     grid-row: span 2;
-    border-radius: 15px 0 0 15px;
 }
 
-.grid-item:nth-child(3) {
-    border-radius: 0 15px 0 0;
-}
-
-.grid-item:last-child {
-    border-radius: 0 0px 15px 0;
-
-}
-
-/* Adjust the height of rows based on the specified requirements */
 .grid-container>* {
     height: 100%;
 }
