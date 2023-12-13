@@ -1,6 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpResponse } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { Subscription, finalize } from 'rxjs';
+import { environment } from '../../../env/env';
+import { FileService } from '../file.service';
 
 @Component({
     selector: 'app-file-uploader',
@@ -10,10 +12,20 @@ import { Subscription, finalize } from 'rxjs';
 export class FileUploaderComponent {
     @Input()
     requiredFileType: string = "image";
-    fileName = '';
-    uploadSub: Subscription | null = null;
+    @Input()
+    endpoint: string = '';
+    @Input()
+    paramName: string = 'image';
+    @Input()
+    multiple: boolean = false;
+    @Input()
+    text: string = 'Upload file';
 
-    constructor(private http: HttpClient) {
+    protected progress = 0;
+    protected message = '';
+    protected fileName = '';
+
+    constructor(private service: FileService) {
     }
 
     onFileSelected(event?: Event) {
@@ -22,24 +34,27 @@ export class FileUploaderComponent {
         let files = (event.target as HTMLInputElement).files;
         if (!files) return;
 
-        let file = files[0];
-        if (!file) return;
+        for (const file of files) {
+            this.fileName = file.name;
+            this.service.upload(file, this.endpoint, this.paramName).subscribe({
+                next: (event: any) => {
+                    if (event.type === HttpEventType.UploadProgress) {
+                        this.progress = Math.round(100 * event.loaded / event.total);
+                    } else if (event instanceof HttpResponse) {
+                        this.message = event.body.message;
+                    }
+                },
+                error: (err: any) => {
+                    console.log(err);
+                    this.progress = 0;
 
-        this.fileName = file.name;
-        const formData = new FormData();
-        formData.append("thumbnail", file);
-
-        // TODO use env
-        const upload$ = this.http.post('http://localhost:8080/api/v1/users/profileImage', formData, {
-            reportProgress: true,
-            observe: 'events'
-        }).pipe(
-            finalize(() => this.reset())
-        );
-    }
-
-    reset() {
-        console.log("Uploaded");
-        this.uploadSub = null;
+                    if (err.error && err.error.message) {
+                        this.message = err.error.message;
+                    } else {
+                        this.message = 'Could not upload the file!';
+                    }
+                }
+            });
+        }
     }
 }
