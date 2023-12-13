@@ -6,12 +6,21 @@ import { RegistrationComponent } from './infrastructure/auth/registration/regist
 import { AccommodationListComponent } from './accommodation/accommodation-list/accommodation-list.component';
 import { AccommodationDetailsComponent } from './accommodation/accommodation-details/accommodation-details.component';
 import { EmailConfirmationComponent } from './infrastructure/auth/email-confirmation/email-confirmation.component';
+import { AuthGuard } from './infrastructure/auth/auth.guard';
+import { AccommodationCreateComponent } from './accommodation/accommodation-create/accommodation-create.component';
 
 const routes: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: 'accommodationList' },
-    { path: 'accommodationList', component: AccommodationListComponent },
+    { path: '', pathMatch: 'full', redirectTo: 'accommodation/list' },
+    { path: 'accommodation/list', component: AccommodationListComponent },
     { path: 'accommodation/:id', component: AccommodationDetailsComponent },
-    { path: 'account', component: AccountManagementComponent },
+    {
+        path: 'accommodationCreate', component: AccommodationCreateComponent,
+        canActivate: [AuthGuard], data: { role: ['HOST'] }
+    },
+    {
+        path: 'account', component: AccountManagementComponent,
+        canActivate: [AuthGuard], data: { role: ['ADMIN', 'HOST', 'GUEST'] }
+    },
     { path: 'login', component: LoginComponent },
     { path: 'registration', component: RegistrationComponent },
     { path: 'emailConfirmation', component: EmailConfirmationComponent }

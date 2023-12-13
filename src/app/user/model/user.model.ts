@@ -1,4 +1,4 @@
-import { Address } from "../../infrastructure/address.model";
+import { Address } from "../../shared/model/address.model";
 import { UserSettings } from "./user-settings.model";
 
 export interface User {
