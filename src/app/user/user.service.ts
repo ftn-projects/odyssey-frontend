@@ -47,7 +47,7 @@ export class UserService {
         return this.http.post<RegisteredUser>(`${this.path}/register`, user);
     }
 
-    activateEmail(email: string): Observable<void> {
-        return this.http.put<void>(`${this.path}/confirmEmail/${email}`, null);
+    activateEmail(id: number): Observable<string> {
+        return this.http.post<string>(`${this.path}/confirmEmail/${id}`, null);
     }
 }
