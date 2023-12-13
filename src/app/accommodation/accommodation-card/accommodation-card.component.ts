@@ -21,7 +21,6 @@ export class AccommodationCardComponent {
         this.service.getImageUrls(this.accommodation.id).subscribe({
           next: (data: string[]) => {
             this.imageUrl = this.service.getImageUrl(this.accommodation.id, data[0]);
-            console.log(this.imageUrl);
           },
           error: (err) => {
             console.error('Error fetching image URLs:', err);

@@ -15,10 +15,10 @@ export class AccommodationService {
     }
 
     getAll(
-        dateStart?: number,
-        dateEnd?: number,
+        dateStart?: Date,
+        dateEnd?: Date,
         guestNumber?: number,
-        amenities?: string[],
+        amenities?: number[] | null,
         type?: string,
         priceStart?: number,
         priceEnd?: number
@@ -27,11 +27,11 @@ export class AccommodationService {
         let params = new HttpParams();
         if (dateStart) params = params.set('dateStart', dateStart.toString());
         if (dateEnd) params = params.set('dateEnd', dateEnd.toString());
-        if (guestNumber) params = params.set('guestNumber', guestNumber.toString());
+        if (guestNumber) params = params.set('guestNumber', guestNumber);
         if (amenities) params = params.set('amenities', amenities.join(','));
-        if (type) params = params.set('type', type);
-        if (priceStart) params = params.set('priceStart', priceStart.toString());
-        if (priceEnd) params = params.set('priceEnd', priceEnd.toString());
+        if (type) params = params.set('type', type.toString());
+        if (priceStart) params = params.set('priceStart', priceStart);
+        if (priceEnd) params = params.set('priceEnd', priceEnd);
 
         return this.httpClient.get<Accommodation[]>(environment.apiHost + 'accommodations', { params });
     }

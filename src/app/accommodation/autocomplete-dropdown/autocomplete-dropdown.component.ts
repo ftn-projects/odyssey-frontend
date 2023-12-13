@@ -22,7 +22,6 @@ export class AutocompleteDropdownComponent implements OnInit {
         this.filteredOptions = this.myControl.valueChanges.pipe(
             startWith(''),
             map(value => {
-                console.log("Value:" + value);
                 const name = typeof value === 'string' ? value : value;
                 return name ? this._filter(name as string) : this.options.slice();
             }),
