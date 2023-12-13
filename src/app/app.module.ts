@@ -11,6 +11,7 @@ import { UserModule } from './user/user.module';
 import { AccommodationModule } from './accommodation/accommodation.module';
 import { MaterialModule } from './infrastructure/material/material.module';
 import { LayoutModule } from './layout/layout.module';
+import { Interceptor } from './infrastructure/auth/interceptor';
 
 
 @NgModule({
@@ -28,6 +29,11 @@ import { LayoutModule } from './layout/layout.module';
         AuthModule,
     ],
     providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: Interceptor,
+            multi: true
+        },
         provideClientHydration()
     ],
     bootstrap: [AppComponent]

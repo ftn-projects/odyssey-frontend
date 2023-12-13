@@ -36,14 +36,14 @@ export class LoginComponent {
             const login: Login = {
                 username: this.emailInput,
                 password: this.passwordInput
-            }
+            };
             this.authService.login(login).subscribe({
                 next: (response: AuthResponse) => {
-                    localStorage.setItem('user', response.token);
-                    this.authService.setUser()
+                    this.authService.setUser(response.token)
                     this.router.navigate([''])
-                }
-            })
+                },
+                error: (err) => console.log(err)
+            });
             this.sharedService.displaySnack('Successful login!');
         }
         else {

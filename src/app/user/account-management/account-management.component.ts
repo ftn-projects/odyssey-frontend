@@ -1,11 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { COUNTRIES_DB_EU, Country } from '@angular-material-extensions/select-country';
 import { User } from '../model/user.model';
-import { UserService as UserService } from '../user.service';
+import { UserService } from '../user.service';
 import { PasswordUpdate } from '../model/password-update.model';
 import { Router } from '@angular/router';
 import { AuthService } from '../../infrastructure/auth/auth.service';
 import { SharedService } from '../../shared/shared.service';
+import { environment } from '../../../env/env';
 
 @Component({
     selector: 'app-account',
@@ -17,10 +18,12 @@ export class AccountManagementComponent implements OnInit {
     selectedCountry: Country = { alpha2Code: 'RS' };
 
     protected role = '';
+    protected image = '';
+    protected imageUpload = '';
     protected user: User = { address: {} };
-    protected editedUser: User = { address: {} };
-    protected password: PasswordUpdate = {};
-    protected newPasswordConfirm: string = '';
+    protected editedUser: User = this.user;
+    protected password: PasswordUpdate = { oldPassword: '', newPassword: '' };
+    protected confirmPassword: string = '';
 
     constructor(
         private router: Router,
@@ -32,18 +35,22 @@ export class AccountManagementComponent implements OnInit {
 
     ngOnInit(): void {
         this.role = this.authService.getRole();
-        let email = this.authService.getEmail();
+        let id = this.authService.getId();
 
-        this.userService.findByEmail(email).subscribe({
-            next: (user) => this.user = user,
+        this.image = `${environment.apiHost}users/image/${id}`;
+        this.imageUpload = this.image;
+        this.userService.findById(id).subscribe({
+            next: (user) => {
+                this.user = user;
+                this.editedUser = user;
+                this.password.userId = user.id;
+
+                COUNTRIES_DB_EU.forEach((c, _) => {
+                    if (c.name == this.user.address.country) this.selectedCountry = c;
+                });
+            },
             error: (err) => console.log(err)
         });
-        this.editedUser = this.user;
-
-        COUNTRIES_DB_EU.forEach((c, _) => {
-            if (c.name == this.user.address.country) this.selectedCountry = c;
-        });
-        this.password = { userId: this.user.id };
     }
 
     onEditing(index: number) {
@@ -53,9 +60,12 @@ export class AccountManagementComponent implements OnInit {
         });
     }
 
-    onImageSave() { this.sharedService.displaySnack('Image saved!'); }
+    onImageSave() {
+        this.sharedService.displaySnack('Image saved!');
+    }
+
     protected onSavePassword() {
-        if (this.newPasswordConfirm != this.password.newPassword) {
+        if (this.confirmPassword != this.password.newPassword) {
             this.sharedService.displaySnack('Passwords do not match!');
             return;
         }
@@ -64,8 +74,8 @@ export class AccountManagementComponent implements OnInit {
             next: () => this.sharedService.displaySnack('Password changed!'),
             error: (err) => console.log(err)
         });
-        this.password = { userId: this.user.id }
-        this.newPasswordConfirm = '';
+        this.password = { userId: this.user.id, oldPassword: '', newPassword: '' }
+        this.confirmPassword = '';
     }
 
     protected onSave(message: string = 'Changes saved!') {
@@ -90,13 +100,7 @@ export class AccountManagementComponent implements OnInit {
     }
 
     protected onLogout() {
-        this.authService.logout().subscribe({
-            next: () => {
-                localStorage.removeItem('user');
-                this.authService.setUser();
-                this.router.navigate(['']);
-            },
-            error: (err) => console.log(err)
-        });
+        this.authService.removeUser();
+        this.router.navigate(['']);
     }
 }

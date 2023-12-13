@@ -21,9 +21,9 @@ export class AuthGuard {
         | Promise<boolean | UrlTree>
         | boolean
         | UrlTree {
-        const role = this.authService.user$.getValue();
+        const role = this.authService.getRole();
 
-        if (role) {
+        if (!role) {
             this.router.navigate(['login']);
             return false;
         }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../infrastructure/auth/auth.service';
 import { SharedService } from '../../shared/shared.service';
+import { UserService } from '../../user/user.service';
+import { environment } from '../../../env/env';
 
 @Component({
     selector: 'app-nav-bar',
@@ -8,8 +10,9 @@ import { SharedService } from '../../shared/shared.service';
     styleUrl: './nav-bar.component.css'
 })
 export class NavBarComponent implements OnInit {
-    protected role = '';
-    protected visible = true;
+    protected role: string = '';
+    protected visible: boolean = true;
+    protected image: string = '../../../assets/profile_example.png';
 
     constructor(
         private authService: AuthService,
@@ -17,14 +20,11 @@ export class NavBarComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.role = this.authService.getRole();
+        this.authService.role.subscribe((role) => this.role = role);
         this.sharedService.navbarVisible.subscribe(
             (visible) => this.visible = visible
         );
-    }
-
-    get img(): string {
-        return '../../../../assets/profile_example.png';
+        this.authService.id.subscribe((id) => this.image = `${environment.apiHost}users/image/${id}`)
     }
 }
 

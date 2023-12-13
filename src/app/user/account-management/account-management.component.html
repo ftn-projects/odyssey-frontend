@@ -8,13 +8,14 @@
     </div>
 
     <section id="summary-section" class="card-section rounded-border">
-        <img id="about-profile-img" src="../../assets/profile_example.png" />
+        <img id="about-profile-img" src={{image}} />
         <div id="summary-details" *ngIf="!sections[0]">
             <p id="summary-name">{{user.name}} {{user.surname}}</p>
             <p id=" summary-role">{{user.role}}</p>
         </div>
 
-        <app-file-uploader *ngIf="sections[0]"></app-file-uploader>
+        <app-file-uploader *ngIf="sections[0]" [endpoint]="imageUpload" [paramName]="'image'"
+            [text]="'Upload image'"></app-file-uploader>
 
         <div class="form-buttons">
             <button mat-stroked-button id="btn-edit-image" *ngIf="!sections[0]" (click)="onEditing(0);">
@@ -184,10 +185,11 @@
         </mat-form-field>
         <mat-form-field *ngIf="sections[4]">
             <mat-label>Confirm new password</mat-label>
-            <input matInput type="password" [(ngModel)]="newPasswordConfirm">
+            <input matInput type="password" [(ngModel)]="confirmPassword">
         </mat-form-field>
 
-        <button mat-raised-button id="btn-deactivate" color="warn" style="grid-column: 1 / 4;" (click)="onDeactivate()">
+        <button mat-stroked-button id="btn-deactivate" color="warn" style="grid-column: 1 / 4;"
+            (click)="onDeactivate()">
             <mat-icon>warning</mat-icon>Deactivate account
         </button>
     </section>

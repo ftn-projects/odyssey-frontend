@@ -6,23 +6,31 @@ import {
     HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
+    constructor(private auth: AuthService) { }
     intercept(
-        req: HttpRequest<any>,
+        request: HttpRequest<any>,
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
         const accessToken: any = localStorage.getItem('user');
-        if (req.headers.get('skip')) return next.handle(req);
 
-        if (accessToken) {
-            const cloned = req.clone({
-                headers: req.headers.set('Authorization', "Bearer " + accessToken),
+        // console.log({
+        //     message: 'Intercepted request',
+        //     req: request,
+        //     decoded: this.auth.getToken()
+        // });
+
+        if (!request.headers.get('skip') && accessToken) {
+            console.log('attaching');
+            request = request.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${accessToken}`
+                }
             });
-
-            return next.handle(cloned);
         }
-        return next.handle(req);
+        return next.handle(request);
     }
 }
