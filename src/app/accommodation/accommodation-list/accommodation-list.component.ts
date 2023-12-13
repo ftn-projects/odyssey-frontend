@@ -2,7 +2,6 @@ import { Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FilterDialogComponent } from './filter-dialog/filter-dialog.component';
 import { Accommodation } from '../model/accommodation.model';
-import { User } from '../../account/model/user.model';
 import { AccommodationService } from '../accommodation.service';
 import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
 
@@ -48,7 +47,7 @@ export class AccommodationListComponent {
             next: (data: Accommodation[]) => {
                 this.accommodations = data
             },
-            error: (_) => { console.log("Greska!") }
+            error: (err) => { console.log(err) }
         })
     }
 
@@ -78,8 +77,8 @@ export class AccommodationListComponent {
             next: (data: Accommodation[]) => {
                 this.accommodations = data
             },
-            error: (_) => { console.log("Greska!") }
-        });
+            error: (err) => { console.log(err) }
+        })
     }
 
 

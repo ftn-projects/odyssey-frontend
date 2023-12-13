@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from '../material/material.module';
-import { FileUploaderComponent } from './file-uploader.component';
+import { MaterialModule } from '../infrastructure/material/material.module';
+import { FileUploaderComponent } from './file-uploader/file-uploader.component';
 
 
 
@@ -17,4 +17,4 @@ import { FileUploaderComponent } from './file-uploader.component';
         MaterialModule
     ]
 })
-export class FileUploaderModule { }
+export class SharedModule { }

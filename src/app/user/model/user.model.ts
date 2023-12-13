@@ -1,9 +1,9 @@
-import { Address } from "../../infrastructure/address.model";
+import { Address } from "../../shared/model/address.model";
 import { UserSettings } from "./user-settings.model";
 
 export interface User {
     id?: number;
-    role?: UserRole;
+    role?: string;
     email?: string;
     name?: string;
     surname?: string;
@@ -11,8 +11,4 @@ export interface User {
     address: Address;
     bio?: string;
     settings?: UserSettings;
-}
-
-export enum UserRole {
-    Admin, Host, Guest
 }

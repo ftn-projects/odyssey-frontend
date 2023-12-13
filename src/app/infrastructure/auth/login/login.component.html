@@ -20,8 +20,8 @@
             </form>
 
             <p class="promptText">Forgot password? <a href="">Click here</a></p>
-            <button mat-flat-button class="inputButton" color="primary" id="continue" (click)="onLogin()"
-                [routerLink]="'/'">Continue</button>
+            <button mat-flat-button class="inputButton" type="submit" color="primary" id="continue"
+                (click)="onLogin()">Continue</button>
             <p class="promptText">No account? <a [routerLink]="'/registration'">Register now</a></p>
         </div>
     </div>

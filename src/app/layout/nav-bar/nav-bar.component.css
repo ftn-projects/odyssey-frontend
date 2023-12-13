@@ -25,6 +25,7 @@ a {
 .toolbar-profile-img {
     max-height: 22px;
     margin-inline: 15px;
+    border-radius: 50%;
     cursor: pointer;
 }
 

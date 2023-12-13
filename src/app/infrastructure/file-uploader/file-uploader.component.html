@@ -1,7 +1,0 @@
-<input type="file" style="display: none;" [accept]="requiredFileType" (change)="onFileSelected($event)" #fileUpload>
-<div class="file-upload">
-    <mat-label>{{fileName || "No file uploaded yet."}}</mat-label>
-    <button mat-raised-button color="primary" (click)="fileUpload.click()">
-        <mat-icon>attach_file</mat-icon>Upload image
-    </button>
-</div>

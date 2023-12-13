@@ -4,7 +4,6 @@ import { Accommodation } from './model/accommodation.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError, map } from 'rxjs';
 import { environment } from '../../env/env';
-import { User } from '../account/model/user.model';
 import { Amenity } from './amenity.model';
 
 @Injectable({

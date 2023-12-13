@@ -9,9 +9,10 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ReservationService {
 
-    constructor(private httpClient: HttpClient) { }
+    constructor(private http: HttpClient) {
+    }
 
     add(reservation: Reservation): Observable<Reservation> {
-        return this.httpClient.post<Reservation>(environment.apiHost + 'reservations', reservation)
+        return this.http.post<Reservation>(environment.apiHost + 'reservations', reservation)
     }
 }

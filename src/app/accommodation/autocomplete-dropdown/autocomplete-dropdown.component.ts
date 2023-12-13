@@ -13,9 +13,9 @@ import { map, startWith } from 'rxjs/operators';
 export class AutocompleteDropdownComponent implements OnInit {
     @Input() isSticky = false;
     form!: FormGroup;
-    constructor (private rootFormGroup : FormGroupDirective) { }
+    constructor(private rootFormGroup: FormGroupDirective) { }
     myControl = new FormControl('');
-    options: String[] = [ 'Novi Sad, Serbia' ,  'Belgrade, Serbia' , 'Nis, Serbia' ];
+    options: String[] = ['Novi Sad, Serbia', 'Belgrade, Serbia', 'Nis, Serbia'];
     filteredOptions!: Observable<String[]>;
 
     ngOnInit() {
@@ -27,9 +27,9 @@ export class AutocompleteDropdownComponent implements OnInit {
             }),
         );
 
-        if(this.rootFormGroup){
+        if (this.rootFormGroup) {
             this.form = this.rootFormGroup.control;
-            }
+        }
     }
 
     displayFn(user: string): string {

@@ -6,25 +6,24 @@ import {
     HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
+    constructor(private auth: AuthService) { }
     intercept(
-        req: HttpRequest<any>,
+        request: HttpRequest<any>,
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
-        // const accessToken: any = localStorage.getItem('user');
-        // if (req.headers.get('skip')) return next.handle(req);
+        const accessToken: any = localStorage.getItem('user');
 
-        // if (accessToken) {
-        //     const cloned = req.clone({
-        //         headers: req.headers.set('X-Auth-Token', accessToken),
-        //     });
-
-        //     return next.handle(cloned);
-        // } else {
-        //     return next.handle(req);
-        // }
-        return next.handle(req);
+        if (!request.headers.get('skip') && accessToken) {
+            request = request.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+        }
+        return next.handle(request);
     }
 }

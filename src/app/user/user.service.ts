@@ -1,20 +1,30 @@
 import { Injectable } from '@angular/core';
 import { User } from './model/user.model';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { PasswordUpdate } from './model/password-update.model';
 import { environment } from '../../env/env';
+import { RegisteredUser } from '../infrastructure/auth/registration/registration.model';
 
 @Injectable({
     providedIn: 'root'
 })
-export class AccountService {
+export class UserService {
     private path: string = environment.apiHost + 'users';
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+    }
 
-    get(userId: number): Observable<User> {
-        return this.http.get<User>(this.path + '/' + userId);
+    findById(id: number): Observable<User> {
+        return this.http.get<User>(`${this.path}/${id}`);
+    }
+
+    findByEmail(email: string): Observable<User> {
+        return this.http.get<User>(`${this.path}/email/${email}`);
+    }
+
+    getProfileImage(id: number): Observable<any> {
+        return this.http.get<any>(`${this.path}/image/${id}`);
     }
 
     update(user: User): Observable<User> {
@@ -22,14 +32,22 @@ export class AccountService {
     }
 
     updatePassword(passwordUpdate: PasswordUpdate): Observable<PasswordUpdate> {
-        return this.http.put<PasswordUpdate>(this.path + '/password', passwordUpdate);
+        return this.http.put<PasswordUpdate>(`${this.path}/password`, passwordUpdate);
     }
 
     deactivate(userId: number) {
-        return this.http.delete(this.path + '/deactivate/' + userId);
+        return this.http.delete(`${this.path}/deactivate/${userId}`);
     }
 
     block(userId: number) {
-        return this.http.delete(this.path + '/block/' + userId);
+        return this.http.delete(`${this.path}/block/${userId}`);
+    }
+
+    add(user: RegisteredUser): Observable<RegisteredUser> {
+        return this.http.post<RegisteredUser>(`${this.path}/register`, user);
+    }
+
+    activateEmail(id: number): Observable<string> {
+        return this.http.post<string>(`${this.path}/confirmEmail/${id}`, null);
     }
 }
