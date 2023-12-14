@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AvailabilitySlot } from './model/availability-slot.model';
 import { Accommodation } from './model/accommodation.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, catchError, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from '../../env/env';
 import { Amenity } from './amenity.model';
+import { AccommodationCreation } from './model/accommodation-creation.model';
 
 @Injectable({
     providedIn: 'root'
@@ -52,24 +52,40 @@ export class AccommodationService {
     }
 
     getImageUrl(id: number, imageName: string): string {
-        return this.path + '/' + id  +'/images/' + imageName;
-    }
-    
-
-    splitSlots(first: AvailabilitySlot, second: AvailabilitySlot): AvailabilitySlot[] {
-        let spliced: AvailabilitySlot[] = [];
-        if (first.start < second.start) {
-            if (second.end < first.end) spliced.push({ price: first.price, start: first.start, end: new Date(second.start.getDate() - 1) },
-                second, { price: first.price, start: new Date(second.end.getDate() + 1), end: first.end });
-            else spliced.push({ price: first.price, start: first.start, end: new Date(second.start.getDate() - 1) }, second);
-        }
-        else {
-            if (second.end > first.end) spliced.push(second);
-            else spliced.push(second, { price: first.price, start: new Date(second.end.getDate() + 1), end: first.end });
-        }
-
-        return spliced;
+        return this.path + '/' + id + '/images/' + imageName;
     }
 
-    
+    create(accommodation: AccommodationCreation): Observable<Accommodation> {
+        return this.httpClient.post<Accommodation>(this.path, accommodation);
+    }
+
+
+    // splitSlots(first: AvailabilitySlot, second: AvailabilitySlot): AvailabilitySlot[] {
+    //     let spliced: AvailabilitySlot[] = [];
+    //     if (first.start < second.start) {
+    //         if (second.end < first.end) spliced.push({ price: first.price, start: first.start, end: new Date(second.start.getDate() - 1) },
+    //             second, { price: first.price, start: new Date(second.end.getDate() + 1), end: first.end });
+    //         else spliced.push({ price: first.price, start: first.start, end: new Date(second.start.getDate() - 1) }, second);
+    //     }
+    //     else {
+    //         if (second.end > first.end) spliced.push(second);
+    //         else spliced.push(second, { price: first.price, start: new Date(second.end.getDate() + 1), end: first.end });
+    //     }
+
+    //     return spliced;
+    // }
+
+    amenityIcons = new Map<string, string>([
+        ['TV', 'tv'],
+        ['WiFi', 'wifi'],
+        ['Kitchen', 'local_dining'],
+        ['Free parking', 'local_parking'],
+        ['Beach access', 'beach_access'],
+        ['Washer', 'local_laundry_service'],
+        ['Spa', 'spa'],
+        ['Air conditioning', 'ac_unit'],
+        ['King bed', 'king_bed'],
+        ['Smoking room', 'smoking_rooms'],
+        ['DEFAULT', 'house']
+    ]);
 }

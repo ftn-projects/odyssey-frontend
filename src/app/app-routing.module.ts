@@ -10,8 +10,8 @@ import { AuthGuard } from './infrastructure/auth/auth.guard';
 import { AccommodationCreateComponent } from './accommodation/accommodation-create/accommodation-create.component';
 
 const routes: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: 'accommodation/list' },
-    { path: 'accommodation/list', component: AccommodationListComponent },
+    { path: '', pathMatch: 'full', redirectTo: 'accommodationList' },
+    { path: 'accommodationList', component: AccommodationListComponent },
     { path: 'accommodation/:id', component: AccommodationDetailsComponent },
     {
         path: 'accommodationCreate', component: AccommodationCreateComponent,
