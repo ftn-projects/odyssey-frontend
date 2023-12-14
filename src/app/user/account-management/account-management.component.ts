@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../infrastructure/auth/auth.service';
 import { SharedService } from '../../shared/shared.service';
 import { environment } from '../../../env/env';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-account',
@@ -17,6 +18,7 @@ export class AccountManagementComponent implements OnInit {
     sections = [false, false, false, false];
     selectedCountry: Country = { alpha2Code: 'RS' };
 
+    private id = -1;
     protected role = '';
     protected image = '';
     protected imageUpload = '';
@@ -35,11 +37,11 @@ export class AccountManagementComponent implements OnInit {
 
     ngOnInit(): void {
         this.role = this.authService.getRole();
-        let id = this.authService.getId();
+        this.id = this.authService.getId();
 
-        this.image = `${environment.apiHost}users/image/${id}`;
+        this.image = `${environment.apiHost}users/image/${this.id}`;
         this.imageUpload = this.image;
-        this.userService.findById(id).subscribe({
+        this.userService.findById(this.id).subscribe({
             next: (user) => {
                 this.user = user;
                 this.editedUser = user;
@@ -72,21 +74,27 @@ export class AccountManagementComponent implements OnInit {
 
         this.userService.updatePassword(this.password).subscribe({
             next: () => this.sharedService.displaySnack('Password changed!'),
-            error: (err) => console.log(err)
+            error: (err) => this.sharedService.displayError(err.error)
         });
         this.password = { userId: this.user.id, oldPassword: '', newPassword: '' }
         this.confirmPassword = '';
     }
 
     protected onSave(message: string = 'Changes saved!') {
+        console.log(this.user);
         this.userService.update(this.user).subscribe({
-            next: (user) => {
-                this.user = user;
-                this.sharedService.displaySnack(message);
-            },
-            error: (err) => console.log(err)
+            next: () => this.sharedService.displaySnack(message),
+            error: (err) => {
+                this.sharedService.displayFirstError(err);
+
+                this.userService.findById(this.id).subscribe({
+                    next: (user) => {
+                        this.user = user;
+                        this.editedUser = user;
+                    }
+                });
+            }
         });
-        this.editedUser = this.user;
     }
 
     protected onDeactivate() {
