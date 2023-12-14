@@ -1,9 +1,7 @@
 import { AvailabilitySlot } from "./availability-slot.model";
 import { Amenity } from "./amenity.model";
 import { Address } from "../../shared/model/address.model";
-import { User } from "../../user/model/user.model";
-
-export interface Accommodation {
+export interface AccommodationCreation {
     id: number;
     title: string;
     description: string;
@@ -11,7 +9,7 @@ export interface Accommodation {
     address: Address;
     pricing: 'PER_PERSON' | 'PER_ACCOMMODATION'; // Assuming pricing is an enum
     amenities: Set<Amenity>;
-    host: User;
+    host: number;
     defaultPrice: number; // Change the type accordingly
     automaticApproval: boolean;
     cancellationDue: string;
