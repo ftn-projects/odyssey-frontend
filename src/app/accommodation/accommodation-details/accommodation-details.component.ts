@@ -9,6 +9,7 @@ import { Reservation, Status } from '../../reservation/reservation.model';
 import { MatDialog } from '@angular/material/dialog';
 import { AccommodationImagesDialogComponent } from '../accommodation-images-dialog/accommodation-images-dialog.component';
 import { TimeSlot } from '../../shared/model/time-slot.model';
+import { AuthService } from '../../infrastructure/auth/auth.service';
 
 @Component({
     selector: 'app-accommodation-details',
@@ -21,15 +22,16 @@ export class AccommodationDetailsComponent {
     reservationDetails: FormGroup;
     totalPrice!: number;
     numberOfDays!: number;
-    allImageNames : string[] = [];
-    imageNames : string[] = []
+    allImageNames: string[] = [];
+    imageNames: string[] = []
 
     constructor(
         private route: ActivatedRoute,
         private service: AccommodationService,
         private resService: ReservationService,
         private cdr: ChangeDetectorRef,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private authService: AuthService
     ) {
         this.reservationDetails = new FormGroup({
             dateRange: new FormGroup({
@@ -52,29 +54,30 @@ export class AccommodationDetailsComponent {
             this.calculateTotalPrice();
         });
 
-        
+
         this.service.getImageUrls(this.id).subscribe({
             next: (data: string[]) => {
                 this.allImageNames.push(...data);
                 const firstFiveImageNames = data.slice(0, 5);
                 this.imageNames.push(...firstFiveImageNames.map(imageName => this.service.getImageUrl(this.id, imageName)));
-              },
-              error: (err) => {
+            },
+            error: (err) => {
                 console.error('Error fetching image URLs:', err);
-              },
-          });
+            },
+        });
     }
 
     openDialog() {
-            const dialogRef = this.dialog.open(AccommodationImagesDialogComponent, {
-                height: '100vh',
-                width: '100vw',
-                maxWidth: '100vw',
-                data: {
-                    images :this.allImageNames,
-                    id: this.id},
-            });
-        }
+        const dialogRef = this.dialog.open(AccommodationImagesDialogComponent, {
+            height: '100vh',
+            width: '100vw',
+            maxWidth: '100vw',
+            data: {
+                images: this.allImageNames,
+                id: this.id
+            },
+        });
+    }
 
     sendReservation() {
         this.accommodation.subscribe((accommodation: Accommodation) => {
@@ -91,7 +94,7 @@ export class AccommodationDetailsComponent {
                 requestDate: new Date(), // Replace with the actual request date
                 status: Status.REQUESTED, // Replace with the desired status
                 timeSlot: timeSlot, // Assign the TimeSlot object
-                guestId: 2, // Replace with the actual guest ID
+                guestId: this.authService.getId(),
                 accommodationId: accommodation.id, // Replace with the actual accommodation ID
             };
 
@@ -149,6 +152,6 @@ export class AccommodationDetailsComponent {
         return numberOfDays;
     }
 
-    
+
 
 }

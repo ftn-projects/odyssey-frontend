@@ -16,7 +16,7 @@
 
                 <mat-form-field class="textBox">
                     <mat-label>Email</mat-label>
-                    <input matInput type="email" formControlName="email">
+                    <input matInput type="email" formControlName="email" maxlength="64">
                 </mat-form-field>
 
                 <mat-form-field class="textBox">
@@ -36,7 +36,7 @@
 
                 <mat-form-field class="textBox">
                     <mat-label>City</mat-label>
-                    <input matInput type="text" formControlName="city" pattern="^[A-Za-zšŠčČćĆđĐžŽ]+$">
+                    <input matInput type="text" formControlName="city" pattern="^[A-Za-zšŠčČćĆđĐžŽ ]+$">
                 </mat-form-field>
 
                 <mat-select-country class="countrySelect" label="Country" [value]="selectedCountry" [required]="true"
@@ -45,7 +45,7 @@
 
                 <mat-form-field class="textBox">
                     <mat-label>Phone number</mat-label>
-                    <input matInput type="text" formControlName="phone">
+                    <input matInput type="text" formControlName="phone" pattern="^(\(\+\d{1,3}\)( )?)?\d{7,15}$">
                 </mat-form-field>
 
                 <mat-form-field class="textBox">

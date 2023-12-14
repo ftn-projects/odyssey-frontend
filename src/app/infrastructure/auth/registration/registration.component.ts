@@ -21,7 +21,10 @@ export class RegistrationComponent {
     selectedRole = 'guest';
     selectedCountry: Country = { name: 'Serbia', alpha2Code: 'RS' };
     registrationForm: FormGroup = new FormGroup({
-        email: new FormControl('', [Validators.required]),
+        email: new FormControl('', [
+            Validators.required,
+            Validators.pattern('^[A-Za-z0-9._%-]+@[A-Za-z0-9._%-]+\\.[a-z]{2,3}$')
+        ]),
         name: new FormControl('', [Validators.required]),
         surname: new FormControl('', [Validators.required]),
         address: new FormControl('', [Validators.required]),
@@ -62,16 +65,24 @@ export class RegistrationComponent {
                     }
                 };
                 this.userService.add(user).subscribe({
-                    next: (data: RegisteredUser) => {
+                    next: () => {
                         this.router.navigate([''])
                     },
-                    error: (err) => console.log(err)
+                    error: (err) => this.sharedService.displayFirstError(err)
                 });
                 this.sharedService.displaySnack('Successful registration!');
             }
-            else this.sharedService.displaySnack('Passwords must match!');
+            else this.sharedService.displayError('Passwords must match!');
         } else {
             this.sharedService.displaySnack('Fill out every input correctly.');
+
+            const controls = this.registrationForm.controls;
+            for (const name in controls) {
+                if (controls[name].invalid) {
+                    console.log(controls[name])
+                }
+            }
         }
     }
 }
+
