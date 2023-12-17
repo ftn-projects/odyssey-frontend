@@ -10,6 +10,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { AccommodationImagesDialogComponent } from '../accommodation-images-dialog/accommodation-images-dialog.component';
 import { TimeSlot } from '../../shared/model/time-slot.model';
 import { AuthService } from '../../infrastructure/auth/auth.service';
+import { MapService } from '../map/map.service';
+import { Address } from '../../shared/model/address.model';
+import { Amenity } from '../amenity.model';
+import { UserService } from '../../user/user.service';
 
 @Component({
     selector: 'app-accommodation-details',
@@ -24,6 +28,10 @@ export class AccommodationDetailsComponent {
     numberOfDays!: number;
     allImageNames: string[] = [];
     imageNames: string[] = []
+    fullAddress!: string;
+    mapCoordinates!: [number, number]
+    amenities: { icon: string, amenity: Amenity}[] = [];
+    hostImage!: string;
 
     constructor(
         private route: ActivatedRoute,
@@ -31,7 +39,9 @@ export class AccommodationDetailsComponent {
         private resService: ReservationService,
         private cdr: ChangeDetectorRef,
         private dialog: MatDialog,
-        private authService: AuthService
+        private authService: AuthService,
+        private mapService: MapService,
+        private userService : UserService
     ) {
         this.reservationDetails = new FormGroup({
             dateRange: new FormGroup({
@@ -65,6 +75,37 @@ export class AccommodationDetailsComponent {
                 console.error('Error fetching image URLs:', err);
             },
         });
+
+        this.accommodation.subscribe((accommodation: Accommodation) => {
+            this.userService.getProfileImage(accommodation.host?.id ?? 0).subscribe((image: string) => {
+                this.hostImage = image;
+            });
+
+            const address: Address = accommodation.address;
+            if (address && address.street && address.number && address.city && address.country) {
+                const fullAddress = `${address.street} ${address.number}, ${address.city}, ${address.country}`;
+                this.fullAddress = fullAddress;
+                this.mapService.search(fullAddress).subscribe({
+                    next: (data) => {
+                        console.log(data);
+                        if (data.length > 0 && data[0].lat && data[0].lon) {
+                            this.mapCoordinates = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+                        }
+                    },
+                    error: (err) => console.error(err),
+                });
+            }
+        });
+
+        const icons = this.service.amenityIcons;
+        this.service.getAmenities().subscribe({
+            next: (amenities) => {
+                this.amenities = amenities.map(a => ({
+                    icon: icons.get(a.title || 'DEFAULT') || icons.get('DEFAULT') || '',
+                    amenity: a
+                }));
+            }
+        });
     }
 
     openDialog() {
@@ -81,24 +122,21 @@ export class AccommodationDetailsComponent {
 
     sendReservation() {
         this.accommodation.subscribe((accommodation: Accommodation) => {
-            // Create a new TimeSlot for demonstration purposes
             const timeSlot: TimeSlot = {
                 start: this.reservationDetails.get('dateRange.start')?.value,
                 end: this.reservationDetails.get('dateRange.end')?.value,
             };
 
-            // Create a new Reservation object
             const newReservation: Reservation = {
-                price: this.totalPrice, // Replace with the actual price
-                guestNumber: this.reservationDetails.get('guestGroup.guests')?.value, // Replace with the actual guest number
-                requestDate: new Date(), // Replace with the actual request date
-                status: Status.REQUESTED, // Replace with the desired status
-                timeSlot: timeSlot, // Assign the TimeSlot object
+                price: this.totalPrice,
+                guestNumber: this.reservationDetails.get('guestGroup.guests')?.value,
+                requestDate: new Date(),
+                status: Status.REQUESTED,
+                timeSlot: timeSlot,
                 guestId: this.authService.getId(),
-                accommodationId: accommodation.id, // Replace with the actual accommodation ID
+                accommodationId: accommodation.id,
             };
 
-            // Now you can use the newReservation object as needed, for example, send it to the server
             console.log("Sending reservation:", newReservation);
             this.resService.add(newReservation).subscribe({
                 next: (reservation: Reservation) => console.log("Reservation sent successfully:", reservation),
