@@ -3,6 +3,6 @@ export interface TimeSlot {
     end: Date;
 }
 
-export function isOverlap(first: TimeSlot, second: TimeSlot): boolean {
+export function overlapping(first: TimeSlot, second: TimeSlot): boolean {
     return (first.start < second.end && first.end > second.start);
 }

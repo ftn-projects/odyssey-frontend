@@ -4,7 +4,7 @@ import { AccommodationService } from '../accommodation.service';
 import { AvailabilitySlot } from '../model/availability-slot.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SharedService } from '../../shared/shared.service';
-import { isOverlap } from '../../shared/model/time-slot.model';
+import { overlapping } from '../../shared/model/time-slot.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { Accommodation } from '../model/accommodation.model';
 import { Amenity } from '../model/amenity.model';
@@ -33,22 +33,19 @@ export class AccommodationCreateComponent implements OnInit {
     price: number = 0;
 
     accommodation: AccommodationCreation = {
-        id: -1,
         title: '',
         description: '',
         type: 'APARTMENT', // Assuming type is an enum
         address: { street: 'Bulevar oslobodjenja', number: 55, city: 'Novi Sad', country: 'Serbia' },
         pricing: 'PER_PERSON',
-        amenities: new Set<Amenity>(),
-        host: -1,
+        amenities: [],
+        hostId: -1,
         defaultPrice: 0,
         automaticApproval: false,
-        cancellationDue: "PT0.000000563S",
-        availableSlots: new Set<AvailabilitySlot>(),
+        cancellationDue: '',
+        availableSlots: [],
         minGuests: 1,
         maxGuests: 1,
-        totalPrice: 0,
-        averageRating: 0
     }
 
     constructor(
@@ -70,7 +67,7 @@ export class AccommodationCreateComponent implements OnInit {
                 }));
             }
         });
-        this.accommodation.host = this.authService.getId();
+        this.accommodation.hostId = this.authService.getId();
 
         this.accommodationService.getById(2).subscribe({
             next: (accommodation) => console.log(accommodation),
@@ -80,15 +77,12 @@ export class AccommodationCreateComponent implements OnInit {
 
     onCreate() {
         this.accommodation.automaticApproval = this.selectedConfirmation == 'AUTOMATIC';
-        this.accommodation.availableSlots = new Set<AvailabilitySlot>(this.slots);
-        this.accommodation.amenities = new Set<Amenity>(
-            this.amenities.filter(a => a.selected).map(a => ({ id: a.id!, title: a.title! }))
-        );
-
-        console.log(this.accommodation);
+        this.accommodation.availableSlots = this.slots;
+        this.accommodation.amenities = this.amenities.filter(a => a.selected).map(a => ({ id: a.id!, title: a.title! }));
 
         this.accommodationService.create(this.accommodation).subscribe({
-            next: () => {
+            next: (model) => {
+                console.log('model', model);
                 confirm('Accommodation has been successfully created.');
                 this.router.navigate(['']);
             },
@@ -108,16 +102,16 @@ export class AccommodationCreateComponent implements OnInit {
             return;
         }
 
-        let slot = { start: start!, end: end!, price: this.price }
+        let slot = { timeSlot: { start: start!, end: end! }, price: this.price }
         if (slot.price < 0) {
             this.sharedService.displayError('Price cannot be negative.');
             return;
         }
-        if (slot.end < slot.start) {
+        if (slot.timeSlot.end < slot.timeSlot.start) {
             this.sharedService.displayError('End is before start.');
             return;
         }
-        if (this.slots.find(s => (isOverlap(s, slot)))) {
+        if (this.slots.find(s => (overlapping(s.timeSlot, slot.timeSlot)))) {
             this.sharedService.displayError('Slot overlaps with existing.');
             return;
         }

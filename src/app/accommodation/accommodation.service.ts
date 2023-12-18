@@ -56,6 +56,7 @@ export class AccommodationService {
     }
 
     create(accommodation: AccommodationCreation): Observable<Accommodation> {
+        console.log(accommodation);
         return this.httpClient.post<Accommodation>(this.path, accommodation);
     }
 
