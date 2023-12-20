@@ -37,7 +37,7 @@ export class FilterDialogComponent implements OnInit {
         this.filterFormGroup = this.fb.group({
             price: this.fb.group({
                 min: [0],
-                max: [100000],
+                max: [2000],
             }),
             accommodationType: [''],
             amenities: this.buildCheckboxes()
