@@ -28,8 +28,8 @@ export class AccommodationListComponent {
             }),
             filterFormGroup: fb.group({
                 price: fb.group({
-                    min: [200],
-                    max: [1000],
+                    min: [],
+                    max: [],
                 }),
                 accommodationType: [''],
                 

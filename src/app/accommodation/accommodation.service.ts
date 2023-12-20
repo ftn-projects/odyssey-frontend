@@ -32,6 +32,7 @@ export class AccommodationService {
         if (type) params = params.set('type', type.toString());
         if (priceStart) params = params.set('priceStart', priceStart);
         if (priceEnd) params = params.set('priceEnd', priceEnd);
+        console.log(params);
 
         return this.httpClient.get<Accommodation[]>(environment.apiHost + 'accommodations', { params });
     }

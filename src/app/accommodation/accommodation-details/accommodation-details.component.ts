@@ -16,6 +16,7 @@ import { Amenity } from '../model/amenity.model';
 import { UserService } from '../../user/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../env/env';
+import { AvailabilitySlot } from '../model/availability-slot.model';
 
 @Component({
     selector: 'app-accommodation-details',
@@ -226,6 +227,32 @@ export class AccommodationDetailsComponent {
         return numberOfDays;
     }
 
+    customDateFilter = (date: Date | null): boolean => {
+        if (!date) {
+          return false;
+        }
+    
 
+        let isDateAvailable = false;
+    
+        this.accommodation.subscribe(accommodation => {
+            
+          if (accommodation.availableSlots) {
+            isDateAvailable = accommodation.availableSlots.some(
+              slot => this.isDateInSlot(date, slot)
+            );
+            
+          }
+        });
+    
+        console.log(isDateAvailable);
+        return isDateAvailable;
+      };
+    
+      private isDateInSlot(date: Date, slot: AvailabilitySlot): boolean {
+        const startDate = new Date(slot.timeSlot.start);
+        const endDate = new Date(slot.timeSlot.end);
+        return date >= startDate && date <= endDate;
+      }
 
 }
