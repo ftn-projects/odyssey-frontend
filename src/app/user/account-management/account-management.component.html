@@ -8,7 +8,9 @@
     </div>
 
     <section id="summary-section" class="card-section rounded-border">
-        <img id="about-profile-img" src={{image}} />
+        <div class="about-profile-container">
+            <img src={{image}} />
+        </div>
         <div id="summary-details" *ngIf="!sections[0]">
             <p id="summary-name">{{user.name}} {{user.surname}}</p>
             <p id=" summary-role">{{user.role}}</p>
