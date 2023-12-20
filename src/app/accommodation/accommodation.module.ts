@@ -17,6 +17,7 @@ import { RoundButtonComponent } from './round-button/round-button.component';
 import { RouterModule } from '@angular/router';
 import { AccommodationCreateComponent } from './accommodation-create/accommodation-create.component';
 import { AccommodationImagesDialogComponent } from './accommodation-images-dialog/accommodation-images-dialog.component';
+import { AccommodationRequestsComponent } from './accommodation-requests/accommodation-requests.component';
 
 
 
@@ -36,7 +37,8 @@ import { AccommodationImagesDialogComponent } from './accommodation-images-dialo
         AutocompleteDropdownComponent,
         SearchDaterangePickerComponent,
         AccommodationCreateComponent,
-        AccommodationImagesDialogComponent
+        AccommodationImagesDialogComponent,
+        AccommodationRequestsComponent
     ],
     imports: [
         RouterModule,

@@ -8,6 +8,7 @@ import { AccommodationDetailsComponent } from './accommodation/accommodation-det
 import { EmailConfirmationComponent } from './infrastructure/auth/email-confirmation/email-confirmation.component';
 import { AuthGuard } from './infrastructure/auth/auth.guard';
 import { AccommodationCreateComponent } from './accommodation/accommodation-create/accommodation-create.component';
+import { AccommodationRequestsComponent } from './accommodation/accommodation-requests/accommodation-requests.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'accommodationList' },
@@ -17,6 +18,7 @@ const routes: Routes = [
         path: 'accommodationCreate', component: AccommodationCreateComponent,
         canActivate: [AuthGuard], data: { role: ['HOST'] }
     },
+    { path: 'accommodationRequests', component: AccommodationRequestsComponent },
     {
         path: 'account', component: AccountManagementComponent,
         canActivate: [AuthGuard], data: { role: ['ADMIN', 'HOST', 'GUEST'] }
