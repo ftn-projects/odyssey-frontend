@@ -7,18 +7,22 @@ import { AccommodationListComponent } from './accommodation/accommodation-list/a
 import { AccommodationDetailsComponent } from './accommodation/accommodation-details/accommodation-details.component';
 import { EmailConfirmationComponent } from './infrastructure/auth/email-confirmation/email-confirmation.component';
 import { AuthGuard } from './infrastructure/auth/auth.guard';
-import { AccommodationCreateComponent } from './accommodation/accommodation-create/accommodation-create.component';
 import { AccommodationRequestsComponent } from './accommodation/accommodation-requests/accommodation-requests.component';
+import { AccommodationModificationComponent } from './accommodation/accommodation-modification/accommodation-modification.component';
 
 const routes: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: 'accommodationList' },
-    { path: 'accommodationList', component: AccommodationListComponent },
-    { path: 'accommodation/:id', component: AccommodationDetailsComponent },
+    { path: '', pathMatch: 'full', redirectTo: 'accommodation/list' },
+    { path: 'accommodation/list', component: AccommodationListComponent },
+    { path: 'accommodation/details/:id', component: AccommodationDetailsComponent },
     {
-        path: 'accommodationCreate', component: AccommodationCreateComponent,
-        canActivate: [AuthGuard], data: { role: ['HOST'] }
+        path: 'accommodation/create', component: AccommodationModificationComponent,
+        canActivate: [AuthGuard], data: { role: ['HOST'], mode: 'CREATE' }
     },
-    { path: 'accommodationRequests', component: AccommodationRequestsComponent },
+    {
+        path: 'accommodation/edit/:id', component: AccommodationModificationComponent,
+        canActivate: [AuthGuard], data: { role: ['HOST'], mode: 'EDIT' }
+    },
+    { path: 'accommodation/requests', component: AccommodationRequestsComponent },
     {
         path: 'account', component: AccountManagementComponent,
         canActivate: [AuthGuard], data: { role: ['ADMIN', 'HOST', 'GUEST'] }

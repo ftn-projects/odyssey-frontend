@@ -1,0 +1,179 @@
+<form class="container">
+    <div style="display: flex; margin: 20px; margin-bottom: 0; align-items: center; grid-column: 1 / 3;">
+        <h1 class="page-title"><span *ngIf="editing">Edit</span><span *ngIf="!editing">Create</span> accommodation</h1>
+        <button mat-raised-button color="primary" style="margin-left: auto;" (click)="onSubmit()">
+            <mat-icon>add</mat-icon>Create
+        </button>
+    </div>
+
+    <mat-form-field>
+        <mat-label>Title</mat-label>
+        <input matInput type="text" [(ngModel)]="accommodation.newTitle" name="title">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Accommodation type</mat-label>
+        <mat-select [(value)]="accommodation.newType">
+            <mat-option value="APARTMENT">Apartment</mat-option>
+            <mat-option value="ROOM">Room</mat-option>
+            <mat-option value="HOUSE">House</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <section id="amenities-section" class="card-section rounded-border">
+        <p class="section-title">Amenities</p>
+
+        <div class="amenities-container">
+            @for (amenity of amenities; track amenity) {
+            <button class="amenity-button" [class.selected]="amenity.selected" [class.not-selected]="!amenity.selected"
+                (click)="amenity.selected = !amenity.selected">
+                <mat-icon>{{amenity.icon}}</mat-icon>
+                <p>{{amenity.title}}</p>
+                <mat-icon class="amenity-select" *ngIf="!amenity.selected">add_circle_outline</mat-icon>
+                <mat-icon class="amenity-select" *ngIf="amenity.selected">check_circle_outline</mat-icon>
+            </button>
+            }
+        </div>
+    </section>
+
+    <section class="card-section rounded-border" id="details-section">
+        <p class="section-title">Details</p>
+
+        <div class="details-inputs">
+            <mat-form-field *ngIf="!editing">
+                <mat-label>Pricing type</mat-label>
+                <mat-select [(value)]="accommodation.newPricing">
+                    <mat-option value="PER_PERSON">Per person</mat-option>
+                    <mat-option value="PER_ACCOMMODATION">Per accommodation</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field floatLabel="always">
+                <mat-label>Default price</mat-label>
+                <input matInput type="number" [(ngModel)]="accommodation.newDefaultPrice" name="defaultPrice">
+                <span matTextPrefix>€&nbsp;</span>
+            </mat-form-field>
+
+            <div style="display: flex; justify-content: space-between;">
+                <mat-form-field floatLabel="always" [style.width.px]=110>
+                    <mat-label>Min guests</mat-label>
+                    <input matInput type="number" [(ngModel)]="accommodation.newMinGuests" name="minGuests">
+                </mat-form-field>
+                <mat-form-field floatLabel="always" [style.width.px]=110>
+                    <mat-label>Max guests</mat-label>
+                    <input matInput type="number" [(ngModel)]="accommodation.newMaxGuests" name="maxGuests">
+                </mat-form-field>
+            </div>
+
+            <mat-form-field>
+                <mat-label>Confirmation type</mat-label>
+                <mat-select [(value)]="selectedConfirmation">
+                    <mat-option value="MANUAL">Manual</mat-option>
+                    <mat-option value="AUTOMATIC">Automatic</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field floatLabel="always">
+                <mat-label>Days before cancellation</mat-label>
+                <input matInput type="number" [(ngModel)]="accommodation.newCancellationDue" name="cancellationDue">
+            </mat-form-field>
+        </div>
+    </section>
+
+    <section id="about-section" class="card-section rounded-border">
+        <p class="section-title">About</p>
+
+        <mat-form-field>
+            <textarea matInput id="about-textarea" type="text" rows="4" placeholder="Start typing..."
+                [(ngModel)]="accommodation.newDescription" name="about"></textarea>
+        </mat-form-field>
+    </section>
+
+    <section id="address-section" class="card-section rounded-border">
+        <p class="section-title">Address</p>
+
+        <div class="address-inputs">
+            <mat-form-field>
+                <mat-label>Street</mat-label>
+                <input matInput type="text" name="street" [(ngModel)]="accommodation.newAddress!.street">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>City</mat-label>
+                <input matInput type="text" name="city" [(ngModel)]="accommodation.newAddress!.city">
+            </mat-form-field>
+
+            <mat-select-country class="country-select" appearance="fill" label="Country" [value]="selectedCountry">
+            </mat-select-country>
+        </div>
+    </section>
+
+    <section id="availability-section" class="card-section rounded-border">
+        <p class="section-title">Availability</p>
+
+        <form (submit)="onAddSlot()">
+            <mat-form-field subscriptSizing="dynamic" class="date-picker">
+                <mat-label>Choose Date Range</mat-label>
+                <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+                    <input matStartDate formControlName="start" placeholder="Start Date" name="startDate">
+                    <input matEndDate formControlName="end" placeholder="End Date" name="endDate">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker matSuffix #picker></mat-date-range-picker>
+            </mat-form-field>
+
+            <mat-form-field floatLabel="always">
+                <mat-label>Time slot price</mat-label>
+                <input matInput type="number" placeholder="0" [(ngModel)]="price" name="price">
+                <span matTextPrefix>€&nbsp;</span>
+            </mat-form-field>
+
+            <button mat-raised-button color="accent" style="width: 100%;" type="submit" class="add-slot-button">
+                <mat-icon>add</mat-icon>Add slot
+            </button>
+        </form>
+
+        <table mat-table [dataSource]="slotsTableData" class="mat-elevation-z8">
+            <ng-container matColumnDef="start">
+                <th mat-header-cell *matHeaderCellDef class="start-column"> Start </th>
+                <td mat-cell *matCellDef="let element" class="start-column">
+                    {{element.timeSlot.start.toLocaleDateString()}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="end">
+                <th mat-header-cell *matHeaderCellDef class="end-column"> End </th>
+                <td mat-cell *matCellDef="let element" class="end-column"> {{element.timeSlot.end.toLocaleDateString()}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+                <th mat-header-cell *matHeaderCellDef class="price-column"> Price (€) </th>
+                <td mat-cell *matCellDef="let element" class="price-column"> {{element.price}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef class="delete-column"></th>
+                <td mat-cell *matCellDef="let i = index" class="delete-column">
+                    <button mat-icon-button (click)="removeSlot(i)">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="slotColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: slotColumns;"></tr>
+        </table>
+    </section>
+
+    <section id="images-section" class="card-section rounded-border">
+        <p class="section-title">Images</p>
+
+        <div id="image-list">
+            <div class="image-container" *ngFor="let image of images; index as i">
+                <img [src]="image.url">
+                <mat-icon style="cursor: pointer;" (click)="removeImage(i)">close</mat-icon>
+            </div>
+            <app-image-uploader text="Attach" (newImageEvent)="selectImages($event)"></app-image-uploader>
+        </div>
+    </section>
+</form>

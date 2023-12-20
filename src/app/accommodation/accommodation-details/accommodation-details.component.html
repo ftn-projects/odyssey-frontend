@@ -15,7 +15,8 @@
                     <mat-icon class="location-icon">location_on</mat-icon>
                 </div>
                 <div class="location-text-container">
-                    <div class="location-text">{{accommodationData.address.city + ", " + accommodationData.address.country}}</div>
+                    <div class="location-text">{{accommodationData.address.city + ", " +
+                        accommodationData.address.country}}</div>
                 </div>
             </div>
         </div>
@@ -23,7 +24,7 @@
         <div class="image-container">
             <div class="grid-container">
                 <img *ngFor="let image of imageNames" [src]="image" alt="accommodation image" class="grid-item">
-                
+
             </div>
             <button class="show-more-button" (click)="openDialog()" mat-fab extended>
                 <mat-icon>window</mat-icon>
@@ -43,7 +44,8 @@
                             <div class="host-text-info-container">
                                 <div class="hosted-by-container">
                                     <span class="hosted-by">Hosted by </span>
-                                    <span class="host-name">{{accommodationData.host.name + " " + accommodationData.host.surname}}</span>
+                                    <span class="host-name">{{accommodationData.host.name + " " +
+                                        accommodationData.host.surname}}</span>
                                 </div>
                             </div>
                         </div>
@@ -93,15 +95,17 @@
                     <div class="header-price-unit">
                         <span class="header-price">$</span>
                         <span class="header-price-value">{{accommodationData.defaultPrice}} </span>
-                        <span class="header-price-unit">{{accommodationData.pricing.replace('_', ' ').toLowerCase()}}</span>
+                        <span class="header-price-unit">{{accommodationData.pricing.replace('_', '
+                            ').toLowerCase()}}</span>
                     </div>
                     <div class="header-guest-count">
                         {{accommodationData.minGuests}} - {{accommodationData.maxGuests}} guests
                     </div>
                 </div>
-                <div class="reserve-input-section" [formGroup]="reservationDetails" >
+                <div class="reserve-input-section" [formGroup]="reservationDetails">
                     <app-search-daterange-picker formGroupName="dateRange" class="reservation-range-input" />
-                    <mat-form-field class="reservation-guests-input" subscriptSizing="dynamic" formGroupName="guestGroup">
+                    <mat-form-field class="reservation-guests-input" subscriptSizing="dynamic"
+                        formGroupName="guestGroup">
                         <span matPrefix class="material-symbols-outlined input-prefix">
                             people
                         </span>
@@ -113,7 +117,8 @@
                     <div class="pricing-item-section">
                         <div class="pricing-reason">
                             <ng-container *ngIf="accommodationData.pricing === 'PER_PERSON'; else perAccommodation">
-                                ${{ accommodationData.defaultPrice }} x {{ reservationDetails.get('guestGroup.guests')?.value }} guests x {{ numberOfDays }} nights
+                                ${{ accommodationData.defaultPrice }} x {{
+                                reservationDetails.get('guestGroup.guests')?.value }} guests x {{ numberOfDays }} nights
                             </ng-container>
                             <ng-template #perAccommodation>
                                 ${{ accommodationData.defaultPrice }} x {{ numberOfDays }} nights

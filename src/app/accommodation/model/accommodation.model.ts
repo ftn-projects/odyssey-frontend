@@ -14,7 +14,7 @@ export interface Accommodation {
     host: User;
     defaultPrice: number; // Change the type accordingly
     automaticApproval: boolean;
-    cancellationDue: string;
+    cancellationDue: number;
     availableSlots: Set<AvailabilitySlot>;
     minGuests: number;
     maxGuests: number;

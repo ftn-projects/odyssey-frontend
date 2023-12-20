@@ -21,4 +21,8 @@ export class FileService {
             responseType: 'text'
         });
     }
+
+    load(url: string): Observable<Blob> {
+        return this.http.get(url, { responseType: 'blob' });
+    }
 }
