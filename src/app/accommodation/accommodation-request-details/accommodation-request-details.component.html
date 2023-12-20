@@ -98,11 +98,11 @@
                 <div class="reservation-pricing-section" *ngIf="totalPrice">
                     <div class="pricing-item-section">
                         <div class="pricing-reason">
-                            <ng-container *ngIf="data.details?.pricing === 'PER_PERSON'; else perAccommodation">
+                            <ng-container *ngIf="data.details?.pricing === 'PER_PERSON'; else perNight">
                                 ${{ data.details?.defaultPrice }} x {{
                                 reservationDetails.get('guestGroup.guests')?.value }} guests x {{ numberOfDays }} nights
                             </ng-container>
-                            <ng-template #perAccommodation>
+                            <ng-template #perNight>
                                 ${{ data.details?.defaultPrice }} x {{ numberOfDays }} nights
                             </ng-template>
                         </div>

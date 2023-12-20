@@ -111,7 +111,8 @@
                     </div>
                 </div>
                 <div class="reserve-input-section" [formGroup]="reservationDetails" *ngIf="!ownerMode">
-                    <app-search-daterange-picker [availableSlots]="accommodationData.availableSlots" formGroupName="dateRange" class="reservation-range-input" />
+                    <app-search-daterange-picker [availableSlots]="accommodationData.availableSlots"
+                        formGroupName="dateRange" class="reservation-range-input" />
                     <mat-form-field class="reservation-guests-input" subscriptSizing="dynamic"
                         formGroupName="guestGroup">
                         <span matPrefix class="material-symbols-outlined input-prefix">
@@ -124,11 +125,11 @@
                 <div class="reservation-pricing-section" *ngIf="totalPrice">
                     <div class="pricing-item-section">
                         <div class="pricing-reason">
-                            <ng-container *ngIf="accommodationData.pricing === 'PER_PERSON'; else perAccommodation">
+                            <ng-container *ngIf="accommodationData.pricing === 'PER_PERSON'; else perNight">
                                 ${{ accommodationData.defaultPrice }} x {{
                                 reservationDetails.get('guestGroup.guests')?.value }} guests x {{ numberOfDays }} nights
                             </ng-container>
-                            <ng-template #perAccommodation>
+                            <ng-template #perNight>
                                 ${{ accommodationData.defaultPrice }} x {{ numberOfDays }} nights
                             </ng-template>
                         </div>

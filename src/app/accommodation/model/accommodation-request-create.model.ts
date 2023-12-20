@@ -9,7 +9,7 @@ export interface AccommodationRequestCreation {
     newDescription?: string;
     newType?: 'APARTMENT' | 'ROOM' | 'HOUSE'; // Assuming type is an enum
     newAddress?: Address;
-    newPricing?: 'PER_PERSON' | 'PER_ACCOMMODATION'; // Assuming pricing is an enum
+    newPricing?: 'PER_PERSON' | 'PER_NIGHT'; // Assuming pricing is an enum
     newDefaultPrice?: number; // Change the type accordingly
     newAutomaticApproval?: boolean;
     newCancellationDue?: number;

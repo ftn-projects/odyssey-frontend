@@ -9,7 +9,7 @@ export interface Accommodation {
     description: string;
     type: 'APARTMENT' | 'ROOM' | 'HOUSE'; // Assuming type is an enum
     address: Address;
-    pricing: 'PER_PERSON' | 'PER_ACCOMMODATION'; // Assuming pricing is an enum
+    pricing: 'PER_PERSON' | 'PER_NIGHT'; // Assuming pricing is an enum
     amenities: Amenity[];
     host: User;
     defaultPrice: number; // Change the type accordingly
