@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { AmenityView } from '../amenity.model';
 import { AccommodationService } from '../accommodation.service';
 import { AvailabilitySlot } from '../model/availability-slot.model';
@@ -6,11 +6,13 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { SharedService } from '../../shared/shared.service';
 import { overlapping } from '../../shared/model/time-slot.model';
 import { MatTableDataSource } from '@angular/material/table';
-import { Accommodation } from '../model/accommodation.model';
-import { Amenity } from '../model/amenity.model';
 import { AuthService } from '../../infrastructure/auth/auth.service';
 import { Router } from '@angular/router';
-import { AccommodationCreation } from '../model/accommodation-creation.model';
+import { AccommodationRequestCreation } from '../model/accommodation-request-create.model';
+import { environment } from '../../../env/env';
+import { FileService } from '../../shared/file.service';
+import { forkJoin } from 'rxjs';
+import { Image } from '../../shared/image-uploader/image.model';
 
 
 @Component({
@@ -19,39 +21,42 @@ import { AccommodationCreation } from '../model/accommodation-creation.model';
     styleUrl: './accommodation-create.component.css'
 })
 export class AccommodationCreateComponent implements OnInit {
+    editing: boolean = false;
+    accommodation: AccommodationRequestCreation = {
+        id: -1,
+        newTitle: '',
+        newDescription: '',
+        newType: 'APARTMENT', // Assuming type is an enum
+        newAddress: { street: 'Bulevar oslobodjenja', number: 55, city: 'Novi Sad', country: 'Serbia' },
+        newPricing: 'PER_PERSON',
+        newDefaultPrice: 0,
+        newAutomaticApproval: false,
+        newCancellationDue: '',
+        newAvailableSlots: [],
+        newAmenities: [],
+        newMinGuests: 1,
+        newMaxGuests: 1,
+        hostId: -1,
+    }
+
     selectedConfirmation: string = 'MANUAL';
     amenities: AmenityView[] = [];
 
     slotColumns: string[] = ['start', 'end', 'price', 'delete'];
     slots: AvailabilitySlot[] = [];
-    slotsData = new MatTableDataSource<AvailabilitySlot>();
+    slotsTableData = new MatTableDataSource<AvailabilitySlot>();
 
+    price: number = 0;
     dateRange = new FormGroup({
         start: new FormControl<Date | null>(null),
         end: new FormControl<Date | null>(null)
     });
-    price: number = 0;
-
-    accommodation: AccommodationCreation = {
-        title: '',
-        description: '',
-        type: 'APARTMENT', // Assuming type is an enum
-        address: { street: 'Bulevar oslobodjenja', number: 55, city: 'Novi Sad', country: 'Serbia' },
-        pricing: 'PER_PERSON',
-        amenities: [],
-        hostId: -1,
-        defaultPrice: 0,
-        automaticApproval: false,
-        cancellationDue: '',
-        availableSlots: [],
-        minGuests: 1,
-        maxGuests: 1,
-    }
 
     constructor(
         protected accommodationService: AccommodationService,
         private sharedService: SharedService,
         private authService: AuthService,
+        private service: FileService,
         private router: Router) {
     }
 
@@ -68,29 +73,39 @@ export class AccommodationCreateComponent implements OnInit {
             }
         });
         this.accommodation.hostId = this.authService.getId();
-
-        this.accommodationService.getById(2).subscribe({
-            next: (accommodation) => console.log(accommodation),
-            error: (err) => console.log(err)
-        })
     }
 
-    onCreate() {
-        this.accommodation.automaticApproval = this.selectedConfirmation == 'AUTOMATIC';
-        this.accommodation.availableSlots = this.slots;
-        this.accommodation.amenities = this.amenities.filter(a => a.selected).map(a => ({ id: a.id!, title: a.title! }));
+    async onSubmit() {
+        this.accommodation.newAutomaticApproval = this.selectedConfirmation == 'AUTOMATIC';
+        this.accommodation.newAvailableSlots = this.slots;
+        this.accommodation.newAmenities = this.amenities.filter(a => a.selected).map(a => ({ id: a.id!, title: a.title! }));
 
         this.accommodationService.create(this.accommodation).subscribe({
             next: (model) => {
-                console.log('model', model);
-                confirm('Accommodation has been successfully created.');
-                this.router.navigate(['']);
+                this.uploadSelectedImages(model.id).subscribe({
+                    next: () => {
+                        console.log('Uploaded images.');
+                        console.log('model', model);
+                        confirm('Accommodation has been successfully created.');
+                        this.router.navigate(['']);
+                    },
+                    error: (err) => {
+                        console.log(err);
+
+                        let errMessage = 'Could not upload the images!';
+                        if (err.error && err.error.message)
+                            errMessage = err.error.message;
+                        this.sharedService.displayError(errMessage);
+                    }
+                });
             },
             error: (err) => console.log(err)
         });
     }
 
     onAddSlot() {
+        console.log(this.images);
+
         let start = this.dateRange.get('start')?.value;
         let end = this.dateRange.get('end')?.value;
         if (!start) {
@@ -125,15 +140,37 @@ export class AccommodationCreateComponent implements OnInit {
 
     removeSlot(i: number) {
         let temp = [];
-        for (let [j, s] of this.slots.entries()) if (j != i) temp.push(s);
+        for (let [j, s] of this.slots.entries())
+            if (j != i) temp.push(s);
 
         this.slots = temp;
         this.refreshTable();
     }
 
-    refreshTable() {
-        this.slotsData.data = this.slots;
+    refreshTable = () => this.slotsTableData.data = this.slots;
+
+    images: Image[] = [];
+
+    selectImages(selectedImages: File[]) {
+        console.log(selectedImages);
+
+        selectedImages.forEach(image => {
+            var reader = new FileReader();
+            reader.readAsDataURL(image);
+            reader.onload = (event) => {
+                if (event && event.target && typeof event.target.result === 'string')
+                    this.images.push({ file: image, url: event.target.result });
+            };
+        });
     }
 
-    onResetSlots() { this.slots = []; }
+    uploadSelectedImages(id: number) {
+        let endpoint = `${environment.apiHost}accommodationRequests/image/${id}`;
+        return forkJoin(this.images.map(
+            image => this.service.upload(image.file, endpoint, 'image'))
+        );
+    }
+
+    trackImage = (index: number, image: Image) => image ? image.url : index;
+    removeImage = (index: number) => this.images.splice(index, 1);
 };

@@ -22,9 +22,8 @@ p {
 }
 
 .card-section {
-    padding: 25px;
-    padding-left: 40px;
-    padding-right: 40px;
+    padding: 40px;
+    padding-top: 25px;
 }
 
 .card-section mat-form-field {
@@ -87,23 +86,22 @@ p {
     height: auto;
 }
 
+
 #about-section {
     grid-column: 1;
-    padding-bottom: 0;
 }
 
 #details-section {
     grid-row: span 2;
-    padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
 }
 
-#details-section>* {
-    width: 100%;
-    padding-bottom: 0;
-}
-
-#availability-section>p {
-    grid-column: 1 / 3;
+.details-inputs {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 #availability-section {
@@ -111,4 +109,46 @@ p {
     display: grid;
     grid-template-columns: 1fr 3fr;
     column-gap: 60px;
+}
+
+#availability-section.mat-row {
+    height: 10px !important;
+}
+
+#images-section {
+    grid-column: 1 / 3;
+}
+
+#image-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+#image-list>* {
+    min-width: 10em;
+    max-width: 20em;
+    height: 15em;
+}
+
+.image-container {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.image-container img {
+    width: auto;
+    height: 100%;
+}
+
+.image-container mat-icon {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1;
+    right: 5px;
+    top: 5px;
 }

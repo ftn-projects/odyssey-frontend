@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../env/env';
 import { Amenity } from './amenity.model';
-import { AccommodationCreation } from './model/accommodation-creation.model';
+import { AccommodationRequestCreation } from './model/accommodation-request-create.model';
 
 @Injectable({
     providedIn: 'root'
@@ -55,7 +55,7 @@ export class AccommodationService {
         return this.path + '/' + id + '/images/' + imageName;
     }
 
-    create(accommodation: AccommodationCreation): Observable<Accommodation> {
+    create(accommodation: AccommodationRequestCreation): Observable<Accommodation> {
         console.log(accommodation);
         return this.httpClient.post<Accommodation>(this.path, accommodation);
     }

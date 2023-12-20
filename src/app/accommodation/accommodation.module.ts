@@ -17,6 +17,7 @@ import { RoundButtonComponent } from './round-button/round-button.component';
 import { RouterModule } from '@angular/router';
 import { AccommodationCreateComponent } from './accommodation-create/accommodation-create.component';
 import { AccommodationImagesDialogComponent } from './accommodation-images-dialog/accommodation-images-dialog.component';
+import { SharedModule } from '../shared/shared.module';
 import { AccommodationRequestsComponent } from './accommodation-requests/accommodation-requests.component';
 
 
@@ -45,6 +46,7 @@ import { AccommodationRequestsComponent } from './accommodation-requests/accommo
         CommonModule,
         MaterialModule,
         ReactiveFormsModule,
+        SharedModule,
         FormsModule
     ]
 })

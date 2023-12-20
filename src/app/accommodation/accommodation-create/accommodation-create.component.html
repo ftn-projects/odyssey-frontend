@@ -1,19 +1,19 @@
-<div class="container">
+<form class="container">
     <div style="display: flex; margin: 20px; margin-bottom: 0; align-items: center; grid-column: 1 / 3;">
         <h1 class="page-title">Create accommodation</h1>
-        <button mat-raised-button color="primary" style="margin-left: auto;" (click)="onCreate()">
+        <button mat-raised-button color="primary" style="margin-left: auto;" (click)="onSubmit()">
             <mat-icon>add</mat-icon>Create
         </button>
     </div>
 
     <mat-form-field>
         <mat-label>Title</mat-label>
-        <input matInput type="text" [(ngModel)]="accommodation.title">
+        <input matInput type="text" [(ngModel)]="accommodation.newTitle" name="title">
     </mat-form-field>
 
     <mat-form-field>
         <mat-label>Accommodation type</mat-label>
-        <mat-select [(value)]="accommodation.type">
+        <mat-select [(value)]="accommodation.newType">
             <mat-option value="APARTMENT">Apartment</mat-option>
             <mat-option value="ROOM">Room</mat-option>
             <mat-option value="HOUSE">House</mat-option>
@@ -38,43 +38,46 @@
 
     <section class="card-section rounded-border" id="details-section">
         <p class="section-title">Details</p>
-        <mat-form-field>
-            <mat-label>Pricing type</mat-label>
-            <mat-select [(value)]="accommodation.pricing">
-                <mat-option value="PER_PERSON">Per person</mat-option>
-                <mat-option value="PER_ACCOMMODATION">Per accommodation</mat-option>
-            </mat-select>
-        </mat-form-field>
 
-        <mat-form-field floatLabel="always">
-            <mat-label>Default price</mat-label>
-            <input matInput type="number" [(ngModel)]="accommodation.defaultPrice">
-            <span matTextPrefix>€&nbsp;</span>
-        </mat-form-field>
-
-        <div style="display: flex; justify-content: space-between;">
-            <mat-form-field floatLabel="always" [style.width.px]=110>
-                <mat-label>Min guests</mat-label>
-                <input matInput type="number" [(ngModel)]="accommodation.minGuests">
+        <div class="details-inputs">
+            <mat-form-field>
+                <mat-label>Pricing type</mat-label>
+                <mat-select [(value)]="accommodation.newPricing" *ngIf="!editing">
+                    <mat-option value="PER_PERSON">Per person</mat-option>
+                    <mat-option value="PER_ACCOMMODATION">Per accommodation</mat-option>
+                </mat-select>
             </mat-form-field>
-            <mat-form-field floatLabel="always" [style.width.px]=110>
-                <mat-label>Max guests</mat-label>
-                <input matInput type="number" [(ngModel)]="accommodation.maxGuests">
+
+            <mat-form-field floatLabel="always">
+                <mat-label>Default price</mat-label>
+                <input matInput type="number" [(ngModel)]="accommodation.newDefaultPrice" name="defaultPrice">
+                <span matTextPrefix>€&nbsp;</span>
+            </mat-form-field>
+
+            <div style="display: flex; justify-content: space-between;">
+                <mat-form-field floatLabel="always" [style.width.px]=110>
+                    <mat-label>Min guests</mat-label>
+                    <input matInput type="number" [(ngModel)]="accommodation.newMinGuests" name="minGuests">
+                </mat-form-field>
+                <mat-form-field floatLabel="always" [style.width.px]=110>
+                    <mat-label>Max guests</mat-label>
+                    <input matInput type="number" [(ngModel)]="accommodation.newMaxGuests" name="maxGuests">
+                </mat-form-field>
+            </div>
+
+            <mat-form-field>
+                <mat-label>Confirmation type</mat-label>
+                <mat-select [(value)]="selectedConfirmation">
+                    <mat-option value="MANUAL">Manual</mat-option>
+                    <mat-option value="AUTOMATIC">Automatic</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field floatLabel="always">
+                <mat-label>Days before cancellation</mat-label>
+                <input matInput type="number" [(ngModel)]="accommodation.newCancellationDue" name="cancellationDue">
             </mat-form-field>
         </div>
-
-        <mat-form-field>
-            <mat-label>Confirmation type</mat-label>
-            <mat-select [(value)]="selectedConfirmation">
-                <mat-option value="MANUAL">Manual</mat-option>
-                <mat-option value="AUTOMATIC">Automatic</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field floatLabel="always">
-            <mat-label>Days before cancellation</mat-label>
-            <input matInput type="number" [(ngModel)]="accommodation.cancellationDue">
-        </mat-form-field>
     </section>
 
     <section id="about-section" class="card-section rounded-border">
@@ -82,19 +85,19 @@
 
         <mat-form-field>
             <textarea matInput id="about-textarea" type="text" rows="4" placeholder="Start typing..."
-                [(ngModel)]="accommodation.description"></textarea>
+                [(ngModel)]="accommodation.newDescription" name="about"></textarea>
         </mat-form-field>
     </section>
 
     <section id="availability-section" class="card-section rounded-border">
         <p class="section-title">Availability</p>
 
-        <div>
+        <form (submit)="onAddSlot()">
             <mat-form-field subscriptSizing="dynamic" style="margin-bottom: 1.25em;">
                 <mat-label>Choose Date Range</mat-label>
                 <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
-                    <input matStartDate formControlName="start" placeholder="Start Date">
-                    <input matEndDate formControlName="end" placeholder="End Date">
+                    <input matStartDate formControlName="start" placeholder="Start Date" name="startDate">
+                    <input matEndDate formControlName="end" placeholder="End Date" name="endDate">
                 </mat-date-range-input>
                 <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker matSuffix #picker></mat-date-range-picker>
@@ -102,16 +105,16 @@
 
             <mat-form-field floatLabel="always">
                 <mat-label>Time slot price</mat-label>
-                <input matInput type="number" placeholder="0" [(ngModel)]="price">
+                <input matInput type="number" placeholder="0" [(ngModel)]="price" name="price">
                 <span matTextPrefix>€&nbsp;</span>
             </mat-form-field>
 
-            <button mat-raised-button color="primary" style="width: 100%;" (click)="onAddSlot()">
+            <button mat-raised-button color="primary" style="width: 100%;" type="submit">
                 <mat-icon>add</mat-icon>Add slot
             </button>
-        </div>
+        </form>
 
-        <table mat-table [dataSource]="slotsData">
+        <table mat-table [dataSource]="slotsTableData" class="mat-elevation-z8">
             <ng-container matColumnDef="start">
                 <th mat-header-cell *matHeaderCellDef> Start </th>
                 <td mat-cell *matCellDef="let element"> {{element.timeSlot.start.toLocaleDateString()}} </td>
@@ -141,4 +144,16 @@
         </table>
 
     </section>
-</div>
+
+    <section id="images-section" class="card-section rounded-border">
+        <p class="section-title">Images</p>
+
+        <div id="image-list">
+            <div class="image-container" *ngFor="let image of images; index as i">
+                <img [src]="image.url">
+                <mat-icon style="cursor: pointer;" (click)="removeImage(i)">close</mat-icon>
+            </div>
+            <app-image-uploader text="Attach" (newImageEvent)="selectImages($event)"></app-image-uploader>
+        </div>
+    </section>
+</form>
