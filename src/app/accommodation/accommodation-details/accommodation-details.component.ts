@@ -193,6 +193,7 @@ export class AccommodationDetailsComponent {
             const numberOfDays = this.calculateNumberOfDays(startDate, endDate);
             this.numberOfDays = numberOfDays;
             const guests = this.reservationDetails.get('guestGroup.guests')?.value;
+            accommodation.defaultPrice = this.getPriceForDateRange(accommodation, startDate, endDate) || -2;
 
             let totalPrice: number;
             if (pricingType === 'PER_PERSON') {
@@ -201,10 +202,8 @@ export class AccommodationDetailsComponent {
                 totalPrice = numberOfDays * accommodation.defaultPrice;
             }
 
-            // Update the total price property in the accommodation object
             this.totalPrice = totalPrice;
 
-            // Manually trigger change detection
             this.detectChanges();
         });
     }
@@ -218,10 +217,8 @@ export class AccommodationDetailsComponent {
             return 0;
         }
 
-        // Calculate the time difference in milliseconds
         const timeDifference = end.getTime() - start.getTime();
 
-        // Calculate the number of days
         const numberOfDays = Math.ceil(timeDifference / (1000 * 3600 * 24));
 
         return numberOfDays;
@@ -245,7 +242,6 @@ export class AccommodationDetailsComponent {
           }
         });
     
-        console.log(isDateAvailable);
         return isDateAvailable;
       };
     
@@ -254,5 +250,14 @@ export class AccommodationDetailsComponent {
         const endDate = new Date(slot.timeSlot.end);
         return date >= startDate && date <= endDate;
       }
+
+      getPriceForDateRange(accommodation: Accommodation,startDate: Date, endDate: Date): number | null {
+        const matchingSlot = accommodation.availableSlots.find(slot =>
+            startDate >= slot.timeSlot.start && endDate <= slot.timeSlot.end
+        );
+
+
+        return matchingSlot ? matchingSlot.price : null;
+    }
 
 }

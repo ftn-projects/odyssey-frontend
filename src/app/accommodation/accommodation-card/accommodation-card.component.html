@@ -22,7 +22,7 @@
     <div class="location_container">
         <span class="location_text">{{ accommodation.address.city + " , " + accommodation.address.country}}</span>
     </div>
-    <div class="price_container">
+    <div class="price_container" *ngIf="accommodation.defaultPrice!">
         <span class="price_number">${{ accommodation.defaultPrice}}</span>
         <span class="pricing_type"> {{accommodation.pricing.replace('_', ' ').toLowerCase()}}</span>
         <span *ngIf="accommodation.totalPrice!=-1" class="price_total"><span

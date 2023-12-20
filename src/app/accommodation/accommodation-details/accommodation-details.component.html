@@ -100,7 +100,7 @@
         <div class="split-container-column">
             <div class="reserve-container">
                 <div class="reserve-header-container">
-                    <div class="header-price-unit">
+                    <div class="header-price-unit" *ngIf="accommodationData.defaultPrice!=-1">
                         <span class="header-price">$</span>
                         <span class="header-price-value">{{accommodationData.defaultPrice}} </span>
                         <span class="header-price-unit">{{accommodationData.pricing.replace('_', '

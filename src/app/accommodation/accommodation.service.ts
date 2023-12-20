@@ -37,7 +37,10 @@ export class AccommodationService {
         return this.httpClient.get<Accommodation[]>(environment.apiHost + 'accommodations', { params });
     }
 
-    getById(id: number): Observable<Accommodation> {
+    getById(
+        id: number
+        ): Observable<Accommodation> {
+        let params = new HttpParams();
         return this.httpClient.get<Accommodation>(environment.apiHost + 'accommodations/' + id);
     }
 
