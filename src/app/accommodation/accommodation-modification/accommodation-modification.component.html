@@ -1,6 +1,6 @@
 <form class="container">
     <div style="display: flex; margin: 20px; margin-bottom: 0; align-items: center; grid-column: 1 / 3;">
-        <h1 class="page-title">Create accommodation</h1>
+        <h1 class="page-title"><span *ngIf="editing">Edit</span><span *ngIf="!editing">Create</span> accommodation</h1>
         <button mat-raised-button color="primary" style="margin-left: auto;" (click)="onSubmit()">
             <mat-icon>add</mat-icon>Create
         </button>
@@ -40,9 +40,9 @@
         <p class="section-title">Details</p>
 
         <div class="details-inputs">
-            <mat-form-field>
+            <mat-form-field *ngIf="!editing">
                 <mat-label>Pricing type</mat-label>
-                <mat-select [(value)]="accommodation.newPricing" *ngIf="!editing">
+                <mat-select [(value)]="accommodation.newPricing">
                     <mat-option value="PER_PERSON">Per person</mat-option>
                     <mat-option value="PER_ACCOMMODATION">Per accommodation</mat-option>
                 </mat-select>
@@ -89,11 +89,30 @@
         </mat-form-field>
     </section>
 
+    <section id="address-section" class="card-section rounded-border">
+        <p class="section-title">Address</p>
+
+        <div class="address-inputs">
+            <mat-form-field>
+                <mat-label>Street</mat-label>
+                <input matInput type="text" name="street" [(ngModel)]="accommodation.newAddress!.street">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>City</mat-label>
+                <input matInput type="text" name="city" [(ngModel)]="accommodation.newAddress!.city">
+            </mat-form-field>
+
+            <mat-select-country class="country-select" appearance="fill" label="Country" [value]="selectedCountry">
+            </mat-select-country>
+        </div>
+    </section>
+
     <section id="availability-section" class="card-section rounded-border">
         <p class="section-title">Availability</p>
 
         <form (submit)="onAddSlot()">
-            <mat-form-field subscriptSizing="dynamic" style="margin-bottom: 1.25em;">
+            <mat-form-field subscriptSizing="dynamic" class="date-picker">
                 <mat-label>Choose Date Range</mat-label>
                 <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
                     <input matStartDate formControlName="start" placeholder="Start Date" name="startDate">
@@ -109,30 +128,32 @@
                 <span matTextPrefix>€&nbsp;</span>
             </mat-form-field>
 
-            <button mat-raised-button color="primary" style="width: 100%;" type="submit">
+            <button mat-raised-button color="accent" style="width: 100%;" type="submit" class="add-slot-button">
                 <mat-icon>add</mat-icon>Add slot
             </button>
         </form>
 
         <table mat-table [dataSource]="slotsTableData" class="mat-elevation-z8">
             <ng-container matColumnDef="start">
-                <th mat-header-cell *matHeaderCellDef> Start </th>
-                <td mat-cell *matCellDef="let element"> {{element.timeSlot.start.toLocaleDateString()}} </td>
+                <th mat-header-cell *matHeaderCellDef class="start-column"> Start </th>
+                <td mat-cell *matCellDef="let element" class="start-column">
+                    {{element.timeSlot.start.toLocaleDateString()}} </td>
             </ng-container>
 
             <ng-container matColumnDef="end">
-                <th mat-header-cell *matHeaderCellDef> End </th>
-                <td mat-cell *matCellDef="let element"> {{element.timeSlot.end.toLocaleDateString()}} </td>
+                <th mat-header-cell *matHeaderCellDef class="end-column"> End </th>
+                <td mat-cell *matCellDef="let element" class="end-column"> {{element.timeSlot.end.toLocaleDateString()}}
+                </td>
             </ng-container>
 
             <ng-container matColumnDef="price">
-                <th mat-header-cell *matHeaderCellDef> Price (€) </th>
-                <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+                <th mat-header-cell *matHeaderCellDef class="price-column"> Price (€) </th>
+                <td mat-cell *matCellDef="let element" class="price-column"> {{element.price}} </td>
             </ng-container>
 
             <ng-container matColumnDef="delete">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let i = index">
+                <th mat-header-cell *matHeaderCellDef class="delete-column"></th>
+                <td mat-cell *matCellDef="let i = index" class="delete-column">
                     <button mat-icon-button (click)="removeSlot(i)">
                         <mat-icon>close</mat-icon>
                     </button>
@@ -142,7 +163,6 @@
             <tr mat-header-row *matHeaderRowDef="slotColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: slotColumns;"></tr>
         </table>
-
     </section>
 
     <section id="images-section" class="card-section rounded-border">

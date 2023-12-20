@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AmenityView } from '../amenity.model';
 import { AccommodationService } from '../accommodation.service';
 import { AvailabilitySlot } from '../model/availability-slot.model';
@@ -7,31 +7,34 @@ import { SharedService } from '../../shared/shared.service';
 import { overlapping } from '../../shared/model/time-slot.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../infrastructure/auth/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccommodationRequestCreation } from '../model/accommodation-request-create.model';
 import { environment } from '../../../env/env';
 import { FileService } from '../../shared/file.service';
 import { forkJoin } from 'rxjs';
 import { Image } from '../../shared/image-uploader/image.model';
+import { AccommodationRequestService } from '../accommodation-request.service';
+import { COUNTRIES_DB_EU, Country } from '@angular-material-extensions/select-country';
 
 
 @Component({
-    selector: 'app-accommodation-create',
-    templateUrl: './accommodation-create.component.html',
-    styleUrl: './accommodation-create.component.css'
+    selector: 'app-accommodation-modification',
+    templateUrl: './accommodation-modification.component.html',
+    styleUrl: './accommodation-modification.component.css'
 })
-export class AccommodationCreateComponent implements OnInit {
+export class AccommodationModificationComponent implements OnInit {
     editing: boolean = false;
     accommodation: AccommodationRequestCreation = {
         id: -1,
+        requestType: 'CREATE',
         newTitle: '',
         newDescription: '',
         newType: 'APARTMENT', // Assuming type is an enum
-        newAddress: { street: 'Bulevar oslobodjenja', number: 55, city: 'Novi Sad', country: 'Serbia' },
+        newAddress: { street: '', number: 0, city: '', country: '' },
         newPricing: 'PER_PERSON',
         newDefaultPrice: 0,
         newAutomaticApproval: false,
-        newCancellationDue: '',
+        newCancellationDue: 0,
         newAvailableSlots: [],
         newAmenities: [],
         newMinGuests: 1,
@@ -52,11 +55,15 @@ export class AccommodationCreateComponent implements OnInit {
         end: new FormControl<Date | null>(null)
     });
 
+    selectedCountry: Country = { alpha2Code: 'US' };
+
     constructor(
         protected accommodationService: AccommodationService,
+        private requestService: AccommodationRequestService,
         private sharedService: SharedService,
         private authService: AuthService,
-        private service: FileService,
+        private fileService: FileService,
+        private route: ActivatedRoute,
         private router: Router) {
     }
 
@@ -70,22 +77,78 @@ export class AccommodationCreateComponent implements OnInit {
                     title: a.title,
                     id: a.id,
                 }));
+
+                this.route.params.subscribe(params => {
+                    if (params['id'])
+                        this.initEditing(params['id']);
+                });
             }
         });
         this.accommodation.hostId = this.authService.getId();
     }
 
-    async onSubmit() {
+    initEditing(id: number) {
+        this.editing = true;
+        this.accommodationService.getById(id).subscribe({
+            next: (accommodation) => {
+                console.log(accommodation);
+
+                this.accommodation.newTitle = accommodation.title;
+                this.accommodation.newDescription = accommodation.description;
+                this.accommodation.newType = accommodation.type;
+                this.accommodation.newAddress = accommodation.address;
+                this.accommodation.newDefaultPrice = accommodation.defaultPrice;
+                this.accommodation.newAutomaticApproval = accommodation.automaticApproval;
+                this.accommodation.newCancellationDue = accommodation.cancellationDue;
+                this.accommodation.newMinGuests = accommodation.minGuests;
+                this.accommodation.newMaxGuests = accommodation.maxGuests;
+                this.accommodation.requestType = 'UPDATE';
+
+                this.slots = Array.from(accommodation.availableSlots);
+                accommodation.amenities.forEach((amenity) => {
+                    let index = this.amenities.findIndex((a) => a.id == amenity.id);
+                    if (index != -1) this.amenities[index].selected = true;
+                });
+
+                this.findCountry(accommodation.address.country!);
+
+                this.accommodationService.getImageUrls(id).subscribe({
+                    next: (imageNames) => {
+                        imageNames.forEach((name) => {
+                            let url = this.accommodationService.getImageUrl(id, name);
+                            this.fileService.load(url).subscribe({
+                                next: (blob) => {
+                                    this.images.push({
+                                        file: new File([blob], name),
+                                        url: url
+                                    });
+                                },
+                                error: (err) => console.log(err)
+                            });
+                        });
+                    },
+                    error: (err) => console.log(err)
+                });
+            },
+            error: (err) => {
+                console.log(err);
+                if (err.status == 404)
+                    this.sharedService.displayError(`Accommodation with id ${id} not found.`);
+            }
+        });
+    }
+
+    onSubmit() {
         this.accommodation.newAutomaticApproval = this.selectedConfirmation == 'AUTOMATIC';
         this.accommodation.newAvailableSlots = this.slots;
         this.accommodation.newAmenities = this.amenities.filter(a => a.selected).map(a => ({ id: a.id!, title: a.title! }));
 
-        this.accommodationService.create(this.accommodation).subscribe({
+        this.requestService.create(this.accommodation).subscribe({
             next: (model) => {
-                this.uploadSelectedImages(model.id).subscribe({
+                console.log('model', model);
+                this.uploadSelectedImages(model.id!).subscribe({
                     next: () => {
                         console.log('Uploaded images.');
-                        console.log('model', model);
                         confirm('Accommodation has been successfully created.');
                         this.router.navigate(['']);
                     },
@@ -167,10 +230,16 @@ export class AccommodationCreateComponent implements OnInit {
     uploadSelectedImages(id: number) {
         let endpoint = `${environment.apiHost}accommodationRequests/image/${id}`;
         return forkJoin(this.images.map(
-            image => this.service.upload(image.file, endpoint, 'image'))
+            image => this.fileService.upload(image.file, endpoint, 'image'))
         );
     }
 
     trackImage = (index: number, image: Image) => image ? image.url : index;
     removeImage = (index: number) => this.images.splice(index, 1);
+
+    findCountry(name: string): void {
+        COUNTRIES_DB_EU.forEach((c) => {
+            if (c.name == name) this.selectedCountry = c;
+        });
+    }
 };

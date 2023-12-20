@@ -55,11 +55,6 @@ export class AccommodationService {
         return this.path + '/' + id + '/images/' + imageName;
     }
 
-    create(accommodation: AccommodationRequestCreation): Observable<Accommodation> {
-        console.log(accommodation);
-        return this.httpClient.post<Accommodation>(this.path, accommodation);
-    }
-
 
     // splitSlots(first: AvailabilitySlot, second: AvailabilitySlot): AvailabilitySlot[] {
     //     let spliced: AvailabilitySlot[] = [];

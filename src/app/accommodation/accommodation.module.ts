@@ -15,10 +15,10 @@ import { FilterDialogComponent } from './accommodation-list/filter-dialog/filter
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoundButtonComponent } from './round-button/round-button.component';
 import { RouterModule } from '@angular/router';
-import { AccommodationCreateComponent } from './accommodation-create/accommodation-create.component';
 import { AccommodationImagesDialogComponent } from './accommodation-images-dialog/accommodation-images-dialog.component';
 import { SharedModule } from '../shared/shared.module';
 import { AccommodationRequestsComponent } from './accommodation-requests/accommodation-requests.component';
+import { AccommodationModificationComponent } from './accommodation-modification/accommodation-modification.component';
 
 
 
@@ -37,7 +37,7 @@ import { AccommodationRequestsComponent } from './accommodation-requests/accommo
         RatingSummaryComponent,
         AutocompleteDropdownComponent,
         SearchDaterangePickerComponent,
-        AccommodationCreateComponent,
+        AccommodationModificationComponent,
         AccommodationImagesDialogComponent,
         AccommodationRequestsComponent
     ],

@@ -43,6 +43,7 @@ export class AccountManagementComponent implements OnInit {
         this.imageUpload = this.image;
         this.userService.findById(this.id).subscribe({
             next: (user) => {
+                console.log(user);
                 this.user = user;
                 this.editedUser = user;
                 this.password.userId = user.id;
