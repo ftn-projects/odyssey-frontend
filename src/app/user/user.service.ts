@@ -19,10 +19,6 @@ export class UserService {
         return this.http.get<User>(`${this.path}/${id}`);
     }
 
-    findByEmail(email: string): Observable<User> {
-        return this.http.get<User>(`${this.path}/email/${email}`);
-    }
-
     getProfileImage(id: number): Observable<any> {
         return this.http.get<any>(`${this.path}/image/${id}`);
     }

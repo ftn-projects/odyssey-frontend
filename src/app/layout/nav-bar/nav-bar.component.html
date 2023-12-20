@@ -5,13 +5,13 @@
     </a>
     <div class="horizontal-flex">
         <a [routerLink]="'/'">Home</a>
-        <a [routerLink]="'/accommodation/list'">Search</a>
+        <a [routerLink]="'/accommodations'">Search</a>
         <a [routerLink]="'/'">Contact</a>
         <a [routerLink]="'/'" *ngIf="role == 'GUEST'">My reservations</a>
         <a [routerLink]="'/'" *ngIf="role == 'HOST'">Reservations</a>
         <a [routerLink]="'/'" *ngIf="role == 'HOST'">My accommodations</a>
         <a [routerLink]="'/accommodation/create'" *ngIf="role == 'HOST'">Create</a>
-        <a [routerLink]="'/accommodation/requests'" *ngIf="role == 'ADMIN'">Reviews</a>
+        <a [routerLink]="'/accommodationRequests'" *ngIf="role == 'ADMIN'">Reviews</a>
         <a [routerLink]="'/'" *ngIf="role == 'ADMIN'">Accommodations</a>
         <a [routerLink]="'/'" *ngIf="role == 'ADMIN'">Users</a>
         <img class="toolbar-profile-img" [routerLink]="'/account'" src="{{image}}"

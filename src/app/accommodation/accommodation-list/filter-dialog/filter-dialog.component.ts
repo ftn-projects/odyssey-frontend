@@ -2,14 +2,14 @@ import { Component, ElementRef, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AccommodationService } from '../../accommodation.service';
-import { Amenity } from '../../amenity.model';
+import { Amenity } from '../../model/amenity.model';
 
 @Component({
     selector: 'app-filter-dialog',
     templateUrl: './filter-dialog.component.html',
     styleUrl: './filter-dialog.component.css'
 })
-export class FilterDialogComponent implements OnInit{
+export class FilterDialogComponent implements OnInit {
     constructor(
         private elRef: ElementRef,
         private dialogRef: MatDialogRef<FilterDialogComponent>,
@@ -25,15 +25,15 @@ export class FilterDialogComponent implements OnInit{
             },
             error: (_) => { console.log("Greska!") }
         })
-        
-        
+
+
     }
 
-    amenities : Amenity[] = [];
+    amenities: Amenity[] = [];
 
     filterFormGroup!: FormGroup;
 
-    buildForms() : void {
+    buildForms(): void {
         this.filterFormGroup = this.fb.group({
             price: this.fb.group({
                 min: [0],
@@ -53,27 +53,27 @@ export class FilterDialogComponent implements OnInit{
         return this.fb.group(group);
     }
 
-    
+
 
     closeDialog(): void {
         this.dialogRef.close();
     }
 
-    applyFilters(): void {    
-       
+    applyFilters(): void {
+
         const selectedAmenities = Object.keys(this.filterFormGroup.value.amenities)
-        .filter(key => this.filterFormGroup.value.amenities[key])
-        .map(key => +key);
+            .filter(key => this.filterFormGroup.value.amenities[key])
+            .map(key => +key);
 
         const updatedData = {
             filterFormGroup: {
-            price: this.filterFormGroup.value.price,
-            accommodationType: this.filterFormGroup.value.accommodationType,
-            amenities: selectedAmenities,
-        },
-    };
+                price: this.filterFormGroup.value.price,
+                accommodationType: this.filterFormGroup.value.accommodationType,
+                amenities: selectedAmenities,
+            },
+        };
 
-    this.dialogRef.close(updatedData);
+        this.dialogRef.close(updatedData);
     }
 
     formatLabel(value: number): string {
@@ -84,5 +84,5 @@ export class FilterDialogComponent implements OnInit{
         return `${value}`;
     }
 
-    
+
 }

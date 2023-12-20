@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AmenityView } from '../amenity.model';
+import { AmenityView } from '../model/amenity.model';
 import { AccommodationService } from '../accommodation.service';
 import { AvailabilitySlot } from '../model/availability-slot.model';
 import { FormControl, FormGroup } from '@angular/forms';

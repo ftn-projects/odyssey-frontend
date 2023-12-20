@@ -9,10 +9,11 @@ import { EmailConfirmationComponent } from './infrastructure/auth/email-confirma
 import { AuthGuard } from './infrastructure/auth/auth.guard';
 import { AccommodationRequestsComponent } from './accommodation/accommodation-requests/accommodation-requests.component';
 import { AccommodationModificationComponent } from './accommodation/accommodation-modification/accommodation-modification.component';
+import { AccommodationRequestDetailsComponent } from './accommodation/accommodation-request-details/accommodation-request-details.component';
 
 const routes: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: 'accommodation/list' },
-    { path: 'accommodation/list', component: AccommodationListComponent },
+    { path: '', pathMatch: 'full', redirectTo: 'accommodations' },
+    { path: 'accommodations', component: AccommodationListComponent },
     { path: 'accommodation/details/:id', component: AccommodationDetailsComponent },
     {
         path: 'accommodation/create', component: AccommodationModificationComponent,
@@ -22,7 +23,8 @@ const routes: Routes = [
         path: 'accommodation/edit/:id', component: AccommodationModificationComponent,
         canActivate: [AuthGuard], data: { role: ['HOST'], mode: 'EDIT' }
     },
-    { path: 'accommodation/requests', component: AccommodationRequestsComponent },
+    { path: 'accommodationRequests', component: AccommodationRequestsComponent },
+    { path: 'accommodationRequest/:id', component: AccommodationRequestDetailsComponent },
     {
         path: 'account', component: AccountManagementComponent,
         canActivate: [AuthGuard], data: { role: ['ADMIN', 'HOST', 'GUEST'] }

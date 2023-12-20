@@ -20,6 +20,7 @@ import { AccommodationImagesDialogComponent } from './accommodation-images-dialo
 import { SharedModule } from '../shared/shared.module';
 import { AccommodationRequestsComponent } from './accommodation-requests/accommodation-requests.component';
 import { AccommodationModificationComponent } from './accommodation-modification/accommodation-modification.component';
+import { AccommodationRequestDetailsComponent } from './accommodation-request-details/accommodation-request-details.component';
 
 
 
@@ -40,7 +41,8 @@ import { AccommodationModificationComponent } from './accommodation-modification
         SearchDaterangePickerComponent,
         AccommodationModificationComponent,
         AccommodationImagesDialogComponent,
-        AccommodationRequestsComponent
+        AccommodationRequestsComponent,
+        AccommodationRequestDetailsComponent
     ],
     imports: [
         RouterModule,

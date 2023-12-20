@@ -10,12 +10,12 @@ export interface Accommodation {
     type: 'APARTMENT' | 'ROOM' | 'HOUSE'; // Assuming type is an enum
     address: Address;
     pricing: 'PER_PERSON' | 'PER_ACCOMMODATION'; // Assuming pricing is an enum
-    amenities: Set<Amenity>;
+    amenities: Amenity[];
     host: User;
     defaultPrice: number; // Change the type accordingly
     automaticApproval: boolean;
     cancellationDue: number;
-    availableSlots: Set<AvailabilitySlot>;
+    availableSlots: AvailabilitySlot[];
     minGuests: number;
     maxGuests: number;
     totalPrice: number;

@@ -12,6 +12,10 @@ export class AccommodationRequestService {
     private path: string = environment.apiHost + 'accommodationRequests';
     constructor(private http: HttpClient) { }
 
+    getById(id: number): Observable<AccommodationRequest> {
+        return this.http.get<AccommodationRequest>(`${this.path}/${id}`);
+    }
+
     findByStatus(status: string): Observable<AccommodationRequest[]> {
         return this.http.get<AccommodationRequest[]>(`${this.path}?status=${status}`);
     }
@@ -23,5 +27,13 @@ export class AccommodationRequestService {
     create(request: AccommodationRequestCreation): Observable<AccommodationRequestCreation> {
         console.log(request);
         return this.http.post<AccommodationRequestCreation>(this.path, request);
+    }
+
+    getImageUrls(id: number): Observable<string[]> {
+        return this.http.get<string[]>(this.path + '/' + id + "/images");
+    }
+
+    getImageUrl(id: number, imageName: string): string {
+        return this.path + '/' + id + '/images/' + imageName;
     }
 }

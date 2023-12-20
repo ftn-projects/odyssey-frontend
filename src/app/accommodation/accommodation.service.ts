@@ -3,7 +3,7 @@ import { Accommodation } from './model/accommodation.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../env/env';
-import { Amenity } from './amenity.model';
+import { Amenity } from './model/amenity.model';
 import { AccommodationRequestCreation } from './model/accommodation-request-create.model';
 
 @Injectable({
@@ -14,7 +14,7 @@ export class AccommodationService {
     }
 
     getAll(
-        location? : string,
+        location?: string,
         dateStart?: Date,
         dateEnd?: Date,
         guestNumber?: number,

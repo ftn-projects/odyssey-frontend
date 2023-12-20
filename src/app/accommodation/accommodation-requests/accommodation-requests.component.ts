@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AccommodationRequest } from '../model/accommodation-request.model';
 import { AccommodationRequestService } from '../accommodation-request.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-accommodation-requests',
@@ -20,7 +21,7 @@ export class AccommodationRequestsComponent {
 
     requests: AccommodationRequest[] = [];
 
-    constructor(private service: AccommodationRequestService) {
+    constructor(private service: AccommodationRequestService, private router: Router) {
     }
 
     ngOnInit() {
@@ -55,4 +56,7 @@ export class AccommodationRequestsComponent {
         });
     }
 
+    onRequestClick(request: AccommodationRequest) {
+        this.router.navigate([`/accommodationReview/${request.id}`])
+    }
 }

@@ -12,7 +12,7 @@ import { TimeSlot } from '../../shared/model/time-slot.model';
 import { AuthService } from '../../infrastructure/auth/auth.service';
 import { MapService } from '../map/map.service';
 import { Address } from '../../shared/model/address.model';
-import { Amenity } from '../amenity.model';
+import { Amenity } from '../model/amenity.model';
 import { UserService } from '../../user/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../env/env';
@@ -32,7 +32,7 @@ export class AccommodationDetailsComponent {
     imageNames: string[] = []
     fullAddress!: string;
     mapCoordinates!: [number, number]
-    amenities: { icon: string, amenity: Amenity}[] = [];
+    amenities: { icon: string, amenity: Amenity }[] = [];
     hostImage!: string;
 
     constructor(
@@ -43,7 +43,7 @@ export class AccommodationDetailsComponent {
         private dialog: MatDialog,
         private authService: AuthService,
         private mapService: MapService,
-        private userService : UserService,
+        private userService: UserService,
         private snackbar: MatSnackBar
     ) {
         this.reservationDetails = new FormGroup({
@@ -96,16 +96,18 @@ export class AccommodationDetailsComponent {
                     error: (err) => console.error(err),
                 });
             }
-        });
 
-        const icons = this.service.amenityIcons;
-        this.service.getAmenities().subscribe({
-            next: (amenities) => {
-                this.amenities = amenities.map(a => ({
-                    icon: icons.get(a.title || 'DEFAULT') || icons.get('DEFAULT') || '',
-                    amenity: a
-                }));
-            }
+            const icons = this.service.amenityIcons;
+            this.service.getAmenities().subscribe({
+                next: (amenities) => {
+                    this.amenities = amenities
+                        .filter(amenity => accommodation.amenities.findIndex(a => a.id == amenity.id) != -1)
+                        .map(a => ({
+                            icon: icons.get(a.title || 'DEFAULT') || icons.get('DEFAULT') || '',
+                            amenity: a
+                        }));
+                }
+            });
         });
     }
 
@@ -116,17 +118,18 @@ export class AccommodationDetailsComponent {
             maxWidth: '100vw',
             data: {
                 images: this.allImageNames,
-                id: this.id
+                id: this.id,
+                requests: false
             },
         });
     }
 
     openSnackBar(message: string, action: string) {
         this.snackbar.open(message, action);
-      }
+    }
 
 
-      sendReservation() {
+    sendReservation() {
         if (this.authService.isLoggedIn() && this.authService.getRole() === 'GUEST') {
             const accommodationSubscription = this.accommodation.subscribe((accommodation: Accommodation) => {
                 const startDate = this.reservationDetails.get('dateRange.start')?.value;
@@ -139,20 +142,20 @@ export class AccommodationDetailsComponent {
                 const currentDate = new Date();
                 if (startDate < currentDate || endDate < currentDate) {
                     this.openSnackBar("Selected dates cannot be in the past. Please select future dates.", "Close");
-                return;
-            }
-    
+                    return;
+                }
+
                 const guests = this.reservationDetails.get('guestGroup.guests')?.value;
                 if (isNaN(guests) || guests <= 0) {
                     this.openSnackBar("Invalid number of guests. Please enter a valid number.", "Close");
                     return;
                 }
-    
+
                 const timeSlot: TimeSlot = {
                     start: startDate,
                     end: endDate,
                 };
-    
+
                 const newReservation: Reservation = {
                     price: this.totalPrice,
                     guestNumber: guests,
@@ -162,7 +165,7 @@ export class AccommodationDetailsComponent {
                     guestId: this.authService.getId(),
                     accommodationId: accommodation.id,
                 };
-    
+
                 console.log("Sending reservation:", newReservation);
                 this.resService.add(newReservation).subscribe({
                     next: (reservation: Reservation) => console.log("Reservation sent successfully:", reservation),
