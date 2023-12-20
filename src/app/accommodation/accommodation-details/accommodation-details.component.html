@@ -39,7 +39,7 @@
                     <div class="host-header-container">
                         <div class="host-info-container">
                             <div class="host-image-container">
-                                <img src="assets/user_stock_image.jpg" alt="profile image">
+                                <img [src]="hostImage" alt="profile image">
                             </div>
                             <div class="host-text-info-container">
                                 <div class="hosted-by-container">
@@ -68,9 +68,9 @@
                     Amenities
                 </div>
                 <div class="amenities-container">
-                    <div class="amenities-item" *ngFor="let amenity of accommodationData.amenities">
-                        <mat-icon>bathtub</mat-icon>
-                        <div class="amenities-text">{{amenity.title}}</div>
+                    <div class="amenities-item" *ngFor="let amenity of amenities">
+                        <mat-icon>{{amenity.icon}}</mat-icon>
+                        <div class="amenities-text">{{amenity.amenity.title}}</div>
                     </div>
                 </div>
             </div>
@@ -80,10 +80,12 @@
                 <div class="amenities-title">
                     Location
                 </div>
+                <div class="location-name">
+                    {{ accommodationData.address.street + " " + accommodationData.address.number + ", " + accommodationData.address.city + ", " + accommodationData.address.country}}
+                </div>
                 <div class="location-section">
                     <div class="location-map-container">
-                        <img src="https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=400&center=lonlat:19.847677,45.245405&zoom=14.5165&marker=lonlat:19.847812429683927,45.24480264845724;color:%23ff0000;size:medium&scaleFactor=2&apiKey=096745518caf46bcbf709624093db6ea"
-                            alt="University of Novi Sad, Доктора Зорана Ђинђића, 21101 Novi Sad, Serbia">
+                        <app-map [coordinates]="mapCoordinates"></app-map>
                     </div>
                 </div>
             </div>

@@ -3,13 +3,19 @@ import { ActivatedRoute } from '@angular/router';
 import { Accommodation } from '../model/accommodation.model';
 import { AccommodationService } from '../accommodation.service';
 import { Observable } from 'rxjs';
-import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
+import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { ReservationService } from '../../reservation/reservation.service';
 import { Reservation, Status } from '../../reservation/reservation.model';
 import { MatDialog } from '@angular/material/dialog';
 import { AccommodationImagesDialogComponent } from '../accommodation-images-dialog/accommodation-images-dialog.component';
 import { TimeSlot } from '../../shared/model/time-slot.model';
 import { AuthService } from '../../infrastructure/auth/auth.service';
+import { MapService } from '../map/map.service';
+import { Address } from '../../shared/model/address.model';
+import { Amenity } from '../amenity.model';
+import { UserService } from '../../user/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from '../../../env/env';
 
 @Component({
     selector: 'app-accommodation-details',
@@ -24,6 +30,10 @@ export class AccommodationDetailsComponent {
     numberOfDays!: number;
     allImageNames: string[] = [];
     imageNames: string[] = []
+    fullAddress!: string;
+    mapCoordinates!: [number, number]
+    amenities: { icon: string, amenity: Amenity}[] = [];
+    hostImage!: string;
 
     constructor(
         private route: ActivatedRoute,
@@ -31,7 +41,10 @@ export class AccommodationDetailsComponent {
         private resService: ReservationService,
         private cdr: ChangeDetectorRef,
         private dialog: MatDialog,
-        private authService: AuthService
+        private authService: AuthService,
+        private mapService: MapService,
+        private userService : UserService,
+        private snackbar: MatSnackBar
     ) {
         this.reservationDetails = new FormGroup({
             dateRange: new FormGroup({
@@ -65,6 +78,35 @@ export class AccommodationDetailsComponent {
                 console.error('Error fetching image URLs:', err);
             },
         });
+
+        this.accommodation.subscribe((accommodation: Accommodation) => {
+            this.hostImage = `${environment.apiHost}users/image/${accommodation.host.id}`;
+
+            const address: Address = accommodation.address;
+            if (address && address.street && address.number && address.city && address.country) {
+                const fullAddress = `${address.street} ${address.number}, ${address.city}, ${address.country}`;
+                this.fullAddress = fullAddress;
+                this.mapService.search(fullAddress).subscribe({
+                    next: (data) => {
+                        console.log(data);
+                        if (data.length > 0 && data[0].lat && data[0].lon) {
+                            this.mapCoordinates = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+                        }
+                    },
+                    error: (err) => console.error(err),
+                });
+            }
+        });
+
+        const icons = this.service.amenityIcons;
+        this.service.getAmenities().subscribe({
+            next: (amenities) => {
+                this.amenities = amenities.map(a => ({
+                    icon: icons.get(a.title || 'DEFAULT') || icons.get('DEFAULT') || '',
+                    amenity: a
+                }));
+            }
+        });
     }
 
     openDialog() {
@@ -79,32 +121,60 @@ export class AccommodationDetailsComponent {
         });
     }
 
-    sendReservation() {
-        this.accommodation.subscribe((accommodation: Accommodation) => {
-            // Create a new TimeSlot for demonstration purposes
-            const timeSlot: TimeSlot = {
-                start: this.reservationDetails.get('dateRange.start')?.value,
-                end: this.reservationDetails.get('dateRange.end')?.value,
-            };
+    openSnackBar(message: string, action: string) {
+        this.snackbar.open(message, action);
+      }
 
-            // Create a new Reservation object
-            const newReservation: Reservation = {
-                price: this.totalPrice, // Replace with the actual price
-                guestNumber: this.reservationDetails.get('guestGroup.guests')?.value, // Replace with the actual guest number
-                requestDate: new Date(), // Replace with the actual request date
-                status: Status.REQUESTED, // Replace with the desired status
-                timeSlot: timeSlot, // Assign the TimeSlot object
-                guestId: this.authService.getId(),
-                accommodationId: accommodation.id, // Replace with the actual accommodation ID
-            };
 
-            // Now you can use the newReservation object as needed, for example, send it to the server
-            console.log("Sending reservation:", newReservation);
-            this.resService.add(newReservation).subscribe({
-                next: (reservation: Reservation) => console.log("Reservation sent successfully:", reservation),
-                error: (err) => console.log(err)
+      sendReservation() {
+        if (this.authService.isLoggedIn() && this.authService.getRole() === 'GUEST') {
+            const accommodationSubscription = this.accommodation.subscribe((accommodation: Accommodation) => {
+                const startDate = this.reservationDetails.get('dateRange.start')?.value;
+                const endDate = this.reservationDetails.get('dateRange.end')?.value;
+                if (!startDate || !endDate || startDate >= endDate) {
+                    this.openSnackBar("Invalid date range. Please select valid dates.", "Close");
+                    return;
+                }
+
+                const currentDate = new Date();
+                if (startDate < currentDate || endDate < currentDate) {
+                    this.openSnackBar("Selected dates cannot be in the past. Please select future dates.", "Close");
+                return;
+            }
+    
+                const guests = this.reservationDetails.get('guestGroup.guests')?.value;
+                if (isNaN(guests) || guests <= 0) {
+                    this.openSnackBar("Invalid number of guests. Please enter a valid number.", "Close");
+                    return;
+                }
+    
+                const timeSlot: TimeSlot = {
+                    start: startDate,
+                    end: endDate,
+                };
+    
+                const newReservation: Reservation = {
+                    price: this.totalPrice,
+                    guestNumber: guests,
+                    requestDate: new Date(),
+                    status: Status.REQUESTED,
+                    timeSlot: timeSlot,
+                    guestId: this.authService.getId(),
+                    accommodationId: accommodation.id,
+                };
+    
+                console.log("Sending reservation:", newReservation);
+                this.resService.add(newReservation).subscribe({
+                    next: (reservation: Reservation) => console.log("Reservation sent successfully:", reservation),
+                    error: (err) => {
+                        console.log(err);
+                        this.openSnackBar("Something went wrong!", "Close");
+                    }
+                });
             });
-        });
+        } else {
+            this.openSnackBar("You must be logged in as a guest to make a reservation!", "Close");
+        }
     }
 
 
@@ -118,8 +188,6 @@ export class AccommodationDetailsComponent {
             const guests = this.reservationDetails.get('guestGroup.guests')?.value;
 
             let totalPrice: number;
-            console.log("Days: " + numberOfDays);
-            console.log("Guests: " + guests);
             if (pricingType === 'PER_PERSON') {
                 totalPrice = numberOfDays * accommodation.defaultPrice * guests;
             } else {
