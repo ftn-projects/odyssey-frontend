@@ -1,11 +1,17 @@
 <div class="body-container">
     <div class="parameterSection" [formGroup]="searchParameters">
-        <app-autocomplete-dropdown formGroupName="location" class="parameter-child" />
+        <mat-form-field class="parameter-child" subscriptSizing="dynamic" formGroupName="location">
+            <mat-icon matPrefix class="material-symbols-outlined input-prefix">
+                location_on
+            </mat-icon>
+            <mat-label>Address</mat-label>
+            <input matInput placeholder="Ex. Novi Sad" formControlName="address">
+        </mat-form-field>
 
         <mat-form-field class="parameter-child" subscriptSizing="dynamic" formGroupName="guestGroup">
-            <span matPrefix class="material-symbols-outlined input-prefix">
+            <mat-icon matPrefix class="material-symbols-outlined input-prefix">
                 people
-            </span>
+            </mat-icon>
             <mat-label>Guests</mat-label>
             <input type="number" matInput formControlName="guests">
         </mat-form-field>

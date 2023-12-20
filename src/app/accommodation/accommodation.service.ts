@@ -14,6 +14,7 @@ export class AccommodationService {
     }
 
     getAll(
+        location? : string,
         dateStart?: Date,
         dateEnd?: Date,
         guestNumber?: number,
@@ -22,8 +23,8 @@ export class AccommodationService {
         priceStart?: number,
         priceEnd?: number
     ): Observable<Accommodation[]> {
-        // Construct query parameters
         let params = new HttpParams();
+        if (location) params = params.set('location', location);
         if (dateStart) params = params.set('dateStart', dateStart.toString());
         if (dateEnd) params = params.set('dateEnd', dateEnd.toString());
         if (guestNumber) params = params.set('guestNumber', guestNumber);

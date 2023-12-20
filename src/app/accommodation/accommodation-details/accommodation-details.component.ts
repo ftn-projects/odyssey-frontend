@@ -127,7 +127,7 @@ export class AccommodationDetailsComponent {
 
 
       sendReservation() {
-        if (this.authService.isLoggedIn()) {
+        if (this.authService.isLoggedIn() && this.authService.getRole() === 'GUEST') {
             const accommodationSubscription = this.accommodation.subscribe((accommodation: Accommodation) => {
                 const startDate = this.reservationDetails.get('dateRange.start')?.value;
                 const endDate = this.reservationDetails.get('dateRange.end')?.value;
@@ -135,6 +135,12 @@ export class AccommodationDetailsComponent {
                     this.openSnackBar("Invalid date range. Please select valid dates.", "Close");
                     return;
                 }
+
+                const currentDate = new Date();
+                if (startDate < currentDate || endDate < currentDate) {
+                    this.openSnackBar("Selected dates cannot be in the past. Please select future dates.", "Close");
+                return;
+            }
     
                 const guests = this.reservationDetails.get('guestGroup.guests')?.value;
                 if (isNaN(guests) || guests <= 0) {
@@ -167,7 +173,7 @@ export class AccommodationDetailsComponent {
                 });
             });
         } else {
-            this.openSnackBar("You must be logged in to make a reservation!", "Close");
+            this.openSnackBar("You must be logged in as a guest to make a reservation!", "Close");
         }
     }
 
@@ -182,8 +188,6 @@ export class AccommodationDetailsComponent {
             const guests = this.reservationDetails.get('guestGroup.guests')?.value;
 
             let totalPrice: number;
-            console.log("Days: " + numberOfDays);
-            console.log("Guests: " + guests);
             if (pricingType === 'PER_PERSON') {
                 totalPrice = numberOfDays * accommodation.defaultPrice * guests;
             } else {
