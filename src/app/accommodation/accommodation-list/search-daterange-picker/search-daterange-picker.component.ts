@@ -32,8 +32,6 @@ export class SearchDaterangePickerComponent {
         else{
             return true;
         }
-    
-        return false;
       };
     
       // Helper function to check if a date is within a slot

@@ -27,6 +27,7 @@ export class AccommodationDetailsComponent {
     id!: number;
     accommodation!: Observable<Accommodation>;
     reservationDetails: FormGroup;
+    perPricingPrice! :number;
     totalPrice!: number;
     numberOfDays!: number;
     allImageNames: string[] = [];
@@ -194,6 +195,7 @@ export class AccommodationDetailsComponent {
             this.numberOfDays = numberOfDays;
             const guests = this.reservationDetails.get('guestGroup.guests')?.value;
             accommodation.defaultPrice = this.getPriceForDateRange(accommodation, startDate, endDate) || -2;
+            this.perPricingPrice = accommodation.defaultPrice;
 
             let totalPrice: number;
             if (pricingType === 'PER_PERSON') {
@@ -251,11 +253,16 @@ export class AccommodationDetailsComponent {
         return date >= startDate && date <= endDate;
       }
 
-      getPriceForDateRange(accommodation: Accommodation,startDate: Date, endDate: Date): number | null {
+      getPriceForDateRange(accommodation: Accommodation, startDate: Date, endDate: Date): number | null {
+        if (!accommodation.availableSlots || !startDate || !endDate) {
+            return null;
+        }
+        accommodation.availableSlots.forEach(slot => {
+            console.log(slot)
+        });
         const matchingSlot = accommodation.availableSlots.find(slot =>
-            startDate >= slot.timeSlot.start && endDate <= slot.timeSlot.end
+            new Date(startDate) >= new Date(slot.timeSlot.start) && new Date(endDate) <= new Date(slot.timeSlot.end)
         );
-
 
         return matchingSlot ? matchingSlot.price : null;
     }

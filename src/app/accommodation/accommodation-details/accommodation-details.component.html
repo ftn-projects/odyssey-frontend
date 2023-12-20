@@ -100,9 +100,9 @@
         <div class="split-container-column">
             <div class="reserve-container">
                 <div class="reserve-header-container">
-                    <div class="header-price-unit" *ngIf="accommodationData.defaultPrice!=-1">
+                    <div class="header-price-unit" *ngIf="perPricingPrice>0">
                         <span class="header-price">$</span>
-                        <span class="header-price-value">{{accommodationData.defaultPrice}} </span>
+                        <span class="header-price-value">{{perPricingPrice}} </span>
                         <span class="header-price-unit">{{accommodationData.pricing.replace('_', '
                             ').toLowerCase()}}</span>
                     </div>
@@ -126,11 +126,11 @@
                     <div class="pricing-item-section">
                         <div class="pricing-reason">
                             <ng-container *ngIf="accommodationData.pricing === 'PER_PERSON'; else perNight">
-                                ${{ accommodationData.defaultPrice }} x {{
+                                ${{ perPricingPrice }} x {{
                                 reservationDetails.get('guestGroup.guests')?.value }} guests x {{ numberOfDays }} nights
                             </ng-container>
                             <ng-template #perNight>
-                                ${{ accommodationData.defaultPrice }} x {{ numberOfDays }} nights
+                                ${{ perPricingPrice }} x {{ numberOfDays }} nights
                             </ng-template>
                         </div>
                         <div class="pricing-value">
