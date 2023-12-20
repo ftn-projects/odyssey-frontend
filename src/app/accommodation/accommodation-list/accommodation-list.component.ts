@@ -24,7 +24,7 @@ export class AccommodationListComponent {
                 end: [null],
             }),
             guestGroup: fb.group({
-                guests: [0],
+                guests: [],
             }),
             filterFormGroup: fb.group({
                 price: fb.group({
@@ -54,7 +54,7 @@ export class AccommodationListComponent {
 
 
     search() {
-        const locationAddress = this.searchParameters.get('location.address')?.value;
+        const locationAddress = this.searchParameters.get('location.address')?.value.trim() === '' ? null : this.searchParameters.get('location.address')?.value.trim();
         const startDate = this.searchParameters.get('dateRange.start')?.value?.getTime();
         const endDate = this.searchParameters.get('dateRange.end')?.value?.getTime();
         const guestNumber = this.searchParameters.get('guestGroup.guests')?.value;
@@ -63,17 +63,9 @@ export class AccommodationListComponent {
         const accommodationType = this.searchParameters.get('filterFormGroup.accommodationType')?.value === '' ?
         null : this.searchParameters.get('filterFormGroup.accommodationType')?.value;
         const amenitiesParam = (this.amenities && this.amenities.length > 0) ? this.amenities : null;
-        console.log("Location: " + locationAddress)
-        console.log("Start date: " + startDate)
-        console.log("End date: " + endDate)
-        console.log("Guest number: " + guestNumber)
-        console.log("Price min: " + priceMin)
-        console.log("Price max: " + priceMax)
-        console.log("Accommodation type: " + accommodationType)
-        console.log("Amenities: " + amenitiesParam)
         
     
-        this.service.getAll(startDate, endDate, guestNumber, amenitiesParam, accommodationType, priceMin, priceMax).subscribe({
+        this.service.getAll(locationAddress, startDate, endDate, guestNumber, amenitiesParam, accommodationType, priceMin, priceMax).subscribe({
             next: (data: Accommodation[]) => {
                 this.accommodations = data
             },

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccommodationCardComponent } from './accommodation-card/accommodation-card.component';
 import { AccommodationDetailsComponent } from './accommodation-details/accommodation-details.component';
+import { MapComponent } from './map/map.component';
 import { AccommodationListComponent } from './accommodation-list/accommodation-list.component';
 import { AccommodationFilterComponent } from './accommodation-list/accommodation-filter/accommodation-filter.component';
 import { MaterialModule } from '../infrastructure/material/material.module';
@@ -28,7 +29,7 @@ import { AccommodationModificationComponent } from './accommodation-modification
         AccommodationListComponent,
         AccommodationFilterComponent,
         AccommodationDetailsComponent,
-
+        MapComponent,
         ButtonBarComponent,
         StarRatingComponent,
         ReviewCardComponent,
