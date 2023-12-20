@@ -34,6 +34,7 @@ export class AccommodationDetailsComponent {
     mapCoordinates!: [number, number]
     amenities: { icon: string, amenity: Amenity }[] = [];
     hostImage!: string;
+    ownerMode: boolean = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -108,6 +109,8 @@ export class AccommodationDetailsComponent {
                         }));
                 }
             });
+
+            this.ownerMode = accommodation.host.id == this.authService.getId();
         });
     }
 

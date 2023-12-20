@@ -4,9 +4,14 @@
             <div class="accommodation-name">
                 <div class="title-text">{{accommodationData.title}}</div>
                 <div class="rating-container">
-                    <button mat-stroked-button>
+                    <button mat-stroked-button *ngIf="!ownerMode">
                         <mat-icon>favorite</mat-icon>
                         Save
+                    </button>
+                    <button mat-raised-button color="primary" [routerLink]="'/accommodation/edit/' + id"
+                        *ngIf="ownerMode">
+                        <mat-icon>edit</mat-icon>
+                        Edit
                     </button>
                 </div>
             </div>
@@ -49,7 +54,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button mat-icon-button>
+                        <button mat-icon-button *ngIf="!ownerMode">
                             <mat-icon>flag</mat-icon>
                         </button>
                     </div>
@@ -81,7 +86,8 @@
                     Location
                 </div>
                 <div class="location-name">
-                    {{ accommodationData.address.street + " " + accommodationData.address.number + ", " + accommodationData.address.city + ", " + accommodationData.address.country}}
+                    {{ accommodationData.address.street + " " + accommodationData.address.number + ", " +
+                    accommodationData.address.city + ", " + accommodationData.address.country}}
                 </div>
                 <div class="location-section">
                     <div class="location-map-container">
@@ -104,7 +110,7 @@
                         {{accommodationData.minGuests}} - {{accommodationData.maxGuests}} guests
                     </div>
                 </div>
-                <div class="reserve-input-section" [formGroup]="reservationDetails">
+                <div class="reserve-input-section" [formGroup]="reservationDetails" *ngIf="!ownerMode">
                     <app-search-daterange-picker formGroupName="dateRange" class="reservation-range-input" />
                     <mat-form-field class="reservation-guests-input" subscriptSizing="dynamic"
                         formGroupName="guestGroup">
@@ -140,7 +146,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="complete-button-container">
+                <div class="complete-button-container" *ngIf="!ownerMode">
                     <button mat-flat-button color="primary" (click)="sendReservation()">Complete</button>
                 </div>
             </div>
@@ -148,7 +154,7 @@
     </div>
 
 
-    <div class="add-comment-section">
+    <div class="add-comment-section" *ngIf="!ownerMode">
         <div class="amenities-title">
             Reviews
         </div>
