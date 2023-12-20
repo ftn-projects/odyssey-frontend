@@ -28,7 +28,6 @@ import { AccommodationRequestCreation } from '../model/accommodation-request-cre
 export class AccommodationRequestDetailsComponent {
     id!: number;
     request!: Observable<AccommodationRequest>;
-    details!: AccommodationRequestCreation;
     reservationDetails: FormGroup;
     totalPrice!: number;
     numberOfDays!: number;
@@ -76,6 +75,7 @@ export class AccommodationRequestDetailsComponent {
         });
 
         this.request.subscribe((request: AccommodationRequest) => {
+            console.log(request);
             this.hostImage = `${environment.apiHost}users/image/${request.host!.id}`;
 
             const address: Address = request.details!.address;

@@ -75,7 +75,7 @@ export class AccountManagementComponent implements OnInit {
 
         this.userService.updatePassword(this.password).subscribe({
             next: () => this.sharedService.displaySnack('Password changed!'),
-            error: (err) => this.sharedService.displayError(err.error)
+            error: (err) => this.sharedService.displayFirstError(err)
         });
         this.password = { userId: this.user.id, oldPassword: '', newPassword: '' }
         this.confirmPassword = '';

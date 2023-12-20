@@ -88,8 +88,8 @@
                     <div class="header-price-unit">
                         <span class="header-price">$</span>
                         <span class="header-price-value">{{data.details?.defaultPrice}} </span>
-                        <span class="header-price-unit">{{data.details?.pricing?.replace('_', '
-                            ')?.toLowerCase()}}</span>
+                        <span class="header-price-unit">{{data.details?.pricing!.replace('_', '
+                            ').toLowerCase()}}</span>
                     </div>
                     <div class="header-guest-count">
                         {{data.details?.minGuests}} - {{data.details?.maxGuests}} guests
