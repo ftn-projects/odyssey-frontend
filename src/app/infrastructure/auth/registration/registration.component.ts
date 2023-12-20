@@ -18,6 +18,8 @@ export class RegistrationComponent {
         private sharedService: SharedService) {
     }
 
+    hidePassword = true;
+    hideConfirmedPassword = true;
     selectedRole = 'guest';
     selectedCountry: Country = { name: 'Serbia', alpha2Code: 'RS' };
     registrationForm: FormGroup = new FormGroup({

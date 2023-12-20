@@ -50,12 +50,17 @@
 
                 <mat-form-field class="textBox">
                     <mat-label>Password</mat-label>
-                    <input matInput type="text" formControlName="password">
+                    <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+                    <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' :
+                        'visibility'}}</mat-icon>
                 </mat-form-field>
 
                 <mat-form-field class="textBox">
                     <mat-label>Confirm password</mat-label>
-                    <input matInput type="text" formControlName="confirmedPassword">
+                    <input matInput [type]="hideConfirmedPassword ? 'password' : 'text'"
+                        formControlName="confirmedPassword">
+                    <mat-icon matSuffix (click)="hideConfirmedPassword = !hideConfirmedPassword">
+                        {{hideConfirmedPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </mat-form-field>
             </form>
 
