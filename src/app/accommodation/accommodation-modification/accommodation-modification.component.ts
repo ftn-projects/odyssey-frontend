@@ -55,7 +55,7 @@ export class AccommodationModificationComponent implements OnInit {
         end: new FormControl<Date | null>(null)
     });
 
-    selectedCountry: Country = { alpha2Code: 'US' };
+    selectedCountry: Country = { alpha2Code: 'RS', name: 'Serbia' };
 
     constructor(
         protected accommodationService: AccommodationService,
@@ -103,8 +103,16 @@ export class AccommodationModificationComponent implements OnInit {
                 this.accommodation.newMinGuests = accommodation.minGuests;
                 this.accommodation.newMaxGuests = accommodation.maxGuests;
                 this.accommodation.requestType = 'UPDATE';
+                this.accommodation.accommodationId = accommodation.id;
 
-                this.slots = Array.from(accommodation.availableSlots);
+                this.slots = [];
+                accommodation.availableSlots.forEach(s =>
+                    this.slots.push({
+                        price: s.price, timeSlot:
+                            { start: new Date(s.timeSlot.start), end: new Date(s.timeSlot.end) }
+                    }));
+                this.refreshTable();
+
                 accommodation.amenities.forEach((amenity) => {
                     let index = this.amenities.findIndex((a) => a.id == amenity.id);
                     if (index != -1) this.amenities[index].selected = true;
@@ -136,12 +144,16 @@ export class AccommodationModificationComponent implements OnInit {
                     this.sharedService.displayError(`Accommodation with id ${id} not found.`);
             }
         });
+        COUNTRIES_DB_EU.forEach((c) => {
+            if (c.name == "Serbia") this.selectedCountry = c;
+        });
     }
 
     onSubmit() {
         this.accommodation.newAutomaticApproval = this.selectedConfirmation == 'AUTOMATIC';
         this.accommodation.newAvailableSlots = this.slots;
         this.accommodation.newAmenities = this.amenities.filter(a => a.selected).map(a => ({ id: a.id!, title: a.title! }));
+        this.accommodation.newAddress!.country = this.selectedCountry ? this.selectedCountry.name : '';
 
         this.requestService.create(this.accommodation).subscribe({
             next: (model) => {
@@ -162,7 +174,7 @@ export class AccommodationModificationComponent implements OnInit {
                     }
                 });
             },
-            error: (err) => console.log(err)
+            error: (err) => this.sharedService.displayFirstError(err)
         });
     }
 
