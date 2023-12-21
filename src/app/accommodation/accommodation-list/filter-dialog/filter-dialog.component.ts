@@ -21,28 +21,23 @@ export class FilterDialogComponent implements OnInit {
         this.service.getAmenities().subscribe({
             next: (data: Amenity[]) => {
                 this.amenities = data
-                this.buildForms()
+                this.filterFormGroup = this.fb.group({
+                    price: this.fb.group({
+                        min: [0],
+                        max: [2000],
+                    }),
+                    accommodationType: [''],
+                    amenities: this.buildCheckboxes()
+                });
             },
             error: (_) => { console.log("Greska!") }
         })
-
-
     }
 
     amenities: Amenity[] = [];
 
     filterFormGroup!: FormGroup;
 
-    buildForms(): void {
-        this.filterFormGroup = this.fb.group({
-            price: this.fb.group({
-                min: [0],
-                max: [2000],
-            }),
-            accommodationType: [''],
-            amenities: this.buildCheckboxes()
-        });
-    }
 
     buildCheckboxes(): FormGroup {
         const group: any = {};

@@ -69,7 +69,7 @@ export class RegistrationComponent {
                 this.userService.add(user).subscribe({
                     next: () => {
                         this.sharedService.displaySnack('Successful registration!');
-                        this.router.navigate([''])
+                        this.router.navigate(['']);
                     },
                     error: (err) => this.sharedService.displayFirstError(err)
                 });

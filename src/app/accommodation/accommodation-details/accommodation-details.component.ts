@@ -27,7 +27,7 @@ export class AccommodationDetailsComponent {
     id!: number;
     accommodation!: Observable<Accommodation>;
     reservationDetails: FormGroup;
-    perPricingPrice! :number;
+    perPricingPrice!: number;
     totalPrice!: number;
     numberOfDays!: number;
     allImageNames: string[] = [];
@@ -173,7 +173,10 @@ export class AccommodationDetailsComponent {
 
                 console.log("Sending reservation:", newReservation);
                 this.resService.add(newReservation).subscribe({
-                    next: (reservation: Reservation) => console.log("Reservation sent successfully:", reservation),
+                    next: (reservation: Reservation) => {
+                        console.log("Reservation request created successfully:", reservation);
+                        this.openSnackBar('Reservation request created successfully', 'Close');
+                    },
                     error: (err) => {
                         console.log(err);
                         this.openSnackBar("Something went wrong!", "Close");
@@ -228,32 +231,32 @@ export class AccommodationDetailsComponent {
 
     customDateFilter = (date: Date | null): boolean => {
         if (!date) {
-          return false;
+            return false;
         }
-    
+
 
         let isDateAvailable = false;
-    
+
         this.accommodation.subscribe(accommodation => {
-            
-          if (accommodation.availableSlots) {
-            isDateAvailable = accommodation.availableSlots.some(
-              slot => this.isDateInSlot(date, slot)
-            );
-            
-          }
+
+            if (accommodation.availableSlots) {
+                isDateAvailable = accommodation.availableSlots.some(
+                    slot => this.isDateInSlot(date, slot)
+                );
+
+            }
         });
-    
+
         return isDateAvailable;
-      };
-    
-      private isDateInSlot(date: Date, slot: AvailabilitySlot): boolean {
+    };
+
+    private isDateInSlot(date: Date, slot: AvailabilitySlot): boolean {
         const startDate = new Date(slot.timeSlot.start);
         const endDate = new Date(slot.timeSlot.end);
         return date >= startDate && date <= endDate;
-      }
+    }
 
-      getPriceForDateRange(accommodation: Accommodation, startDate: Date, endDate: Date): number | null {
+    getPriceForDateRange(accommodation: Accommodation, startDate: Date, endDate: Date): number | null {
         if (!accommodation.availableSlots || !startDate || !endDate) {
             return null;
         }

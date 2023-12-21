@@ -28,6 +28,7 @@ export class UserService {
     }
 
     updatePassword(passwordUpdate: PasswordUpdate): Observable<PasswordUpdate> {
+        console.log(passwordUpdate);
         return this.http.put<PasswordUpdate>(`${this.path}/password`, passwordUpdate);
     }
 
@@ -40,7 +41,6 @@ export class UserService {
     }
 
     add(user: RegisteredUser): Observable<RegisteredUser> {
-        console.log(user);
         return this.http.post<RegisteredUser>(`http://localhost:8080/api/v1/users/register`, user);
     }
 
