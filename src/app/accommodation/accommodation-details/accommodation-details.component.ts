@@ -151,7 +151,7 @@ export class AccommodationDetailsComponent {
                 }
 
                 const guests = this.reservationDetails.get('guestGroup.guests')?.value;
-                if (isNaN(guests) || guests <= 0) {
+                if (isNaN(guests) || guests <= 0 || guests < accommodation.minGuests || guests > accommodation.maxGuests) {
                     this.openSnackBar("Invalid number of guests. Please enter a valid number.", "Close");
                     return;
                 }
