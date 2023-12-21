@@ -21,6 +21,7 @@ export class SharedService {
 
     displayFirstError(err: HttpErrorResponse) {
         console.log(err);
+        if (!err.error) return;
         let message = Object.entries(err.error)[0][1];
         this.displayError(message);
     }

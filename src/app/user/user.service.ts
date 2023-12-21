@@ -40,7 +40,8 @@ export class UserService {
     }
 
     add(user: RegisteredUser): Observable<RegisteredUser> {
-        return this.http.post<RegisteredUser>(`${this.path}/register`, user);
+        console.log(user);
+        return this.http.post<RegisteredUser>(`http://localhost:8080/api/v1/users/register`, user);
     }
 
     activateEmail(id: number): Observable<string> {

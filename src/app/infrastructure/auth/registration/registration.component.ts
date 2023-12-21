@@ -54,7 +54,7 @@ export class RegistrationComponent {
         if (this.registrationForm.valid) {
             if (this.passwordInput == this.confirmedInput) {
                 const user: RegisteredUser = {
-                    id: -1,
+                    id: 1,
                     name: this.nameInput,
                     surname: this.surnameInput,
                     email: this.emailInput,
@@ -68,11 +68,11 @@ export class RegistrationComponent {
                 };
                 this.userService.add(user).subscribe({
                     next: () => {
+                        this.sharedService.displaySnack('Successful registration!');
                         this.router.navigate([''])
                     },
                     error: (err) => this.sharedService.displayFirstError(err)
                 });
-                this.sharedService.displaySnack('Successful registration!');
             }
             else this.sharedService.displayError('Passwords must match!');
         } else {
