@@ -19,8 +19,8 @@ import { RouterModule } from '@angular/router';
 import { AccommodationImagesDialogComponent } from './accommodation-images-dialog/accommodation-images-dialog.component';
 import { SharedModule } from '../shared/shared.module';
 import { AccommodationRequestsComponent } from './accommodation-requests/accommodation-requests.component';
-import { AccommodationModificationComponent } from './accommodation-modification/accommodation-modification.component';
 import { AccommodationRequestDetailsComponent } from './accommodation-request-details/accommodation-request-details.component';
+import { AccommodationRequestCreateComponent } from './accommodation-request-create/accommodation-request-create.component';
 
 
 
@@ -39,7 +39,7 @@ import { AccommodationRequestDetailsComponent } from './accommodation-request-de
         RatingSummaryComponent,
         AutocompleteDropdownComponent,
         SearchDaterangePickerComponent,
-        AccommodationModificationComponent,
+        AccommodationRequestCreateComponent,
         AccommodationImagesDialogComponent,
         AccommodationRequestsComponent,
         AccommodationRequestDetailsComponent

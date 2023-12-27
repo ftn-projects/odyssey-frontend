@@ -7,10 +7,10 @@ export interface AccommodationRequestCreation {
     requestType?: 'CREATE' | 'UPDATE';
     newTitle?: string;
     newDescription?: string;
-    newType?: 'APARTMENT' | 'ROOM' | 'HOUSE'; // Assuming type is an enum
+    newType?: 'APARTMENT' | 'ROOM' | 'HOUSE';
     newAddress?: Address;
-    newPricing?: 'PER_PERSON' | 'PER_NIGHT'; // Assuming pricing is an enum
-    newDefaultPrice?: number; // Change the type accordingly
+    newPricing?: 'PER_PERSON' | 'PER_NIGHT';
+    newDefaultPrice?: number;
     newAutomaticApproval?: boolean;
     newCancellationDue?: number;
     newAvailableSlots?: AvailabilitySlot[];

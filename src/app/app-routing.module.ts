@@ -8,7 +8,7 @@ import { AccommodationDetailsComponent } from './accommodation/accommodation-det
 import { EmailConfirmationComponent } from './infrastructure/auth/email-confirmation/email-confirmation.component';
 import { AuthGuard } from './infrastructure/auth/auth.guard';
 import { AccommodationRequestsComponent } from './accommodation/accommodation-requests/accommodation-requests.component';
-import { AccommodationModificationComponent } from './accommodation/accommodation-modification/accommodation-modification.component';
+import { AccommodationRequestCreateComponent } from './accommodation/accommodation-request-create/accommodation-request-create.component';
 import { AccommodationRequestDetailsComponent } from './accommodation/accommodation-request-details/accommodation-request-details.component';
 
 const routes: Routes = [
@@ -16,11 +16,11 @@ const routes: Routes = [
     { path: 'accommodations', component: AccommodationListComponent },
     { path: 'accommodation/details/:id', component: AccommodationDetailsComponent },
     {
-        path: 'accommodation/create', component: AccommodationModificationComponent,
+        path: 'accommodation/create', component: AccommodationRequestCreateComponent,
         canActivate: [AuthGuard], data: { role: ['HOST'], mode: 'CREATE' }
     },
     {
-        path: 'accommodation/edit/:id', component: AccommodationModificationComponent,
+        path: 'accommodation/edit/:id', component: AccommodationRequestCreateComponent,
         canActivate: [AuthGuard], data: { role: ['HOST'], mode: 'EDIT' }
     },
     { path: 'accommodationRequests', component: AccommodationRequestsComponent },

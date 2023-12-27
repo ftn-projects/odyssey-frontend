@@ -18,11 +18,11 @@ import { COUNTRIES_DB_EU, Country } from '@angular-material-extensions/select-co
 
 
 @Component({
-    selector: 'app-accommodation-modification',
-    templateUrl: './accommodation-modification.component.html',
-    styleUrl: './accommodation-modification.component.css'
+    selector: 'app-accommodation-request-create',
+    templateUrl: './accommodation-request-create.component.html',
+    styleUrl: './accommodation-request-create.component.css'
 })
-export class AccommodationModificationComponent implements OnInit {
+export class AccommodationRequestCreateComponent implements OnInit {
     editing: boolean = false;
     accommodation: AccommodationRequestCreation = {
         id: -1,
@@ -30,7 +30,7 @@ export class AccommodationModificationComponent implements OnInit {
         newTitle: '',
         newDescription: '',
         newType: 'APARTMENT', // Assuming type is an enum
-        newAddress: { street: '', number: 0, city: '', country: '' },
+        newAddress: { street: '', city: '', country: '' },
         newPricing: 'PER_PERSON',
         newDefaultPrice: 0,
         newAutomaticApproval: false,

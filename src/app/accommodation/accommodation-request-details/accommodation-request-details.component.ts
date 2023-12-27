@@ -79,8 +79,8 @@ export class AccommodationRequestDetailsComponent {
             this.hostImage = `${environment.apiHost}users/image/${request.host!.id}`;
 
             const address: Address = request.details!.address;
-            if (address && address.street && address.number && address.city && address.country) {
-                const fullAddress = `${address.street} ${address.number}, ${address.city}, ${address.country}`;
+            if (address && address.street && address.city && address.country) {
+                const fullAddress = `${address.street}, ${address.city}, ${address.country}`;
                 this.fullAddress = fullAddress;
                 this.mapService.search(fullAddress).subscribe({
                     next: (data) => {

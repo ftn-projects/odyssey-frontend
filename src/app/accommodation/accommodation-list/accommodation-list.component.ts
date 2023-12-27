@@ -32,10 +32,10 @@ export class AccommodationListComponent {
                     max: [],
                 }),
                 accommodationType: [''],
-                
+
                 amenities: this.fb.array([]),
             }),
-           
+
         });
     }
 
@@ -45,7 +45,7 @@ export class AccommodationListComponent {
     ngOnInit(): void {
         this.service.getAll().subscribe({
             next: (data: Accommodation[]) => {
-                this.accommodations = data
+                this.accommodations = data;
             },
             error: (err) => { console.log(err) }
         })
@@ -61,10 +61,10 @@ export class AccommodationListComponent {
         const priceMin = this.searchParameters.get('filterFormGroup.price.min')?.value;
         const priceMax = this.searchParameters.get('filterFormGroup.price.max')?.value;
         const accommodationType = this.searchParameters.get('filterFormGroup.accommodationType')?.value === '' ?
-        null : this.searchParameters.get('filterFormGroup.accommodationType')?.value;
+            null : this.searchParameters.get('filterFormGroup.accommodationType')?.value;
         const amenitiesParam = (this.amenities && this.amenities.length > 0) ? this.amenities : null;
-        
-    
+
+
         this.service.getAll(locationAddress, startDate, endDate, guestNumber, amenitiesParam, accommodationType, priceMin, priceMax).subscribe({
             next: (data: Accommodation[]) => {
                 this.accommodations = data
@@ -81,28 +81,28 @@ export class AccommodationListComponent {
             width: '60%',
             minWidth: '300px',
             height: '90vh',
-            data:{
+            data: {
                 filterFormGroup: this.searchParameters.get('filterFormGroup')?.value
             }
-            
+
         });
         dialogRef.afterClosed().subscribe(result => {
             console.log('Dialog closed');
-            
-            if(result){
+
+            if (result) {
                 this.searchParameters.get('filterFormGroup')?.patchValue(result.filterFormGroup);
-               this.searchParameters.value.filterFormGroup = result.filterFormGroup;
-               this.amenities = result.filterFormGroup.amenities;
-               
+                this.searchParameters.value.filterFormGroup = result.filterFormGroup;
+                this.amenities = result.filterFormGroup.amenities;
+
 
             }
             console.log(this.searchParameters.value);
-            
+
         });
-        
+
     }
 
-    
+
 
     isSticky: boolean = false;
 

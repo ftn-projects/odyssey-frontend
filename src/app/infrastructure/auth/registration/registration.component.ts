@@ -29,7 +29,7 @@ export class RegistrationComponent {
         ]),
         name: new FormControl('', [Validators.required]),
         surname: new FormControl('', [Validators.required]),
-        address: new FormControl('', [Validators.required]),
+        street: new FormControl('', [Validators.required]),
         city: new FormControl('', [Validators.required]),
         phone: new FormControl('', [Validators.required]),
         password: new FormControl('', [Validators.required]),
@@ -41,7 +41,7 @@ export class RegistrationComponent {
     get emailInput() { return this.registrationForm.get('email')?.value; }
     get nameInput() { return this.registrationForm.get('name')?.value; }
     get surnameInput() { return this.registrationForm.get('surname')?.value; }
-    get addressInput() { return this.registrationForm.get('address')?.value; }
+    get streetInput() { return this.registrationForm.get('street')?.value; }
     get cityInput() { return this.registrationForm.get('city')?.value; }
     get phoneInput() { return this.registrationForm.get('phone')?.value; }
     get passwordInput() { return this.registrationForm.get('password')?.value; }
@@ -62,7 +62,7 @@ export class RegistrationComponent {
                     password: this.passwordInput,
                     role: this.selectedRole,
                     address: {
-                        number: this.addressInput.split(' ').pop(), street: this.addressInput.split(' ').slice(0, -1).join(' '),
+                        street: this.streetInput,
                         city: this.cityInput, country: this.selectedCountry.name
                     }
                 };
