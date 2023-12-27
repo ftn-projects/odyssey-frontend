@@ -10,6 +10,7 @@ import { AuthGuard } from './infrastructure/auth/auth.guard';
 import { AccommodationRequestsComponent } from './accommodation/accommodation-requests/accommodation-requests.component';
 import { AccommodationModificationComponent } from './accommodation/accommodation-modification/accommodation-modification.component';
 import { AccommodationRequestDetailsComponent } from './accommodation/accommodation-request-details/accommodation-request-details.component';
+import { AccreditReservationComponent } from './reservation/accredit-reservation/accredit-reservation.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'accommodations' },
@@ -29,6 +30,7 @@ const routes: Routes = [
         path: 'account', component: AccountManagementComponent,
         canActivate: [AuthGuard], data: { role: ['ADMIN', 'HOST', 'GUEST'] }
     },
+    { path: 'reservations/host', component: AccreditReservationComponent },
     { path: 'login', component: LoginComponent },
     { path: 'registration', component: RegistrationComponent },
     { path: 'emailConfirmation/:id', component: EmailConfirmationComponent }
