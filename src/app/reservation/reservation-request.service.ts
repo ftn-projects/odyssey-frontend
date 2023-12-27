@@ -3,6 +3,7 @@ import { environment } from '../../env/env';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AccreditReservation } from './accredit-reservation.model';
+import { Reservation } from './reservation.model';
 
 @Injectable({
     providedIn: 'root'
@@ -26,7 +27,7 @@ export class ReservationRequestService {
         return this.http.get<AccreditReservation[]>(`${this.path}/host/${id}`, { params });
     }
 
-    updateStatus(id: number, status: string): Observable<AccreditReservation> {
-        return this.http.put<AccreditReservation>(`${this.path}/status/${id}?status=${status}`, null);
+    updateStatus(id: number, status: string): Observable<Reservation> {
+        return this.http.put<Reservation>(`${this.path}/status/${id}?status=${status}`, null);
     }
 }

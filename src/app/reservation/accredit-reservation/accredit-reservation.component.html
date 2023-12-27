@@ -94,9 +94,10 @@
                 <th mat-header-cell *matHeaderCellDef> Action </th>
                 <td mat-cell *matCellDef="let row" class="buttons">
                     <button mat-flat-button class="inputButton" type="submit" color="accent" style="margin-right: 5px;"
-                        *ngIf="row.status == 'REQUESTED'">Accept</button>
+                        *ngIf="row.status == 'REQUESTED' " (click)="approveRequest(row.id, false)">Accept</button>
                     <button mat-flat-button class="inputButton" type="submit" color="warn"
-                        *ngIf="row.status == 'REQUESTED' || row.status == 'ACCEPTED'">Cancel</button>
+                        *ngIf="row.status == 'REQUESTED' || row.status == 'ACCEPTED'"
+                        (click)="approveRequest(row.id, false)">Cancel</button>
                 </td>
             </ng-container>
 
