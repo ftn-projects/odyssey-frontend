@@ -11,6 +11,7 @@ import { UserModule } from './user/user.module';
 import { AccommodationModule } from './accommodation/accommodation.module';
 import { MaterialModule } from './infrastructure/material/material.module';
 import { LayoutModule } from './layout/layout.module';
+import { ReservationModule } from './reservation/reservation.module';
 import { Interceptor } from './infrastructure/auth/interceptor';
 
 
@@ -27,6 +28,7 @@ import { Interceptor } from './infrastructure/auth/interceptor';
         LayoutModule,
         UserModule,
         AuthModule,
+        ReservationModule
     ],
     providers: [
         {

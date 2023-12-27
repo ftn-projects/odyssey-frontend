@@ -8,7 +8,7 @@
         <a [routerLink]="'/accommodations'">Search</a>
         <a [routerLink]="'/'">Contact</a>
         <a [routerLink]="'/'" *ngIf="role == 'GUEST'">My reservations</a>
-        <a [routerLink]="'/'" *ngIf="role == 'HOST'">Reservations</a>
+        <a [routerLink]="'/reservations/host'" *ngIf="role == 'HOST'">Reservations</a>
         <a [routerLink]="'/'" *ngIf="role == 'HOST'">My accommodations</a>
         <a [routerLink]="'/accommodation/create'" *ngIf="role == 'HOST'">Create</a>
         <a [routerLink]="'/accommodationRequests'" *ngIf="role == 'ADMIN'">Requests</a>
