@@ -54,8 +54,8 @@
             </ng-container>
 
             <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
-                <td mat-cell *matCellDef="let row"> {{row.requestDate}} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Cancel by </th>
+                <td mat-cell *matCellDef="let row"> {{getCancelBy(row.start, row.accommodation.cancellationDue)}} </td>
             </ng-container>
 
             <ng-container matColumnDef="status">
@@ -90,7 +90,7 @@
                 <th mat-header-cell *matHeaderCellDef> Action </th>
                 <td mat-cell *matCellDef="let row" class="buttons">
                     <button mat-flat-button class="inputButton" type="submit" color="warn"
-                        *ngIf="row.status == 'REQUESTED' || row.status == 'ACCEPTED'"
+                        *ngIf="(row.status == 'REQUESTED' || row.status == 'ACCEPTED') && allowCancel(row.start, row.accommodation.cancellationDue, row.status)"
                         (click)="cancelRequest(row.id, row.status)">Cancel</button>
                 </td>
             </ng-container>

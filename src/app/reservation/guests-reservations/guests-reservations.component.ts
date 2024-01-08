@@ -51,6 +51,25 @@ export class GuestsReservationsComponent {
         });
     }
 
+    allowCancel(start: Date, cancellationDue: number, statusBefore: string): boolean {
+        if (statusBefore == "REQUESTED") return true;
+
+        const cancelBy = new Date();
+        cancelBy.setDate((new Date(start)).getDate() - cancellationDue);
+        return Date.now() <= cancelBy.getTime();
+    }
+
+    getCancelBy(start: Date, cancellationDue: number): String {
+        const cancelBy = new Date();
+        cancelBy.setDate((new Date(start)).getDate() - cancellationDue)
+        const day = cancelBy.getDate().toString().padStart(2, '0');
+        const month = (cancelBy.getMonth() + 1).toString().padStart(2, '0');
+        const year = cancelBy.getFullYear();
+
+        const formattedDate = `${year}-${month}-${day}`;
+        return formattedDate;
+    }
+
     loadData() {
         this.service.findByGuestId(this.authService.getId()).subscribe({
             next: (data: AccreditReservation[]) => {
