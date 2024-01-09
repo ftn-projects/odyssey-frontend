@@ -1,20 +1,20 @@
 import { Component, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
-import { ReservationRequestService } from '../reservation-request.service';
-import { AuthService } from '../../infrastructure/auth/auth.service';
 import { AccreditReservation } from '../accredit-reservation.model';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { ReservationRequestService } from '../reservation-request.service';
+import { AuthService } from '../../infrastructure/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-accredit-reservation',
-    templateUrl: './accredit-reservation.component.html',
-    styleUrl: './accredit-reservation.component.css'
+    selector: 'app-guests-reservations',
+    templateUrl: './guests-reservations.component.html',
+    styleUrl: './guests-reservations.component.css'
 })
-export class AccreditReservationComponent {
-    displayedColumns: string[] = ['id', 'price', 'guest', 'cancellations', 'guestNumber', 'date', 'status', 'startDate', 'endDate', 'accommodation', 'select'];
+export class GuestsReservationsComponent {
+    displayedColumns: string[] = ['id', 'price', 'guestNumber', 'host', 'date', 'status', 'startDate', 'endDate', 'accommodation', 'select'];
     dataSource: MatTableDataSource<AccreditReservation> = new MatTableDataSource();
 
     status = new FormControl('');
@@ -44,15 +44,34 @@ export class AccreditReservationComponent {
         this.loadData();
     }
 
-    approveRequest(id: number, isApprove: boolean) {
-        let status = isApprove ? "ACCEPTED" : "DECLINED";
+    cancelRequest(id: number, statusBefore: string) {
+        let status = statusBefore == "REQUESTED" ? "CANCELLED_REQUEST" : "CANCELLED_RESERVATION";
         this.service.updateStatus(id, status).subscribe({
             next: () => this.loadData()
         });
     }
 
+    allowCancel(start: Date, cancellationDue: number, statusBefore: string): boolean {
+        if (statusBefore == "REQUESTED") return true;
+
+        const cancelBy = new Date();
+        cancelBy.setDate((new Date(start)).getDate() - cancellationDue);
+        return new Date(Date.now()) <= cancelBy;
+    }
+
+    getCancelBy(start: Date, cancellationDue: number): String {
+        const cancelBy = new Date();
+        cancelBy.setDate((new Date(start)).getDate() - cancellationDue)
+        const day = cancelBy.getDate().toString().padStart(2, '0');
+        const month = (cancelBy.getMonth() + 1).toString().padStart(2, '0');
+        const year = cancelBy.getFullYear();
+
+        const formattedDate = `${year}-${month}-${day}`;
+        return formattedDate;
+    }
+
     loadData() {
-        this.service.findByHostId(this.authService.getId()).subscribe({
+        this.service.findByGuestId(this.authService.getId()).subscribe({
             next: (data: AccreditReservation[]) => {
                 console.log(data);
                 this.requests = data;
@@ -79,7 +98,7 @@ export class AccreditReservationComponent {
 
 
 
-        this.service.findByHostId(this.authService.getId(), this.selected, this.titleInput, this.startInput, this.endInput).subscribe({
+        this.service.findByGuestId(this.authService.getId(), this.selected, this.titleInput, this.startInput, this.endInput).subscribe({
             next: (data: AccreditReservation[]) => {
                 this.requests = data;
                 this.dataSource = new MatTableDataSource(this.requests);

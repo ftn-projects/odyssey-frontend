@@ -1,6 +1,6 @@
 <div class="holder">
 
-    <p class="title">Reservation requests</p>
+    <p class="title">My reservations</p>
 
     <div class="search">
         <form [formGroup]="filterForm">
@@ -47,24 +47,20 @@
                 <td mat-cell *matCellDef="let row"> {{row.price}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="guest">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Guest </th>
-                <td mat-cell *matCellDef="let row"> {{row.guest.name +" " + row.guest.surname}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="cancellations">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Cancellations </th>
-                <td mat-cell *matCellDef="let row"> {{row.cancellationNumber}} </td>
-            </ng-container>
-
             <ng-container matColumnDef="guestNumber">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> No. of guests </th>
                 <td mat-cell *matCellDef="let row"> {{row.guestNumber}} </td>
             </ng-container>
 
+            <ng-container matColumnDef="host">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Host </th>
+                <td mat-cell *matCellDef="let row"> {{row.accommodation.host.name +" " +
+                    row.accommodation.host.surname}} </td>
+            </ng-container>
+
             <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
-                <td mat-cell *matCellDef="let row"> {{row.requestDate}} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Cancel by </th>
+                <td mat-cell *matCellDef="let row"> {{getCancelBy(row.start, row.accommodation.cancellationDue)}} </td>
             </ng-container>
 
             <ng-container matColumnDef="status">
@@ -98,11 +94,9 @@
             <ng-container matColumnDef="select">
                 <th mat-header-cell *matHeaderCellDef> Action </th>
                 <td mat-cell *matCellDef="let row" class="buttons">
-                    <button mat-flat-button class="inputButton" type="submit" color="accent" style="margin-right: 5px;"
-                        *ngIf="row.status == 'REQUESTED' " (click)="approveRequest(row.id, false)">Accept</button>
                     <button mat-flat-button class="inputButton" type="submit" color="warn"
-                        *ngIf="row.status == 'REQUESTED' || row.status == 'ACCEPTED'"
-                        (click)="approveRequest(row.id, false)">Cancel</button>
+                        *ngIf="(row.status == 'REQUESTED' || row.status == 'ACCEPTED') && allowCancel(row.start, row.accommodation.cancellationDue, row.status)"
+                        (click)="cancelRequest(row.id, row.status)">Cancel</button>
                 </td>
             </ng-container>
 

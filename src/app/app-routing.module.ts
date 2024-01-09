@@ -11,6 +11,7 @@ import { AccommodationRequestsComponent } from './accommodation/accommodation-re
 import { AccommodationRequestCreateComponent } from './accommodation/accommodation-request-create/accommodation-request-create.component';
 import { AccommodationRequestDetailsComponent } from './accommodation/accommodation-request-details/accommodation-request-details.component';
 import { AccreditReservationComponent } from './reservation/accredit-reservation/accredit-reservation.component';
+import { GuestsReservationsComponent } from './reservation/guests-reservations/guests-reservations.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'accommodations' },
@@ -31,6 +32,7 @@ const routes: Routes = [
         canActivate: [AuthGuard], data: { role: ['ADMIN', 'HOST', 'GUEST'] }
     },
     { path: 'reservations/host', component: AccreditReservationComponent },
+    { path: 'reservations/guest', component: GuestsReservationsComponent },
     { path: 'login', component: LoginComponent },
     { path: 'registration', component: RegistrationComponent },
     { path: 'emailConfirmation/:id', component: EmailConfirmationComponent }

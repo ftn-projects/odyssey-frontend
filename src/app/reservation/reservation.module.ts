@@ -5,10 +5,12 @@ import { MaterialModule } from '../infrastructure/material/material.module';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GuestsReservationsComponent } from './guests-reservations/guests-reservations.component';
 
 @NgModule({
     declarations: [
-        AccreditReservationComponent
+        AccreditReservationComponent,
+        GuestsReservationsComponent
     ],
     imports: [
         CommonModule,
