@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
     styleUrl: './guests-reservations.component.css'
 })
 export class GuestsReservationsComponent {
-    displayedColumns: string[] = ['id', 'price', 'host', 'date', 'status', 'startDate', 'endDate', 'accommodation', 'select'];
+    displayedColumns: string[] = ['id', 'price', 'guestNumber', 'host', 'date', 'status', 'startDate', 'endDate', 'accommodation', 'select'];
     dataSource: MatTableDataSource<AccreditReservation> = new MatTableDataSource();
 
     status = new FormControl('');
@@ -56,7 +56,7 @@ export class GuestsReservationsComponent {
 
         const cancelBy = new Date();
         cancelBy.setDate((new Date(start)).getDate() - cancellationDue);
-        return Date.now() <= cancelBy.getTime();
+        return new Date(Date.now()) <= cancelBy;
     }
 
     getCancelBy(start: Date, cancellationDue: number): String {

@@ -6,6 +6,7 @@ export interface AccreditReservation {
     id?: number,
     price?: number;
     guestNumber?: number;
+    cancellationNumber?: number;
     status?: Status;
     requestDate?: Date;
     start?: Date;

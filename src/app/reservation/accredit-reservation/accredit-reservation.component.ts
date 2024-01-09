@@ -14,7 +14,7 @@ import { FormControl, FormGroup } from '@angular/forms';
     styleUrl: './accredit-reservation.component.css'
 })
 export class AccreditReservationComponent {
-    displayedColumns: string[] = ['id', 'price', 'guest', 'cancellation', 'date', 'status', 'startDate', 'endDate', 'accommodation', 'select'];
+    displayedColumns: string[] = ['id', 'price', 'guest', 'cancellations', 'guestNumber', 'date', 'status', 'startDate', 'endDate', 'accommodation', 'select'];
     dataSource: MatTableDataSource<AccreditReservation> = new MatTableDataSource();
 
     status = new FormControl('');
