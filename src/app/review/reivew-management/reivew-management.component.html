@@ -1,1 +1,34 @@
-<p>reivew-management works!</p>
+<div class="holder">
+    <p class="title">Review requests</p>
+
+    <div class="search">
+        <form [formGroup]="filterForm">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>Search</mat-label>
+                <input matInput type="text" formControlName="search" #input>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>Type</mat-label>
+                <mat-select [formControl]="type" multiple>
+                    @for (s of types; track s) {
+                    <mat-option [value]="s">{{s}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>Status</mat-label>
+                <mat-select [formControl]="status" multiple>
+                    @for (s of statuses; track s) {
+                    <mat-option [value]="s">{{s}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </form>
+
+        <button (click)="loadData()" id="search" class="searchButton" mat-stroked-button extended color="accent">
+            <mat-icon>search</mat-icon>
+        </button>
+    </div>
+</div>

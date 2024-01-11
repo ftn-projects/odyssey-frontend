@@ -13,6 +13,7 @@ import { MaterialModule } from './infrastructure/material/material.module';
 import { LayoutModule } from './layout/layout.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { Interceptor } from './infrastructure/auth/interceptor';
+import { ReviewModule } from './review/review.module';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { Interceptor } from './infrastructure/auth/interceptor';
         LayoutModule,
         UserModule,
         AuthModule,
-        ReservationModule
+        ReservationModule,
+        ReviewModule
     ],
     providers: [
         {

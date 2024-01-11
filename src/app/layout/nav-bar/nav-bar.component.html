@@ -6,13 +6,13 @@
     <div class="horizontal-flex">
         <a [routerLink]="'/'">Home</a>
         <a [routerLink]="'/accommodations'">Search</a>
-        <a [routerLink]="'/'">Contact</a>
+        <a [routerLink]="'/'" *ngIf="role != 'ADMIN'">Contact</a>
         <a [routerLink]="'/'" *ngIf="role == 'GUEST'">My reservations</a>
         <a [routerLink]="'/reservations/host'" *ngIf="role == 'HOST'">Reservations</a>
         <a [routerLink]="'/'" *ngIf="role == 'HOST'">My accommodations</a>
         <a [routerLink]="'/accommodation/create'" *ngIf="role == 'HOST'">Create</a>
-        <a [routerLink]="'/accommodationRequests'" *ngIf="role == 'ADMIN'">Requests</a>
-        <a [routerLink]="'/'" *ngIf="role == 'ADMIN'">Accommodations</a>
+        <a [routerLink]="'/reviewRequests'" *ngIf="role == 'ADMIN'">Reviews</a>
+        <a [routerLink]="'/accommodationRequests'" *ngIf="role == 'ADMIN'">Accommodations</a>
         <a [routerLink]="'/'" *ngIf="role == 'ADMIN'">Users</a>
         <div class="toolbar-profile-container" *ngIf="['ADMIN', 'HOST', 'GUEST'].includes(role)">
             <img [routerLink]="'/account'" src="{{image}}" />
