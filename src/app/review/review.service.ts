@@ -13,11 +13,11 @@ export class ReviewService {
     constructor(private http: HttpClient) {
     }
 
-    findAll(search: string, types: string[], statuses: string[]): Observable<Review[]> {
+    findAll(search?: string, types?: string[], statuses?: string[]): Observable<Review[]> {
         let params = new HttpParams();
-        params.set('search', search);
-        params.set('types', types?.join(','));
-        params.set('statuses', statuses?.join(','));
+        if (search) params = params.set('search', search);
+        if (types) params = params.set('types', types?.join(','));
+        if (statuses) params = params.set('statuses', statuses?.join(','));
         return this.http.get<Review[]>(this.path, { params });
     }
 

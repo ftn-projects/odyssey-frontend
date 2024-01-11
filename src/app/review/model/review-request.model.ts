@@ -1,19 +1,16 @@
 import { User } from "../../user/model/user.model";
-import { instanceOfAccommodationReview } from "./accommodation-review.model";
-import { instanceOfHostReview } from "./host-review.model";
-import { Review } from "./review.model";
 
-export class ReviewRequest implements Review {
+export class ReviewRequest {
     id?: number;
     rating?: number;
     comment?: string;
     submissionDate?: Date;
-    status?: 'REQUESTED' | 'ACCEPTED' | 'DECLINED';
+    status?: 'REQUESTED' | 'ACCEPTED' | 'DECLINED' | 'REPORTED';
     submitter?: User;
     title?: string;
     type?: 'ACCOMMODATION' | 'HOST';
 
-    constructor(review: Review) {
+    constructor(review: any) {
         this.id = review.id;
         this.rating = review.rating;
         this.comment = review.comment;
@@ -21,13 +18,13 @@ export class ReviewRequest implements Review {
         this.status = review.status;
         this.submitter = review.submitter;
 
-        if (instanceOfAccommodationReview(review)) {
+        if ('accommodation' in review) {
             this.title = review.accommodation?.title;
             this.type = 'ACCOMMODATION';
         }
 
-        else if (instanceOfHostReview(review)) {
-            this.title = review.host?.name || '' + review.host?.surname || '';
+        else if ('host' in review) {
+            this.title = review.host?.name + ' ' + review.host?.surname;
             this.type = 'HOST';
         }
     }

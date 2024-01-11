@@ -5,6 +5,6 @@ export interface Review {
     rating?: number;
     comment?: string;
     submissionDate?: Date;
-    status?: 'REQUESTED' | 'ACCEPTED' | 'DECLINED';
+    status?: 'REQUESTED' | 'ACCEPTED' | 'DECLINED' | 'REPORTED';
     submitter?: User;
 }

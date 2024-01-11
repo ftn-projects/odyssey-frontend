@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ReviewService } from '../review.service';
 import { ReviewRequest } from '../model/review-request.model';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Review } from '../model/review.model';
 
 @Component({
     selector: 'app-reivew-management',
@@ -12,7 +13,7 @@ import { FormControl, FormGroup } from '@angular/forms';
     styleUrl: './reivew-management.component.css'
 })
 export class ReivewManagementComponent implements OnInit {
-    displayedColumns: string[] = ['id', 'title', 'submissionDate', 'type', 'title', 'host', 'select'];
+    displayedColumns: string[] = ['id', 'title', 'rating', 'comment', 'submissionDate', 'submitter', 'status', 'select'];
     dataSource: MatTableDataSource<ReviewRequest> = new MatTableDataSource();
 
     filterForm: FormGroup = new FormGroup({
@@ -24,7 +25,10 @@ export class ReivewManagementComponent implements OnInit {
     types: string[] = ['Accommodation review', 'Host review'];
 
 
-    get searchInput() { return this.filterForm.get('search')?.value || ''; }
+    get searchInput() {
+        let search = this.filterForm.get('search')?.value;
+        return search ? search : undefined;
+    }
     get statusesInput() {
         let selected = [];
         for (let s of this.status.value!) {
@@ -34,17 +38,17 @@ export class ReivewManagementComponent implements OnInit {
                 case 'Declined': selected.push('DECLINED');
             }
         }
-        return selected;
+        return selected.length > 0 ? selected : undefined;
     }
     get typesInput() {
         let selected = [];
-        for (let s of this.status.value!) {
+        for (let s of this.type.value!) {
             switch (s) {
                 case 'Accommodation review': selected.push('ACCOMMODATION'); break;
-                case 'Host': selected.push('HOST');
+                case 'Host review': selected.push('HOST');
             }
         }
-        return selected;
+        return selected.length > 0 ? selected : undefined;
     }
 
     @ViewChild(MatPaginator)
@@ -73,13 +77,15 @@ export class ReivewManagementComponent implements OnInit {
     }
 
     loadData() {
+        console.log(this.searchInput, this.statusesInput, this.typesInput)
         this.service.findAll(
             this.searchInput,
             this.typesInput,
             this.statusesInput
         ).subscribe({
-            next: (data: ReviewRequest[]) => {
-                this.requests = data;
+            next: (data: any[]) => {
+                let models: ReviewRequest[] = data.map(r => new ReviewRequest(r));
+                this.requests = models;
                 this.dataSource = new MatTableDataSource(this.requests);
                 this.dataSource.paginator = this.paginator;
                 this.dataSource.sort = this.sort;
