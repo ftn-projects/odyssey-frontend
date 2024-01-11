@@ -39,7 +39,6 @@ export class AccommodationRequestsComponent {
 
     approveRequest(id: number, isApprove: boolean) {
         let status = isApprove ? "ACCEPTED" : "DECLINED";
-        console.log("wtf");
         this.service.updateStatus(id, status).subscribe({
             next: () => this.loadData()
         });
