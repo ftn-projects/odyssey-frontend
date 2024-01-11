@@ -11,6 +11,7 @@ import { AccommodationRequestsComponent } from './accommodation/accommodation-re
 import { AccommodationRequestCreateComponent } from './accommodation/accommodation-request-create/accommodation-request-create.component';
 import { AccommodationRequestDetailsComponent } from './accommodation/accommodation-request-details/accommodation-request-details.component';
 import { AccreditReservationComponent } from './reservation/accredit-reservation/accredit-reservation.component';
+import { ReivewManagementComponent } from './review/reivew-management/reivew-management.component';
 import { GuestsReservationsComponent } from './reservation/guests-reservations/guests-reservations.component';
 
 const routes: Routes = [
@@ -25,8 +26,22 @@ const routes: Routes = [
         path: 'accommodation/edit/:id', component: AccommodationRequestCreateComponent,
         canActivate: [AuthGuard], data: { role: ['HOST'], mode: 'EDIT' }
     },
-    { path: 'accommodationRequests', component: AccommodationRequestsComponent },
-    { path: 'accommodationRequest/:id', component: AccommodationRequestDetailsComponent },
+    {
+        path: 'reservations/host', component: AccreditReservationComponent,
+        canActivate: [AuthGuard], data: { role: ['HOST'] }
+    },
+    {
+        path: 'accommodationRequests', component: AccommodationRequestsComponent,
+        canActivate: [AuthGuard], data: { role: ['ADMIN'] }
+    },
+    {
+        path: 'accommodationRequest/:id', component: AccommodationRequestDetailsComponent,
+        canActivate: [AuthGuard], data: { role: ['ADMIN'] }
+    },
+    {
+        path: 'reviewRequests', component: ReivewManagementComponent,
+        canActivate: [AuthGuard], data: { role: ['ADMIN'] }
+    },
     {
         path: 'account', component: AccountManagementComponent,
         canActivate: [AuthGuard], data: { role: ['ADMIN', 'HOST', 'GUEST'] }
