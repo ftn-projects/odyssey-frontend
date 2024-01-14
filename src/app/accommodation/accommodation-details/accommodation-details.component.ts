@@ -17,6 +17,9 @@ import { UserService } from '../../user/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../env/env';
 import { AvailabilitySlot } from '../model/availability-slot.model';
+import { ReportService } from '../../report/report.service';
+import { UserReport } from '../../report/model/user-report.model';
+import { ReportDialogComponent } from '../../report/report-dialog/report-dialog.component';
 
 @Component({
     selector: 'app-accommodation-details',
@@ -36,6 +39,7 @@ export class AccommodationDetailsComponent {
     mapCoordinates!: [number, number]
     amenities: { icon: string, amenity: Amenity }[] = [];
     hostImage!: string;
+    hostId?: number;
     ownerMode: boolean = false;
 
     constructor(
@@ -47,7 +51,8 @@ export class AccommodationDetailsComponent {
         private authService: AuthService,
         private mapService: MapService,
         private userService: UserService,
-        private snackbar: MatSnackBar
+        private snackbar: MatSnackBar,
+        private reportService: ReportService
     ) {
         this.reservationDetails = new FormGroup({
             dateRange: new FormGroup({
@@ -84,6 +89,7 @@ export class AccommodationDetailsComponent {
 
         this.accommodation.subscribe((accommodation: Accommodation) => {
             this.hostImage = `${environment.apiHost}users/image/${accommodation.host.id}`;
+            this.hostId = accommodation.host.id;
 
             const address: Address = accommodation.address;
             if (address && address.street && address.city && address.country) {
@@ -270,4 +276,12 @@ export class AccommodationDetailsComponent {
         return matchingSlot ? matchingSlot.price : null;
     }
 
+    reportHost() {
+        this.dialog.open(ReportDialogComponent, {
+            width: '60%',
+            minWidth: '300px',
+            height: 'min-content',
+            data: { hostId: this.hostId },
+        });
+    }
 }
