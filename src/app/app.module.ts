@@ -14,6 +14,7 @@ import { LayoutModule } from './layout/layout.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { Interceptor } from './infrastructure/auth/interceptor';
 import { ReviewModule } from './review/review.module';
+import { ReportModule } from './report/report.module';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { ReviewModule } from './review/review.module';
         UserModule,
         AuthModule,
         ReservationModule,
-        ReviewModule
+        ReviewModule,
+        ReportModule
     ],
     providers: [
         {
