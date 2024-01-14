@@ -3,9 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Accommodation } from '../model/accommodation.model';
 import { AccommodationService } from '../accommodation.service';
 import { Observable } from 'rxjs';
-import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ReservationService } from '../../reservation/reservation.service';
-import { Reservation, Status } from '../../reservation/reservation.model';
+import { Reservation } from '../../reservation/reservation.model';
 import { MatDialog } from '@angular/material/dialog';
 import { AccommodationImagesDialogComponent } from '../accommodation-images-dialog/accommodation-images-dialog.component';
 import { TimeSlot } from '../../shared/model/time-slot.model';
@@ -171,7 +171,7 @@ export class AccommodationDetailsComponent {
                     price: this.totalPrice,
                     guestNumber: guests,
                     requestDate: new Date(),
-                    status: Status.REQUESTED,
+                    status: 'REQUESTED',
                     timeSlot: timeSlot,
                     guestId: this.authService.getId(),
                     accommodationId: accommodation.id,
@@ -281,7 +281,7 @@ export class AccommodationDetailsComponent {
             width: '60%',
             minWidth: '300px',
             height: 'min-content',
-            data: { hostId: this.hostId },
+            data: { reportedId: this.hostId },
         });
     }
 }

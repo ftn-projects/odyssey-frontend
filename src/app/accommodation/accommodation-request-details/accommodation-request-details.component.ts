@@ -1,24 +1,17 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Accommodation } from '../model/accommodation.model';
 import { AccommodationService } from '../accommodation.service';
 import { Observable } from 'rxjs';
-import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
-import { ReservationService } from '../../reservation/reservation.service';
-import { Reservation, Status } from '../../reservation/reservation.model';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AccommodationImagesDialogComponent } from '../accommodation-images-dialog/accommodation-images-dialog.component';
-import { TimeSlot } from '../../shared/model/time-slot.model';
-import { AuthService } from '../../infrastructure/auth/auth.service';
 import { MapService } from '../map/map.service';
 import { Address } from '../../shared/model/address.model';
 import { Amenity } from '../model/amenity.model';
-import { UserService } from '../../user/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../env/env';
 import { AccommodationRequestService } from '../accommodation-request.service';
 import { AccommodationRequest } from '../model/accommodation-request.model';
-import { AccommodationRequestCreation } from '../model/accommodation-request-create.model';
 
 @Component({
     selector: 'app-accommodation-request-details',

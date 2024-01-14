@@ -12,7 +12,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class ReportDialogComponent {
     @Input()
-    hostId!: number;
+    reportedId!: number;
     reportGroup: FormGroup = new FormGroup({
         description: new FormControl('', [Validators.required]),
     });
@@ -23,17 +23,17 @@ export class ReportDialogComponent {
         private sharedService: SharedService,
         private dialogRef: MatDialogRef<ReportDialogComponent>,
         @Inject(MAT_DIALOG_DATA) data: any) {
-        this.hostId = data.hostId;
+        this.reportedId = data.reportedId;
     }
 
     submitReport() {
         this.reportService.reportUser({
             description: this.reportGroup.controls['description'].value,
             submitterId: this.authService.getId(),
-            reportedId: this.hostId
+            reportedId: this.reportedId
         }).subscribe({
             next: () => {
-                this.sharedService.displaySnack('Host reported successfully.', 4000, 'Close');
+                this.sharedService.displaySnack('User successfully reported.', 4000, 'Close');
                 this.closeDialog();
             },
             error: () => {

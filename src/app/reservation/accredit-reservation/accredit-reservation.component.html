@@ -99,10 +99,11 @@
                 <th mat-header-cell *matHeaderCellDef> Action </th>
                 <td mat-cell *matCellDef="let row" class="buttons">
                     <button mat-flat-button class="inputButton" type="submit" color="accent" style="margin-right: 5px;"
-                        *ngIf="row.status == 'REQUESTED' " (click)="approveRequest(row.id, false)">Accept</button>
-                    <button mat-flat-button class="inputButton" type="submit" color="warn"
-                        *ngIf="row.status == 'REQUESTED' || row.status == 'ACCEPTED'"
+                        *ngIf="canAccept(row)" (click)="approveRequest(row.id, false)">Accept</button>
+                    <button mat-flat-button class="inputButton" type="submit" color="warn" *ngIf="canCancel(row)"
                         (click)="approveRequest(row.id, false)">Cancel</button>
+                    <button mat-flat-button class="inputButton" type="submit" color="default" *ngIf="canReport(row)"
+                        (click)="reportGuest(row.guest.id)">Report</button>
                 </td>
             </ng-container>
 
