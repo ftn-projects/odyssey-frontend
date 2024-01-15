@@ -76,12 +76,13 @@ export class UserManagementComponent implements OnInit {
     }
 
     openUserDetails(user: UserWithReports) {
-        this.dialog.open(UserReportsDialogComponent, {
+        const dialogRef = this.dialog.open(UserReportsDialogComponent, {
             width: '60%',
             minWidth: '300px',
             height: 'min-content',
             data: { user: user },
         });
+        dialogRef.afterClosed().subscribe(() => this.loadData());
     }
 
     getStatusColor(status: string): string {

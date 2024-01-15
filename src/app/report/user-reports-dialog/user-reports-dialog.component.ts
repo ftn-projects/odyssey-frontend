@@ -26,7 +26,6 @@ export class UserReportsDialogComponent {
         private dialogRef: MatDialogRef<UserReportsDialogComponent>,
         @Inject(MAT_DIALOG_DATA) data: any) {
         this.user = data.user;
-        console.log(this.user);
         this.reportsData = data.user.reports!;
     }
 
