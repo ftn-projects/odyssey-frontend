@@ -44,3 +44,20 @@ a {
     font-size: large;
     font-weight: 600;
 }
+
+.closable-menu-span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: small;
+    font-weight: 500;
+}
+
+::ng-deep .cdk-overlay-container .account-menu {
+    margin-top: 20px;
+    width: 200px;
+    overflow: hidden;
+}
+
+::ng-deep .cdk-overlay-container .account-menu a {
+    margin-left: 8px;
+    color: black;
+}
