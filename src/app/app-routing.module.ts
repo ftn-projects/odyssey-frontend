@@ -13,6 +13,7 @@ import { AccommodationRequestDetailsComponent } from './accommodation/accommodat
 import { AccreditReservationComponent } from './reservation/accredit-reservation/accredit-reservation.component';
 import { ReivewManagementComponent } from './review/reivew-management/reivew-management.component';
 import { GuestsReservationsComponent } from './reservation/guests-reservations/guests-reservations.component';
+import { UserManagementComponent } from './user/user-management/user-management.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'accommodations' },
@@ -40,6 +41,10 @@ const routes: Routes = [
     },
     {
         path: 'reviewRequests', component: ReivewManagementComponent,
+        canActivate: [AuthGuard], data: { role: ['ADMIN'] }
+    },
+    {
+        path: 'users', component: UserManagementComponent,
         canActivate: [AuthGuard], data: { role: ['ADMIN'] }
     },
     {

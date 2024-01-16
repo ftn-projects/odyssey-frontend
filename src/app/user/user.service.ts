@@ -40,6 +40,10 @@ export class UserService {
         return this.http.delete(`${this.path}/block/${userId}`);
     }
 
+    activate(userId: number) {
+        return this.http.put(`${this.path}/activate/${userId}`, {});
+    }
+
     add(user: RegisteredUser): Observable<RegisteredUser> {
         return this.http.post<RegisteredUser>(`http://localhost:8080/api/v1/users/register`, user);
     }

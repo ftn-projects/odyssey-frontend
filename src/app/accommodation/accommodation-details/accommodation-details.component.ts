@@ -50,9 +50,7 @@ export class AccommodationDetailsComponent {
         private dialog: MatDialog,
         private authService: AuthService,
         private mapService: MapService,
-        private userService: UserService,
         private snackbar: MatSnackBar,
-        private reportService: ReportService
     ) {
         this.reservationDetails = new FormGroup({
             dateRange: new FormGroup({

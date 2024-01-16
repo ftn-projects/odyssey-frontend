@@ -4,14 +4,17 @@ import { MaterialModule } from '../infrastructure/material/material.module';
 import { AccountManagementComponent } from './account-management/account-management.component';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { UserManagementComponent } from './user-management/user-management.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
 @NgModule({
     declarations: [
-        AccountManagementComponent
+        AccountManagementComponent,
+        UserManagementComponent
     ],
     imports: [
         CommonModule,
@@ -19,7 +22,9 @@ import { SharedModule } from '../shared/shared.module';
         MaterialModule,
         RouterModule,
         SharedModule,
-        FormsModule
+        ReactiveFormsModule,
+        FormsModule,
+        BrowserAnimationsModule
     ]
 })
 export class UserModule { }
