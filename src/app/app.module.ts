@@ -15,6 +15,7 @@ import { ReservationModule } from './reservation/reservation.module';
 import { Interceptor } from './infrastructure/auth/interceptor';
 import { ReviewModule } from './review/review.module';
 import { ReportModule } from './report/report.module';
+import { NotificationModule } from './notification/notification.module';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { ReportModule } from './report/report.module';
         AuthModule,
         ReservationModule,
         ReviewModule,
-        ReportModule
+        ReportModule,
+        NotificationModule
     ],
     providers: [
         {
