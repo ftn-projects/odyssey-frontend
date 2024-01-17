@@ -13,6 +13,9 @@ import { AccommodationRequestDetailsComponent } from './accommodation/accommodat
 import { AccreditReservationComponent } from './reservation/accredit-reservation/accredit-reservation.component';
 import { ReivewManagementComponent } from './review/reivew-management/reivew-management.component';
 import { GuestsReservationsComponent } from './reservation/guests-reservations/guests-reservations.component';
+import { GuestReviewsComponent } from './review/guest-reviews/guest-reviews.component';
+import { HostReviewComponent } from './review/host-review/host-review.component';
+import { HostReviewsComponent } from './review/host-reviews/host-reviews.component';
 import { UserManagementComponent } from './user/user-management/user-management.component';
 import { NotificationListComponent } from './notification/notification-list/notification-list.component';
 
@@ -58,6 +61,8 @@ const routes: Routes = [
     },
     { path: 'reservations/host', component: AccreditReservationComponent },
     { path: 'reservations/guest', component: GuestsReservationsComponent },
+    { path: 'reviews/guest', component: GuestReviewsComponent},
+    { path: 'reviews/host', component: HostReviewsComponent},
     { path: 'login', component: LoginComponent },
     { path: 'registration', component: RegistrationComponent },
     { path: 'emailConfirmation/:id', component: EmailConfirmationComponent }

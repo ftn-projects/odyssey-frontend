@@ -17,6 +17,10 @@ import { UserService } from '../../user/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../env/env';
 import { AvailabilitySlot } from '../model/availability-slot.model';
+import { AccommodationReview } from '../../review/model/accommodationReview.model';
+import { ReviewService } from '../../review/review.service';
+import { Console } from 'console';
+
 import { ReportService } from '../../report/report.service';
 import { UserReport } from '../../report/model/user-report.model';
 import { ReportDialogComponent } from '../../report/report-dialog/report-dialog.component';
@@ -39,8 +43,10 @@ export class AccommodationDetailsComponent {
     mapCoordinates!: [number, number]
     amenities: { icon: string, amenity: Amenity }[] = [];
     hostImage!: string;
+    reviews!: AccommodationReview[];
     hostId?: number;
     ownerMode: boolean = false;
+    statuses: string[] = ['ACCEPTED'];
 
     constructor(
         private route: ActivatedRoute,
@@ -50,7 +56,8 @@ export class AccommodationDetailsComponent {
         private dialog: MatDialog,
         private authService: AuthService,
         private mapService: MapService,
-        private snackbar: MatSnackBar,
+        private reviewService: ReviewService,
+        private snackbar: MatSnackBar
     ) {
         this.reservationDetails = new FormGroup({
             dateRange: new FormGroup({
@@ -117,6 +124,19 @@ export class AccommodationDetailsComponent {
             });
 
             this.ownerMode = accommodation.host.id == this.authService.getId();
+        });
+
+        // statuses : string[];
+        
+
+        this.reviewService.findAllAccommodationReviewsFiltered(this.id, null, ['ACCEPTED']).subscribe({
+            next: (data : AccommodationReview[]) => {
+                this.reviews = data;
+                console.log("Reviews: ", this.reviews);
+            },
+            error: (error) => {
+                console.error('Error fetching reviews:', error);
+            }
         });
     }
 

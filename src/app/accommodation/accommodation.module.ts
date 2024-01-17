@@ -21,6 +21,7 @@ import { SharedModule } from '../shared/shared.module';
 import { AccommodationRequestsComponent } from './accommodation-requests/accommodation-requests.component';
 import { AccommodationRequestDetailsComponent } from './accommodation-request-details/accommodation-request-details.component';
 import { AccommodationRequestCreateComponent } from './accommodation-request-create/accommodation-request-create.component';
+import { ReviewModule } from '../review/review.module';
 
 
 
@@ -42,12 +43,13 @@ import { AccommodationRequestCreateComponent } from './accommodation-request-cre
         AccommodationRequestCreateComponent,
         AccommodationImagesDialogComponent,
         AccommodationRequestsComponent,
-        AccommodationRequestDetailsComponent
+        AccommodationRequestDetailsComponent,
     ],
     imports: [
         RouterModule,
         CommonModule,
         MaterialModule,
+        ReviewModule,
         ReactiveFormsModule,
         SharedModule,
         FormsModule
