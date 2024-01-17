@@ -55,8 +55,6 @@ export class ReivewManagementComponent implements OnInit {
     paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
 
-    requests: ReviewRequest[] = [];
-
     constructor(private service: ReviewService) {
     }
 
@@ -77,7 +75,6 @@ export class ReivewManagementComponent implements OnInit {
     }
 
     loadData() {
-        console.log(this.searchInput, this.statusesInput, this.typesInput)
         this.service.findAll(
             this.searchInput,
             this.typesInput,
@@ -85,8 +82,7 @@ export class ReivewManagementComponent implements OnInit {
         ).subscribe({
             next: (data: any[]) => {
                 let models: ReviewRequest[] = data.map(r => new ReviewRequest(r));
-                this.requests = models;
-                this.dataSource = new MatTableDataSource(this.requests);
+                this.dataSource = new MatTableDataSource(models);
                 this.dataSource.paginator = this.paginator;
                 this.dataSource.sort = this.sort;
             },

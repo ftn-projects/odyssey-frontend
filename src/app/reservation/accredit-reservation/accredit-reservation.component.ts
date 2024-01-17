@@ -2,11 +2,12 @@ import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
 import { ReservationRequestService } from '../reservation-request.service';
 import { AuthService } from '../../infrastructure/auth/auth.service';
 import { AccreditReservation } from '../accredit-reservation.model';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ReportDialogComponent } from '../../report/report-dialog/report-dialog.component';
 
 @Component({
     selector: 'app-accredit-reservation',
@@ -37,7 +38,10 @@ export class AccreditReservationComponent {
     get endInput() { return this.filterForm.get('end')?.value.getTime; }
 
 
-    constructor(private service: ReservationRequestService, private authService: AuthService, private router: Router) {
+    constructor(
+        private service: ReservationRequestService,
+        private authService: AuthService,
+        private dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -90,4 +94,29 @@ export class AccreditReservationComponent {
         });
     }
 
+    canAccept(request: AccreditReservation): boolean {
+        return request.status! == 'REQUESTED' &&
+            new Date(request.start!) > new Date();
+    }
+
+    canCancel(request: AccreditReservation): boolean {
+        return ['REQUESTED', 'ACCEPTED'].includes(request.status!) &&
+            new Date(request.start!) > new Date();
+    }
+
+    reportGuest(guestId: number) {
+        this.dialog.open(ReportDialogComponent, {
+            width: '60%',
+            minWidth: '300px',
+            height: 'min-content',
+            data: { reportedId: guestId },
+        });
+    }
+    canReport(request: AccreditReservation): boolean {
+        if (request.status! == 'ACCEPTED') {
+            console.log(new Date(request.start!) <= new Date())
+        }
+        return request.status! == 'ACCEPTED' &&
+            new Date(request.start!) <= new Date();
+    }
 }

@@ -1,0 +1,87 @@
+<div class="container">
+    <div class="dialog-header">
+        <span>User details</span>
+        <button mat-icon-button class="close-button" (click)="closeDialog()" aria-label="Close">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div class="dialog-body">
+        <div class="user-details">
+            <div class="image-container">
+                <img src={{user.image}} alt="profile image" />
+            </div>
+            <div style="margin-inline: 30px">
+                <div class="sections-container">
+                    <div class="details-section">
+                        <p><b>Name</b>: {{user.name}}</p>
+                        <p><b>Surname</b>: {{user.surname}}</p>
+                        <p><b>Email</b>: {{user.email}}</p>
+                        <p><b>Role</b>:
+                            <ng-container>
+                                <span *ngIf="user.role == 'ADMIN'">Admin</span>
+                                <span *ngIf="user.role == 'HOST'">Host</span>
+                                <span *ngIf="user.role == 'GUEST'">Guest</span>
+                            </ng-container>
+                        </p>
+                        <p><b>Status</b>:
+                            <ng-container>
+                                <span *ngIf="user.status == 'ACTIVE'">Active</span>
+                                <span *ngIf="user.status == 'PENDING'">Pending</span>
+                                <span *ngIf="user.status == 'BLOCKED'">Blocked</span>
+                                <span *ngIf="user.status == 'DEACTIVATED'">Deactivated</span>
+                            </ng-container>
+                        </p>
+                    </div>
+                    <div class="details-section">
+                        <p><b>Street</b>: {{user.address.street}}</p>
+                        <p><b>City</b>: {{user.address.city}}</p>
+                        <p><b>Country</b>: {{user.address.country}}</p>
+                        <p><b>Phone</b>: {{user.phone}}</p>
+                        <p *ngIf="user.role == 'HOST'"><b>Bio</b>: {{user.bio}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-section" *ngIf="user.role! != 'ADMIN'">
+        <span>User reports</span>
+    </div>
+    <div class="dialog-body" *ngIf="user.role! != 'ADMIN'" style="padding-inline: 60px;">
+        <table mat-table [dataSource]="reportsData" matSort *ngIf="reportsData.length">
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="submitter">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Submitter </th>
+                <td mat-cell *matCellDef="let row" class="submitter-field">
+                    {{row.submitter.name + ' ' + row.submitter.surname}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                <td mat-cell *matCellDef="let row"> {{datepipe.transform(row.submissionDate, 'dd-MM-yyyy')}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                <td mat-cell *matCellDef="let row"> {{row.description}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="header"></tr>
+            <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+        </table>
+
+        <p *ngIf="!reportsData.length">User was not reported in the past.</p>
+    </div>
+    <div class="dialog-footer">
+        <button mat-flat-button class="inputButton" type="submit" color="accent" style="margin-right: 5px;"
+            *ngIf="['BLOCKED', 'DEACTIVATED'].includes(user.status!) && user.role != 'ADMIN'"
+            (click)="activate(user.id!)">Activate</button>
+        <button mat-flat-button class="inputButton" type="submit" color="warn"
+            *ngIf="['PENDING', 'ACTIVE'].includes(user.status!) && user.role != 'ADMIN'"
+            (click)="block(user.id!)">Block</button>
+    </div>
+</div>

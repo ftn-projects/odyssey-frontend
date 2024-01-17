@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../infrastructure/auth/auth.service';
 import { SharedService } from '../../shared/shared.service';
 import { environment } from '../../../env/env';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-account',
@@ -43,7 +42,6 @@ export class AccountManagementComponent implements OnInit {
         this.imageUpload = this.image;
         this.userService.findById(this.id).subscribe({
             next: (user) => {
-                console.log(user);
                 this.user = user;
                 this.editedUser = user;
                 this.password.userId = user.id;
@@ -82,7 +80,6 @@ export class AccountManagementComponent implements OnInit {
     }
 
     protected onSave(message: string = 'Changes saved!') {
-        console.log(this.user);
         this.userService.update(this.user).subscribe({
             next: () => this.sharedService.displaySnack(message),
             error: (err) => {

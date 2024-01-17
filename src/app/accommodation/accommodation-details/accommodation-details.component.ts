@@ -3,9 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Accommodation } from '../model/accommodation.model';
 import { AccommodationService } from '../accommodation.service';
 import { Observable } from 'rxjs';
-import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ReservationService } from '../../reservation/reservation.service';
-import { Reservation, Status } from '../../reservation/reservation.model';
+import { Reservation } from '../../reservation/reservation.model';
 import { MatDialog } from '@angular/material/dialog';
 import { AccommodationImagesDialogComponent } from '../accommodation-images-dialog/accommodation-images-dialog.component';
 import { TimeSlot } from '../../shared/model/time-slot.model';
@@ -21,6 +21,9 @@ import { AccommodationReview } from '../../review/model/accommodationReview.mode
 import { ReviewService } from '../../review/review.service';
 import { Console } from 'console';
 
+import { ReportService } from '../../report/report.service';
+import { UserReport } from '../../report/model/user-report.model';
+import { ReportDialogComponent } from '../../report/report-dialog/report-dialog.component';
 
 @Component({
     selector: 'app-accommodation-details',
@@ -41,6 +44,7 @@ export class AccommodationDetailsComponent {
     amenities: { icon: string, amenity: Amenity }[] = [];
     hostImage!: string;
     reviews!: AccommodationReview[];
+    hostId?: number;
     ownerMode: boolean = false;
     statuses: string[] = ['ACCEPTED'];
 
@@ -90,6 +94,7 @@ export class AccommodationDetailsComponent {
 
         this.accommodation.subscribe((accommodation: Accommodation) => {
             this.hostImage = `${environment.apiHost}users/image/${accommodation.host.id}`;
+            this.hostId = accommodation.host.id;
 
             const address: Address = accommodation.address;
             if (address && address.street && address.city && address.country) {
@@ -184,7 +189,7 @@ export class AccommodationDetailsComponent {
                     price: this.totalPrice,
                     guestNumber: guests,
                     requestDate: new Date(),
-                    status: Status.REQUESTED,
+                    status: 'REQUESTED',
                     timeSlot: timeSlot,
                     guestId: this.authService.getId(),
                     accommodationId: accommodation.id,
@@ -289,4 +294,12 @@ export class AccommodationDetailsComponent {
         return matchingSlot ? matchingSlot.price : null;
     }
 
+    reportHost() {
+        this.dialog.open(ReportDialogComponent, {
+            width: '60%',
+            minWidth: '300px',
+            height: 'min-content',
+            data: { reportedId: this.hostId },
+        });
+    }
 }

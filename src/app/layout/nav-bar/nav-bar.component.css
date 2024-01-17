@@ -30,7 +30,6 @@ a {
     height: 22px;
     width: 22px;
     border-radius: 50%;
-    margin-inline: 15px;
     cursor: pointer;
 }
 
@@ -43,4 +42,25 @@ a {
 .app-name {
     font-size: large;
     font-weight: 600;
+}
+
+.closable-menu-span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: small;
+    font-weight: 500;
+}
+
+::ng-deep .cdk-overlay-container .account-menu {
+    margin-top: 20px;
+    width: 200px;
+    overflow: hidden;
+}
+
+::ng-deep .cdk-overlay-container .account-menu a {
+    margin-left: 8px;
+    color: black;
+}
+
+::ng-deep .cdk-overlay-container .account-menu a mat-icon {
+    transform: scale(0.9);
 }

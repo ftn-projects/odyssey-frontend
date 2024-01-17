@@ -15,11 +15,32 @@
         <a [routerLink]="'/accommodation/create'" *ngIf="role == 'HOST'">Create</a>
         <a [routerLink]="'/reviewRequests'" *ngIf="role == 'ADMIN'">Reviews</a>
         <a [routerLink]="'/accommodationRequests'" *ngIf="role == 'ADMIN'">Accommodations</a>
-        <a [routerLink]="'/'" *ngIf="role == 'ADMIN'">Users</a>
-        <div class="toolbar-profile-container" *ngIf="['ADMIN', 'HOST', 'GUEST'].includes(role)">
-            <img [routerLink]="'/account'" src="{{image}}" />
+        <a [routerLink]="'/users'" *ngIf="role == 'ADMIN'">Users</a>
+        <div style="margin-inline: 15px;" *ngIf="loggedIn()">
+            <div [matBadge]="unreadCount" matBadgeColor="warn" matBadgePosition="before" matBadgeSize="small"
+                [matBadgeHidden]="!unreadCount" style="width: 22px;">
+                <div class="toolbar-profile-container">
+                    <img [matMenuTriggerFor]="accountMenu" src="{{image}}" />
+                </div>
+            </div>
         </div>
-        <a [routerLink]="'/login'" *ngIf="!['ADMIN', 'HOST', 'GUEST'].includes(role)">Log in</a>
-        <a [routerLink]="'/registration'" *ngIf="!['ADMIN', 'HOST', 'GUEST'].includes(role)">Sign up</a>
+        <a [routerLink]="'/login'" *ngIf="!loggedIn()">Log in</a>
+        <a [routerLink]="'/registration'" *ngIf="!loggedIn()">Sign up</a>
     </div>
 </mat-toolbar>
+<mat-menu #accountMenu="matMenu" class="account-menu" xPosition="before" yPosition="above" [overlapTrigger]="false"
+    style="margin-top: 100px;">
+    <a mat-menu-item [routerLink]="'/account'" *ngIf="loggedIn()">
+        <mat-icon>person</mat-icon>
+        <span class="closable-menu-span">Account</span>
+    </a>
+    <a mat-menu-item [routerLink]="'/notifications'" *ngIf="loggedIn()">
+        <mat-icon [matBadge]="unreadCount" matBadgeColor="warn" matBadgePosition="before" matBadgeSize="small"
+            [matBadgeHidden]="!unreadCount">notifications</mat-icon>
+        <span class="closable-menu-span">Notifications</span>
+    </a>
+    <a mat-menu-item *ngIf="loggedIn()" (click)="onLogout();">
+        <mat-icon>logout</mat-icon>
+        <span class="closable-menu-span">Log out</span>
+    </a>
+</mat-menu>

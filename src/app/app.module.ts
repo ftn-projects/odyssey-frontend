@@ -14,6 +14,9 @@ import { LayoutModule } from './layout/layout.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { Interceptor } from './infrastructure/auth/interceptor';
 import { ReviewModule } from './review/review.module';
+import { ReportModule } from './report/report.module';
+import { NotificationModule } from './notification/notification.module';
+import { WebSocketService } from './shared/web-socket.service';
 
 
 @NgModule({
@@ -30,7 +33,9 @@ import { ReviewModule } from './review/review.module';
         UserModule,
         AuthModule,
         ReservationModule,
-        ReviewModule
+        ReviewModule,
+        ReportModule,
+        NotificationModule
     ],
     providers: [
         {
@@ -38,7 +43,8 @@ import { ReviewModule } from './review/review.module';
             useClass: Interceptor,
             multi: true
         },
-        provideClientHydration()
+        provideClientHydration(),
+        WebSocketService
     ],
     bootstrap: [AppComponent]
 })

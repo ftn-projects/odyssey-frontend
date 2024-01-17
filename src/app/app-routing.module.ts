@@ -16,6 +16,8 @@ import { GuestsReservationsComponent } from './reservation/guests-reservations/g
 import { GuestReviewsComponent } from './review/guest-reviews/guest-reviews.component';
 import { HostReviewComponent } from './review/host-review/host-review.component';
 import { HostReviewsComponent } from './review/host-reviews/host-reviews.component';
+import { UserManagementComponent } from './user/user-management/user-management.component';
+import { NotificationListComponent } from './notification/notification-list/notification-list.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'accommodations' },
@@ -46,7 +48,15 @@ const routes: Routes = [
         canActivate: [AuthGuard], data: { role: ['ADMIN'] }
     },
     {
+        path: 'users', component: UserManagementComponent,
+        canActivate: [AuthGuard], data: { role: ['ADMIN'] }
+    },
+    {
         path: 'account', component: AccountManagementComponent,
+        canActivate: [AuthGuard], data: { role: ['ADMIN', 'HOST', 'GUEST'] }
+    },
+    {
+        path: 'notifications', component: NotificationListComponent,
         canActivate: [AuthGuard], data: { role: ['ADMIN', 'HOST', 'GUEST'] }
     },
     { path: 'reservations/host', component: AccreditReservationComponent },

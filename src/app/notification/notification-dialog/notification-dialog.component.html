@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="dialog-header">
+        <span>Notification</span>
+        <button mat-icon-button class="close-button" (click)="closeDialog()" aria-label="Close">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div class="dialog-body">
+        <div class="body-header">
+            <h2>{{notification.title}}</h2>
+            <p>{{datepipe.transform(notification.date, 'dd-MM-yyyy hh:mm')}}</p>
+        </div>
+        <p>{{notification.text}}</p>
+        <p>{{notification.text}}</p>
+    </div>
+</div>
