@@ -36,7 +36,7 @@
     </a>
     <a mat-menu-item [routerLink]="'/notifications'" *ngIf="loggedIn()">
         <mat-icon [matBadge]="unreadCount" matBadgeColor="warn" matBadgePosition="before" matBadgeSize="small"
-            [matBadgeHidden]="!unreadCount">notifications</mat-icon>
+            [matBadgeHidden]="!unreadCount" aria-hidden="false">notifications</mat-icon>
         <span class="closable-menu-span">Notifications</span>
     </a>
     <a mat-menu-item *ngIf="loggedIn()" (click)="onLogout();">

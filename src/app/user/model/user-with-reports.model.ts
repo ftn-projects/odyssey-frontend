@@ -1,8 +1,7 @@
 import { environment } from "../../../env/env";
 import { UserReport } from "../../report/model/user-report.model";
 import { Address } from "../../shared/model/address.model";
-import { UserSettings } from "./user-settings.model";
-import { User } from "./user.model";
+import { NotificationSettings, User } from "./user.model";
 
 export class UserWithReports implements User {
     id?: number;
@@ -13,7 +12,7 @@ export class UserWithReports implements User {
     phone?: string;
     address: Address;
     bio?: string;
-    settings?: UserSettings;
+    settings?: NotificationSettings;
     status?: 'PENDING' | 'ACTIVE' | 'BLOCKED' | 'DEACTIVATED';
     image?: string;
     reports?: UserReport[];

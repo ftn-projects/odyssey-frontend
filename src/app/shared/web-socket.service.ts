@@ -7,7 +7,7 @@ import * as Stomp from 'stompjs';
     providedIn: 'root'
 })
 export class WebSocketService {
-    public subscribe(topic: string, subscriberId: number, callback: () => void) {
+    public subscribe(topic: string, subscriberId: number, callback: () => void): any {
         const socket = new SockJS(`${environment.wsHost}ws`)
         const stompClient = Stomp.over(socket);
 
@@ -17,6 +17,8 @@ export class WebSocketService {
                     callback();
             });
         });
+
+        return socket;
     }
 }
 

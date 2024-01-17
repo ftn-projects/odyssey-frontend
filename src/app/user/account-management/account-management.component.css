@@ -18,7 +18,6 @@ p {
     display: grid;
     grid-template-columns: 1fr 1fr;
     row-gap: 20px;
-    /* column-gap: 30px; */
 }
 
 .rounded-border {
@@ -140,6 +139,12 @@ button:not(:disabled) {
 
 ::ng-deep .call-code-select mat-form-field {
     width: 100%;
+}
+
+.toggle-text {
+    margin-left: 10px;
+    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .page-title {

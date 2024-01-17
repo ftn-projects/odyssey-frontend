@@ -14,15 +14,15 @@ import { environment } from '../../../env/env';
     styleUrl: './account-management.component.css'
 })
 export class AccountManagementComponent implements OnInit {
-    sections = [false, false, false, false];
+    sections = [false, false, false, false, false];
     selectedCountry: Country = { alpha2Code: 'RS' };
 
     private id = -1;
     protected role = '';
     protected image = '';
     protected imageUpload = '';
-    protected user: User = { address: {} };
-    protected editedUser: User = this.user;
+    protected user: User = { address: {}, settings: {} };
+    protected editedUser: User = this.deepcopy(this.user);
     protected password: PasswordUpdate = { oldPassword: '', newPassword: '' };
     protected confirmPassword: string = '';
 
@@ -34,6 +34,10 @@ export class AccountManagementComponent implements OnInit {
     ) {
     }
 
+    deepcopy(obj: any) {
+        return JSON.parse(JSON.stringify(obj));
+    }
+
     ngOnInit(): void {
         this.role = this.authService.getRole();
         this.id = this.authService.getId();
@@ -42,9 +46,10 @@ export class AccountManagementComponent implements OnInit {
         this.imageUpload = this.image;
         this.userService.findById(this.id).subscribe({
             next: (user) => {
-                this.user = user;
-                this.editedUser = user;
+                this.user = this.deepcopy(user);
+                this.editedUser = this.deepcopy(user);
                 this.password.userId = user.id;
+                this.onSettingsChange();
 
                 COUNTRIES_DB_EU.forEach((c, _) => {
                     if (c.name == this.user.address.country) this.selectedCountry = c;
@@ -80,15 +85,24 @@ export class AccountManagementComponent implements OnInit {
     }
 
     protected onSave(message: string = 'Changes saved!') {
-        this.userService.update(this.user).subscribe({
-            next: () => this.sharedService.displaySnack(message),
-            error: (err) => {
-                this.sharedService.displayFirstError(err);
-
+        this.userService.update(this.editedUser).subscribe({
+            next: () => {
+                this.sharedService.displaySnack(message);
                 this.userService.findById(this.id).subscribe({
                     next: (user) => {
-                        this.user = user;
-                        this.editedUser = user;
+                        this.user = this.deepcopy(user);
+                        this.editedUser = this.deepcopy(user);
+                        this.onSettingsChange();
+                    }
+                });
+            },
+            error: (err) => {
+                this.sharedService.displayFirstError(err);
+                this.userService.findById(this.id).subscribe({
+                    next: (user) => {
+                        this.user = this.deepcopy(user);
+                        this.editedUser = this.deepcopy(user);
+                        this.onSettingsChange();
                     }
                 });
             }
@@ -108,5 +122,19 @@ export class AccountManagementComponent implements OnInit {
     protected onLogout() {
         this.authService.removeUser();
         this.router.navigate(['']);
+    }
+
+    protected settingsChanged: boolean = false;
+
+    protected onSettingsChange() {
+        let s1 = this.user.settings!;
+        let s2 = this.editedUser.settings!;
+        this.settingsChanged = !(
+            s1.reservationRequested == s2.reservationRequested &&
+            s1.reservationAccepted == s2.reservationAccepted &&
+            s1.reservationDeclined == s2.reservationDeclined &&
+            s1.reservationCancelled == s2.reservationCancelled &&
+            s1.profileReviewed == s2.profileReviewed &&
+            s1.accommodationReviewed == s2.accommodationReviewed);
     }
 }

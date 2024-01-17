@@ -38,12 +38,12 @@ import { WebSocketService } from './shared/web-socket.service';
         NotificationModule
     ],
     providers: [
+        provideClientHydration(),
         {
             provide: HTTP_INTERCEPTORS,
             useClass: Interceptor,
             multi: true
         },
-        provideClientHydration(),
         WebSocketService
     ],
     bootstrap: [AppComponent]

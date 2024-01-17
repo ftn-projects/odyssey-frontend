@@ -50,7 +50,9 @@ export class NotificationListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.webSocketService.subscribe('/topic/notificationChange', this.authService.getId(), () => this.loadData());
+        let socket = this.webSocketService.subscribe('/topic/notificationChange', this.authService.getId(), () =>
+            this.loadData());
+        this.authService.registerNotificationSocket(socket);
 
         switch (this.authService.getRole()) {
             case 'ADMIN':

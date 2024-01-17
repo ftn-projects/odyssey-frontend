@@ -31,20 +31,20 @@ export class NavBarComponent implements OnInit {
             (visible) => this.visible = visible
         );
         this.authService.id.subscribe((id) => {
-            console.log("USER ID CHANGE", id);
+            if (!id) return;
+
             this.image = `${environment.apiHost}users/image/${id}`;
-            this.webSocketService.subscribe('/topic/notificationChange', id, () => {
-                console.log("NOTIFICATION CHANGEEEEE!");
-                this.updateUnreadCount();
-            });
+            let socket = this.webSocketService.subscribe('/topic/notificationChange', id, () => this.updateUnreadCount());
+            this.updateUnreadCount();
+            this.authService.registerNotificationSocket(socket);
         });
-        this.updateUnreadCount();
     }
 
     updateUnreadCount() {
+        if (!this.authService.isLoggedIn()) return;
+
         this.notificationService.getUnreadCount(this.authService.getId()).subscribe({
             next: (count) => {
-                console.log("UPDATING");
                 this.unreadCount = count;
             },
             error: (err) => console.log(err)

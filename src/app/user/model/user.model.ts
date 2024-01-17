@@ -1,5 +1,4 @@
 import { Address } from "../../shared/model/address.model";
-import { UserSettings } from "./user-settings.model";
 
 export interface User {
     id?: number;
@@ -10,5 +9,14 @@ export interface User {
     phone?: string;
     address: Address;
     bio?: string;
-    settings?: UserSettings;
+    settings?: NotificationSettings;
+}
+
+export interface NotificationSettings {
+    reservationRequested?: boolean;
+    reservationAccepted?: boolean;
+    reservationDeclined?: boolean;
+    reservationCancelled?: boolean;
+    profileReviewed?: boolean;
+    accommodationReviewed?: boolean;
 }
