@@ -1,0 +1,23 @@
+.add-comment-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.add-comment-input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: start;
+}
+
+.add-comment-input {
+    width: 100%;
+}
+
+.add-comment-submit-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+}

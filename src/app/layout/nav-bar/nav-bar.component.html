@@ -8,6 +8,8 @@
         <a [routerLink]="'/accommodations'">Search</a>
         <a [routerLink]="'/'">Contact</a>
         <a [routerLink]="'/reservations/guest'" *ngIf="role == 'GUEST'">My reservations</a>
+        <a [routerLink]="'/reviews/guest'" *ngIf="role == 'GUEST'">My reviews</a>
+        <a [routerLink]="'/reviews/host'" *ngIf="role == 'HOST'">My reviews</a>
         <a [routerLink]="'/reservations/host'" *ngIf="role == 'HOST'">Reservations</a>
         <a [routerLink]="'/'" *ngIf="role == 'HOST'">My accommodations</a>
         <a [routerLink]="'/accommodation/create'" *ngIf="role == 'HOST'">Create</a>

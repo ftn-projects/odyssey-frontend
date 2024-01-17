@@ -1,0 +1,41 @@
+<div class="card-container">
+    <div class="head-container">
+        <div class="profile-image-container">
+            <img [src]="submitterImageSrc" alt="profile image">
+        </div>
+        <div class="name-rating-container">
+            <div class="name-container">
+                <span class="name-text">{{review.submitter?.name + " " + review.submitter?.surname}}</span>
+            </div>
+            <div class="rating-container">
+                <span class="material-symbols-outlined star-icon">
+                    star
+                </span>
+                <span class="rating-text">{{review.rating}}</span>
+            </div>
+        </div>
+        <div class="report-button-container">
+
+            <button *ngIf="hostMode && !reportSuccess" (click)="reportReview()" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                <mat-icon >flag</mat-icon>
+            </button>
+
+            <button *ngIf="guestMode && !deleteSuccess" (click)="deleteReview()"  mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                <mat-icon >delete</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="commented-on" *ngIf="isAccommodationReview(review)">Commented on accommodation {{review.accommodation.title}}</div>
+    <div class="commented-on" *ngIf="isHostReview(review)">Commented on host {{review.host.name + " " + review.host.surname}} </div>
+    <mat-divider />
+    <div class="comment-container">
+        <div class="comment-container">
+            <span class="comment-text">
+                {{review.comment}}
+            </span>
+        </div>
+        <div class="date-container">
+            <span class="date-text">{{review.submissionDate | date:'MMM dd, yyyy'}}</span>
+        </div>
+
+    </div>

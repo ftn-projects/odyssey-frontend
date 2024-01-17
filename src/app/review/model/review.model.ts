@@ -8,3 +8,4 @@ export interface Review {
     status?: 'REQUESTED' | 'ACCEPTED' | 'DECLINED' | 'REPORTED';
     submitter?: User;
 }
+

@@ -1,0 +1,18 @@
+<div class="reviews-summary">
+    <h3>Reviews Summary</h3>
+
+    <div class="rating-summary">
+        <div class="rating">
+            <span class="average">{{ averageRating | number: '1.1-1' }}</span>
+            <mat-icon>star</mat-icon>
+        </div>
+        <div class="total-reviews">{{ totalReviews() }} reviews</div>
+    </div>
+
+    <div class="rating-bar" *ngFor="let rating of [5, 4, 3, 2, 1]">
+        <div class="rating-label">{{ rating }}</div>
+        <mat-progress-bar mode="determinate" color="primary"
+            [value]="ratingPercentages[rating-1]" />
+        <div class="reviews-count">{{ ratings?.[rating-1] ?? 0 }} reviews</div>
+    </div>
+</div>
