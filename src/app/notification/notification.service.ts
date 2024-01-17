@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from '../../env/env';
 
 @Injectable({
@@ -20,8 +20,14 @@ export class NotificationService {
         let params = new HttpParams();
         if (types) params = params.set('types', types?.join(','));
         if (read != undefined && read != null) params = params.set('read', read);
-        console.log(params);
         return this.http.get<any[]>(`${this.path}/user/${userId}`, { params });
+    }
+
+    getUnreadCount(userId: number): Observable<number> {
+        return this.findByUserId(userId).pipe(
+            map((notifications) => notifications.filter((n) => !n.read)),
+            map((unread) => unread.length)
+        );
     }
 
     updateRead(id: number, read: boolean): Observable<void> {

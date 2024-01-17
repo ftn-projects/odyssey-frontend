@@ -14,8 +14,13 @@
         <a [routerLink]="'/reviewRequests'" *ngIf="role == 'ADMIN'">Reviews</a>
         <a [routerLink]="'/accommodationRequests'" *ngIf="role == 'ADMIN'">Accommodations</a>
         <a [routerLink]="'/users'" *ngIf="role == 'ADMIN'">Users</a>
-        <div class="toolbar-profile-container" *ngIf="loggedIn()">
-            <img [matMenuTriggerFor]="accountMenu" src="{{image}}" />
+        <div style="margin-inline: 15px;" *ngIf="loggedIn()">
+            <div [matBadge]="unreadCount" matBadgeColor="warn" matBadgePosition="before" matBadgeSize="small"
+                [matBadgeHidden]="!unreadCount" style="width: 22px;">
+                <div class="toolbar-profile-container">
+                    <img [matMenuTriggerFor]="accountMenu" src="{{image}}" />
+                </div>
+            </div>
         </div>
         <a [routerLink]="'/login'" *ngIf="!loggedIn()">Log in</a>
         <a [routerLink]="'/registration'" *ngIf="!loggedIn()">Sign up</a>
@@ -28,7 +33,8 @@
         <span class="closable-menu-span">Account</span>
     </a>
     <a mat-menu-item [routerLink]="'/notifications'" *ngIf="loggedIn()">
-        <mat-icon>notifications</mat-icon>
+        <mat-icon [matBadge]="unreadCount" matBadgeColor="warn" matBadgePosition="before" matBadgeSize="small"
+            [matBadgeHidden]="!unreadCount">notifications</mat-icon>
         <span class="closable-menu-span">Notifications</span>
     </a>
     <a mat-menu-item *ngIf="loggedIn()" (click)="onLogout();">

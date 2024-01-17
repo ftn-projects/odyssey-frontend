@@ -30,7 +30,6 @@ a {
     height: 22px;
     width: 22px;
     border-radius: 50%;
-    margin-inline: 15px;
     cursor: pointer;
 }
 
@@ -60,4 +59,8 @@ a {
 ::ng-deep .cdk-overlay-container .account-menu a {
     margin-left: 8px;
     color: black;
+}
+
+::ng-deep .cdk-overlay-container .account-menu a mat-icon {
+    transform: scale(0.9);
 }

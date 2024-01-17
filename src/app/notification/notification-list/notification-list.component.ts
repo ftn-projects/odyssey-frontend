@@ -9,6 +9,7 @@ import { AuthService } from '../../infrastructure/auth/auth.service';
 import { Notification } from '../model/notification.model';
 import { DatePipe } from '@angular/common';
 import { NotificationDialogComponent } from '../notification-dialog/notification-dialog.component';
+import { WebSocketService } from '../../shared/web-socket.service';
 
 @Component({
     selector: 'app-notification-list',
@@ -29,6 +30,7 @@ export class NotificationListComponent implements OnInit {
     constructor(
         private notificationService: NotificationService,
         private authService: AuthService,
+        private webSocketService: WebSocketService,
         private dialog: MatDialog) {
     }
 
@@ -48,6 +50,8 @@ export class NotificationListComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.webSocketService.subscribe('/topic/notificationChange', this.authService.getId(), () => this.loadData());
+
         switch (this.authService.getRole()) {
             case 'ADMIN':
                 this.types = ['Accommodation reviewed', 'Host reviewed']; break;
@@ -96,19 +100,12 @@ export class NotificationListComponent implements OnInit {
             height: 'min-content',
             data: { notification: notification },
         });
-        dialogRef.afterClosed().subscribe(() => {
-            this.loadData();
-            console.log('reloading');
-        });
+        dialogRef.afterClosed().subscribe(() => this.loadData());
     }
 
     filtered(): boolean { return !this.read && this.typesInput == undefined; }
     changeRead(notification: Notification) {
         this.notificationService.updateRead(notification.id!, !notification.read).subscribe({
-            next: () => {
-                this.loadData();
-                console.log(`Notification ${notification.read ? 'unread' : 'read'}!`);
-            },
             error: (err) => console.log(err)
         });
     }
