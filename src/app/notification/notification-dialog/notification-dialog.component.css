@@ -38,3 +38,15 @@
 .close-button {
     margin-left: auto;
 }
+
+.sections-container {
+    display: flex;
+    flex-direction: row;
+    gap: 70px;
+}
+
+.details-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
