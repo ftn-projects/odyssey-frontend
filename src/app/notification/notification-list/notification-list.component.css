@@ -122,6 +122,18 @@ tr.unread-row:active {
     background: #efefef;
 }
 
+.mat-column-title {
+    width: 150px !important;
+}
+
+.mat-column-description {
+    width: 220px !important;
+}
+
+.mat-column-date {
+    width: 120px !important;
+}
+
 .mat-column-action {
     width: 60px !important;
     padding-right: 20px;

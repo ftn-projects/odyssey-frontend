@@ -4,6 +4,7 @@ import { NotificationListComponent } from './notification-list/notification-list
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../infrastructure/material/material.module';
 import { NotificationDialogComponent } from './notification-dialog/notification-dialog.component';
+import { ReviewModule } from '../review/review.module';
 
 
 
@@ -16,7 +17,8 @@ import { NotificationDialogComponent } from './notification-dialog/notification-
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        MaterialModule
+        MaterialModule,
+        ReviewModule
     ]
 })
 export class NotificationModule { }
