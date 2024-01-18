@@ -179,8 +179,6 @@ export class AccommodationRequestCreateComponent implements OnInit {
     }
 
     onAddSlot() {
-        console.log(this.images);
-
         let start = this.dateRange.get('start')?.value;
         let end = this.dateRange.get('end')?.value;
         if (!start) {
@@ -192,7 +190,7 @@ export class AccommodationRequestCreateComponent implements OnInit {
             return;
         }
 
-        let slot = { timeSlot: { start: start!, end: end! }, price: this.price }
+        const slot = { timeSlot: { start: start!, end: end! }, price: this.price }
         if (slot.price < 0) {
             this.sharedService.displayError('Price cannot be negative.');
             return;
@@ -201,11 +199,26 @@ export class AccommodationRequestCreateComponent implements OnInit {
             this.sharedService.displayError('End is before start.');
             return;
         }
-        if (this.slots.find(s => (overlapping(s.timeSlot, slot.timeSlot)))) {
-            this.sharedService.displayError('Slot overlaps with existing.');
-            return;
-        }
-        this.slots.push(slot);
+
+        let newSlots: AvailabilitySlot[] = [];
+        let overlaps: AvailabilitySlot[] = this.slots.filter(s => overlapping(s.timeSlot, slot.timeSlot));
+
+        overlaps.forEach(s => newSlots.push(...this.accommodationService.splitSlots(s, slot)));
+        this.slots = this.slots.filter(s => !overlaps.includes(s));
+        this.slots.push(...newSlots, slot);
+
+        newSlots = [];
+        let toBeJoined: AvailabilitySlot[] = [];
+        this.sorted(this.slots).forEach(s => {
+            if (toBeJoined.length && !this.isSuccessive(toBeJoined[toBeJoined.length - 1], s)) {
+                newSlots.push(this.accommodationService.joinSlots(toBeJoined));
+                toBeJoined = [];
+            }
+            toBeJoined.push(s);
+        });
+
+        if (toBeJoined.length) newSlots.push(this.accommodationService.joinSlots(toBeJoined));
+        this.slots = this.sorted(newSlots);
         this.refreshTable();
 
         this.dateRange.get('start')?.setValue(null);
@@ -222,10 +235,18 @@ export class AccommodationRequestCreateComponent implements OnInit {
         this.refreshTable();
     }
 
+    sorted(slots: AvailabilitySlot[]): AvailabilitySlot[] {
+        return slots.sort((a, b) => a.timeSlot.start.getTime() - b.timeSlot.start.getTime());
+    }
+
+    isSuccessive(first: AvailabilitySlot, second: AvailabilitySlot): boolean {
+        return first.price == second.price &&
+            this.accommodationService.addDays(first.timeSlot.end, 1).getTime() == second.timeSlot.start.getTime();
+    }
+
     refreshTable = () => this.slotsTableData.data = this.slots;
 
     images: Image[] = [];
-
     selectImages(selectedImages: File[]) {
         console.log(selectedImages);
 

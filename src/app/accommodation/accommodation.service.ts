@@ -5,12 +5,15 @@ import { Observable } from 'rxjs';
 import { environment } from '../../env/env';
 import { Amenity } from './model/amenity.model';
 import { AccommodationRequestCreation } from './model/accommodation-request-create.model';
+import { AvailabilitySlot } from './model/availability-slot.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AccommodationService {
-    constructor(private httpClient: HttpClient) {
+    private path: string = environment.apiHost + 'accommodations';
+
+    constructor(private http: HttpClient) {
     }
 
     getAll(
@@ -32,47 +35,24 @@ export class AccommodationService {
         if (type) params = params.set('type', type.toString());
         if (priceStart) params = params.set('priceStart', priceStart);
         if (priceEnd) params = params.set('priceEnd', priceEnd);
-        return this.httpClient.get<Accommodation[]>(environment.apiHost + 'accommodations', { params });
+        return this.http.get<Accommodation[]>(environment.apiHost + 'accommodations', { params });
     }
 
-    getById(
-        id: number
-    ): Observable<Accommodation> {
-        let params = new HttpParams();
-        return this.httpClient.get<Accommodation>(environment.apiHost + 'accommodations/' + id);
+    getById(id: number): Observable<Accommodation> {
+        return this.http.get<Accommodation>(environment.apiHost + 'accommodations/' + id);
     }
-
-
-    private path: string = environment.apiHost + 'accommodations';
-
 
     getAmenities(): Observable<Amenity[]> {
-        return this.httpClient.get<Amenity[]>(this.path + '/amenities');
+        return this.http.get<Amenity[]>(this.path + '/amenities');
     }
 
     getImageUrls(id: number): Observable<string[]> {
-        return this.httpClient.get<string[]>(this.path + '/' + id + "/images");
+        return this.http.get<string[]>(this.path + '/' + id + "/images");
     }
 
     getImageUrl(id: number, imageName: string): string {
         return this.path + '/' + id + '/images/' + imageName;
     }
-
-
-    // splitSlots(first: AvailabilitySlot, second: AvailabilitySlot): AvailabilitySlot[] {
-    //     let spliced: AvailabilitySlot[] = [];
-    //     if (first.start < second.start) {
-    //         if (second.end < first.end) spliced.push({ price: first.price, start: first.start, end: new Date(second.start.getDate() - 1) },
-    //             second, { price: first.price, start: new Date(second.end.getDate() + 1), end: first.end });
-    //         else spliced.push({ price: first.price, start: first.start, end: new Date(second.start.getDate() - 1) }, second);
-    //     }
-    //     else {
-    //         if (second.end > first.end) spliced.push(second);
-    //         else spliced.push(second, { price: first.price, start: new Date(second.end.getDate() + 1), end: first.end });
-    //     }
-
-    //     return spliced;
-    // }
 
     amenityIcons = new Map<string, string>([
         ['TV', 'tv'],
@@ -87,4 +67,34 @@ export class AccommodationService {
         ['Smoking room', 'smoking_rooms'],
         ['DEFAULT', 'house']
     ]);
+
+    // SLOT UTILS
+
+    public splitSlots(first: AvailabilitySlot, second: AvailabilitySlot): AvailabilitySlot[] {
+        let spliced: AvailabilitySlot[] = [];
+        const [firstSlot, secondSlot] = [first.timeSlot, second.timeSlot];
+        let price = first.price;
+
+        if (firstSlot.start < secondSlot.start)
+            spliced.push({ price, timeSlot: { start: firstSlot.start, end: this.addDays(secondSlot.start, -1) } });
+
+        if (secondSlot.end < firstSlot.end)
+            spliced.push({ price, timeSlot: { start: this.addDays(secondSlot.end, 1), end: firstSlot.end } });
+
+        return spliced;
+    }
+
+    public addDays(date: Date, days: number): Date {
+        let result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+    }
+
+    public joinSlots(slots: AvailabilitySlot[]): AvailabilitySlot {
+        if (slots.length == 1) return slots[0];
+
+        const start = slots[0].timeSlot.start;
+        const end = slots[slots.length - 1].timeSlot.end;
+        return { price: slots[0].price, timeSlot: { start, end } };
+    }
 }
