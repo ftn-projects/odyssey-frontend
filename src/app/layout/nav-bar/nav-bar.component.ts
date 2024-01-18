@@ -17,6 +17,8 @@ export class NavBarComponent implements OnInit {
     protected image: string = '../../../assets/profile_example.png';
     protected unreadCount: number = 0;
 
+    notificationSocket: any = null;
+
     constructor(
         private authService: AuthService,
         private sharedService: SharedService,
@@ -34,9 +36,9 @@ export class NavBarComponent implements OnInit {
             if (!id) return;
 
             this.image = `${environment.apiHost}users/image/${id}`;
-            let socket = this.webSocketService.subscribe('/topic/notificationChange', id, () => this.updateUnreadCount());
+            this.notificationSocket = this.webSocketService.subscribe(
+                '/topic/notificationChange', id, () => this.updateUnreadCount());
             this.updateUnreadCount();
-            this.authService.registerNotificationSocket(socket);
         });
     }
 
@@ -55,6 +57,7 @@ export class NavBarComponent implements OnInit {
 
     onLogout() {
         this.authService.removeUser();
+        this.notificationSocket.close();
         this.router.navigate(['']);
     }
 }

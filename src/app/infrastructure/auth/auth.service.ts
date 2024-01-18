@@ -20,8 +20,6 @@ export class AuthService {
     private id$ = new BehaviorSubject(-1);
     id = this.id$.asObservable();
 
-    private sockets: any[] = [];
-
     constructor(private http: HttpClient) {
         this.role$.next(this.getRole());
         this.id$.next(this.getId());
@@ -67,12 +65,5 @@ export class AuthService {
         localStorage.removeItem('user');
         this.role$.next(this.getRole());
         this.id$.next(this.getId());
-
-        this.sockets.forEach((s) => s.close());
-        this.sockets = [];
-    }
-
-    registerNotificationSocket(socket: any) {
-        this.sockets.push(socket);
     }
 }
