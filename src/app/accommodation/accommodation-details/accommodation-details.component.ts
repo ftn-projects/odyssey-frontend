@@ -19,7 +19,6 @@ import { environment } from '../../../env/env';
 import { AvailabilitySlot } from '../model/availability-slot.model';
 import { AccommodationReview } from '../../review/model/accommodationReview.model';
 import { ReviewService } from '../../review/review.service';
-import { Console } from 'console';
 
 import { ReportService } from '../../report/report.service';
 import { UserReport } from '../../report/model/user-report.model';
@@ -127,10 +126,10 @@ export class AccommodationDetailsComponent {
         });
 
         // statuses : string[];
-        
+
 
         this.reviewService.findAllAccommodationReviewsFiltered(this.id, null, ['ACCEPTED']).subscribe({
-            next: (data : AccommodationReview[]) => {
+            next: (data: AccommodationReview[]) => {
                 this.reviews = data;
                 console.log("Reviews: ", this.reviews);
             },

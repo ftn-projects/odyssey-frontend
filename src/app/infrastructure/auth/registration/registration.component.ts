@@ -76,7 +76,7 @@ export class RegistrationComponent {
             }
             else this.sharedService.displayError('Passwords must match!');
         } else {
-            this.sharedService.displaySnack('Fill out every input correctly.');
+            this.sharedService.displayError('Fill out every input correctly.');
 
             const controls = this.registrationForm.controls;
             for (const name in controls) {
