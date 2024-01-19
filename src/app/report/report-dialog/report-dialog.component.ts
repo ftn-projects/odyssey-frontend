@@ -27,6 +27,9 @@ export class ReportDialogComponent {
     }
 
     submitReport() {
+        if (!this.reportGroup.valid)
+            this.sharedService.displayError('Please fill out the form.');
+
         this.reportService.reportUser({
             description: this.reportGroup.controls['description'].value,
             submitterId: this.authService.getId(),
