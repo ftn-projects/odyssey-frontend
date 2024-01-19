@@ -17,6 +17,8 @@ import { ReviewModule } from './review/review.module';
 import { ReportModule } from './report/report.module';
 import { NotificationModule } from './notification/notification.module';
 import { WebSocketService } from './shared/web-socket.service';
+import { NgxEchartsModule } from 'ngx-echarts';
+
 
 
 @NgModule({
@@ -35,7 +37,16 @@ import { WebSocketService } from './shared/web-socket.service';
         ReservationModule,
         ReviewModule,
         ReportModule,
-        NotificationModule
+        NotificationModule,   
+        NgxEchartsModule.forRoot({
+            /**
+             * This will import all modules from echarts.
+             * If you only need custom modules,
+             * please refer to [Custom Build] section.
+             */
+            echarts: () => import('echarts'), // or import('./path-to-my-custom-echarts')
+          })   
+        
     ],
     providers: [
         provideClientHydration(),

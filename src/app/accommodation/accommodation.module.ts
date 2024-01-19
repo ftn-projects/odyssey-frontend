@@ -53,6 +53,9 @@ import { ReviewModule } from '../review/review.module';
         ReactiveFormsModule,
         SharedModule,
         FormsModule
+    ],
+    exports: [
+        SearchDaterangePickerComponent
     ]
 })
 export class AccommodationModule { }

@@ -18,6 +18,7 @@ import { HostReviewComponent } from './review/host-review/host-review.component'
 import { HostReviewsComponent } from './review/host-reviews/host-reviews.component';
 import { UserManagementComponent } from './user/user-management/user-management.component';
 import { NotificationListComponent } from './notification/notification-list/notification-list.component';
+import { StatsPageComponent } from './stats/stats-page/stats-page.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'accommodations' },
@@ -64,6 +65,7 @@ const routes: Routes = [
     { path: 'reviews/guest', component: GuestReviewsComponent},
     { path: 'reviews/host', component: HostReviewsComponent},
     { path: 'login', component: LoginComponent },
+    { path: 'stats', component: StatsPageComponent},
     { path: 'registration', component: RegistrationComponent },
     { path: 'emailConfirmation/:id', component: EmailConfirmationComponent }
 ];

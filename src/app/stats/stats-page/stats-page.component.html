@@ -1,0 +1,15 @@
+<div class="page-container">
+    <div class="search-container">
+        <app-search-daterange-picker class="date-picker" [form]="dateRangeFormGroup"></app-search-daterange-picker>
+        <button (click)="search()" class="search-button" mat-stroked-button extended color="primary">
+            <mat-icon>search</mat-icon>
+        </button>
+    </div>
+    <div class="container">
+        <app-line-graph [stats]="mainMontlyStats" class="graph"></app-line-graph>
+        <button mat-flat-button class="download-button" color="warn" (click)="downloadFile()">Download as PDF</button>
+    </div>
+    <div class="cards-container">
+        <app-accommodation-stat-card *ngFor="let stat of allAccommodationStats" [stats]="stat"></app-accommodation-stat-card>
+    </div>
+</div>

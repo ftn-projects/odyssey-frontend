@@ -13,6 +13,7 @@
         <a [routerLink]="'/reservations/host'" *ngIf="role == 'HOST'">Reservations</a>
         <a [routerLink]="'/'" *ngIf="role == 'HOST'">My accommodations</a>
         <a [routerLink]="'/accommodation/create'" *ngIf="role == 'HOST'">Create</a>
+        <a [routerLink]="'/stats'" *ngIf="role == 'HOST'">Statistics</a>
         <a [routerLink]="'/reviewRequests'" *ngIf="role == 'ADMIN'">Reviews</a>
         <a [routerLink]="'/accommodationRequests'" *ngIf="role == 'ADMIN'">Accommodations</a>
         <a [routerLink]="'/users'" *ngIf="role == 'ADMIN'">Users</a>

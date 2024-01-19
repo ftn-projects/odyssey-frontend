@@ -20,8 +20,8 @@ export class AccommodationListComponent {
                 address: [''],
             }),
             dateRange: fb.group({
-                start: [null],
-                end: [null],
+                start: new FormControl<Date | null>(null),  // Initialize as FormControl
+                end: new FormControl<Date | null>(null)     // Initialize as FormControl
             }),
             guestGroup: fb.group({
                 guests: [],
@@ -32,13 +32,15 @@ export class AccommodationListComponent {
                     max: [],
                 }),
                 accommodationType: [''],
-
                 amenities: this.fb.array([]),
             }),
-
         });
+        
     }
 
+    get dateRangeFormGroup(): FormGroup {
+        return this.searchParameters.get('dateRange') as FormGroup;
+    }
 
     accommodations: Accommodation[] = [];
 
