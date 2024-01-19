@@ -42,6 +42,18 @@ export class AccommodationService {
         return this.http.get<Accommodation>(environment.apiHost + 'accommodations/' + id);
     }
 
+    getFavorites(guestId: number): Observable<Accommodation[]>{
+        return this.http.get<Accommodation[]>(this.path+"/favorites/" + guestId);
+    }
+
+    favorite(guestId: number, accommodationId: number): Observable<void> {
+        return this.http.put<void>(`${this.path}/favorites/${guestId}/${accommodationId}`, {});
+    }
+
+    unfavorite(guestId: number, accommodationId: number): Observable<void> {
+        return this.http.delete<void>(`${this.path}/favorites/${guestId}/${accommodationId}`, {});
+    }
+
     getAmenities(): Observable<Amenity[]> {
         return this.http.get<Amenity[]>(this.path + '/amenities');
     }
@@ -53,6 +65,7 @@ export class AccommodationService {
     getImageUrl(id: number, imageName: string): string {
         return this.path + '/' + id + '/images/' + imageName;
     }
+    
 
     amenityIcons = new Map<string, string>([
         ['TV', 'tv'],

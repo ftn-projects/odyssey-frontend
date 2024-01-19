@@ -4,6 +4,8 @@ import { FilterDialogComponent } from './filter-dialog/filter-dialog.component';
 import { Accommodation } from '../model/accommodation.model';
 import { AccommodationService } from '../accommodation.service';
 import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
+import { AuthService } from '../../infrastructure/auth/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-accommodation-list',
@@ -11,17 +13,23 @@ import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
     styleUrl: './accommodation-list.component.css'
 })
 export class AccommodationListComponent {
-
+    favoriteAccommodationIds?: number[];
     searchParameters: FormGroup;
     amenities: number[] = []
-    constructor(private dialog: MatDialog, private service: AccommodationService, private fb: FormBuilder) {
+    constructor(
+        private dialog: MatDialog, 
+        private service: AccommodationService, 
+        private fb: FormBuilder,
+        private authService: AuthService,
+        private snackbar: MatSnackBar,
+        ) {
         this.searchParameters = fb.group({
             location: fb.group({
                 address: [''],
             }),
             dateRange: fb.group({
-                start: new FormControl<Date | null>(null),  // Initialize as FormControl
-                end: new FormControl<Date | null>(null)     // Initialize as FormControl
+                start: new FormControl<Date | null>(null),
+                end: new FormControl<Date | null>(null)
             }),
             guestGroup: fb.group({
                 guests: [],
@@ -34,6 +42,7 @@ export class AccommodationListComponent {
                 accommodationType: [''],
                 amenities: this.fb.array([]),
             }),
+            favorite: new FormControl<boolean>(false)
         });
         
     }
@@ -41,6 +50,9 @@ export class AccommodationListComponent {
     get dateRangeFormGroup(): FormGroup {
         return this.searchParameters.get('dateRange') as FormGroup;
     }
+
+
+
 
     accommodations: Accommodation[] = [];
 
@@ -54,8 +66,23 @@ export class AccommodationListComponent {
     }
 
 
+    searchUpgraded(){
+        if(this.authService.isLoggedIn() && this.authService.getRole() == "GUEST"){
+            this.service.getFavorites(this.authService.getId()).subscribe({
+                next: (data: Accommodation[]) => {
+                    this.favoriteAccommodationIds = data.map(accommodation => accommodation.id);
+                    this.search();
+                },
+                error: (err) => { console.log(err) }
+            })
+        }
+        else{
+
+        }
+    }
 
     search() {
+        console.log("Search parameters: ", this.searchParameters);
         const locationAddress = this.searchParameters.get('location.address')?.value.trim() === '' ? null : this.searchParameters.get('location.address')?.value.trim();
         const startDate = this.searchParameters.get('dateRange.start')?.value?.getTime();
         const endDate = this.searchParameters.get('dateRange.end')?.value?.getTime();
@@ -69,7 +96,13 @@ export class AccommodationListComponent {
 
         this.service.getAll(locationAddress, startDate, endDate, guestNumber, amenitiesParam, accommodationType, priceMin, priceMax).subscribe({
             next: (data: Accommodation[]) => {
-                this.accommodations = data
+                if(this.favoriteAccommodationIds && this.searchParameters.get('favorite')?.value == true){
+                    console.log("All favorites: ", this.favoriteAccommodationIds);
+                    this.accommodations = data.filter(accommodation => this.favoriteAccommodationIds?.includes(accommodation.id));
+                }
+                else{
+                    this.accommodations = data;
+                }
             },
             error: (err) => { console.log(err) }
         })
