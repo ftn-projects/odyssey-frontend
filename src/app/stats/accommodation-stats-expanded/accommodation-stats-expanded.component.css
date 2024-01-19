@@ -1,0 +1,9 @@
+
+
+  .container{
+    padding: 50px;
+    display: block;
+    width: 80vw;
+    min-width: 500px;
+    height: 500px;
+  }

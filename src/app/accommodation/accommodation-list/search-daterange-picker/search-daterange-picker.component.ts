@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Optional } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { AvailabilitySlot } from '../../model/availability-slot.model';
 
@@ -8,15 +8,17 @@ import { AvailabilitySlot } from '../../model/availability-slot.model';
     styleUrl: './search-daterange-picker.component.css'
 })
 export class SearchDaterangePickerComponent {
-    constructor (private rootFormGroup : FormGroupDirective) { }
+    constructor (@Optional() private rootFormGroup : FormGroupDirective) {
+        if(this.rootFormGroup){
+            this.form = this.rootFormGroup.control;
+            }
+     }
     @Input() availableSlots: AvailabilitySlot[] | null = null;
-    form!: FormGroup;
+    @Input() form!: FormGroup;
 
 
     ngOnInit(): void {
-        if(this.rootFormGroup){
-        this.form = this.rootFormGroup.control;
-        }
+        
     }
 
     customDateFilter = (date: Date | null): boolean => {

@@ -70,6 +70,10 @@ export class AccommodationDetailsComponent {
         });
     }
 
+    get dateRangeFormGroup(): FormGroup {
+        return this.reservationDetails.get('dateRange') as FormGroup;
+    }
+
     ngOnInit(): void {
         this.route.params.subscribe(params => {
             this.id = params['id'];

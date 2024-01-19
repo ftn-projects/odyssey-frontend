@@ -1,0 +1,5 @@
+<app-search-daterange-picker formGroupName="dateRange"></app-search-daterange-picker>
+<app-line-graph [stats]="mainMontlyStats"></app-line-graph>
+<div class="cards-container">
+    <app-accommodation-stat-card *ngFor="let stat of allAccommodationStats" [stats]="stat"></app-accommodation-stat-card>
+</div>

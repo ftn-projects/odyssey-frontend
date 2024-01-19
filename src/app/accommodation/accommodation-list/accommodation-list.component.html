@@ -16,7 +16,7 @@
             <input type="number" matInput formControlName="guests">
         </mat-form-field>
 
-        <app-search-daterange-picker formGroupName="dateRange" class="parameter-child" />
+        <app-search-daterange-picker [form]="dateRangeFormGroup" class="parameter-child" />
 
 
         <button (click)="search()" class="search-button" mat-stroked-button extended color="primary">
