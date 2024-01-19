@@ -91,8 +91,6 @@ export class AccommodationRequestCreateComponent implements OnInit {
         this.editing = true;
         this.accommodationService.getById(id).subscribe({
             next: (accommodation) => {
-                console.log(accommodation);
-
                 this.accommodation.newTitle = accommodation.title;
                 this.accommodation.newDescription = accommodation.description;
                 this.accommodation.newType = accommodation.type;

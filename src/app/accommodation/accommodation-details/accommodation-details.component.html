@@ -49,7 +49,7 @@
                             <div class="host-text-info-container">
                                 <div class="hosted-by-container">
                                     <span class="hosted-by">Hosted by </span>
-                                    <span class="host-name">{{accommodationData.host.name + " " +
+                                    <span class="host-name">{{ownerMode ? "you" : accommodationData.host.name + " " +
                                         accommodationData.host.surname}}</span>
                                 </div>
                             </div>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="about-host-section">
                         <div class="about-host-title">
-                            About {{accommodationData.host.name}}
+                            About {{ownerMode ? "you" : accommodationData.host.name}}
                         </div>
                         <div class="about-host-container">
                             {{accommodationData.host.bio}}
@@ -110,7 +110,7 @@
                         {{accommodationData.minGuests}} - {{accommodationData.maxGuests}} guests
                     </div>
                 </div>
-                <div class="reserve-input-section" [formGroup]="reservationDetails" *ngIf="!ownerMode">
+                <div class="reserve-input-section" [formGroup]="reservationDetails">
                     <app-search-daterange-picker [availableSlots]="accommodationData.availableSlots"
                         [form]="dateRangeFormGroup" class="reservation-range-input" />
                     <mat-form-field class="reservation-guests-input" subscriptSizing="dynamic"
@@ -147,19 +147,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="complete-button-container" *ngIf="!ownerMode">
-                    <button mat-flat-button color="primary" (click)="sendReservation()">Complete</button>
+                <div class="complete-button-container">
+                    <button mat-flat-button color="primary" (click)="sendReservation()"
+                        [disabled]="currentRole == null || ['HOST', 'ADMIN'].includes(currentRole)">Complete</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <app-review-creation *ngIf="!ownerMode" [type]="'ACCOMMODATION'" [id]="accommodationData.id"></app-review-creation>
-    
+    <app-review-creation *ngIf="currentRole == 'GUEST'" [type]="'ACCOMMODATION'"
+        [id]="accommodationData.id"></app-review-creation>
 
-    <app-review-section [id]="accommodationData.id" [type]="'accommodation'"/>
+
+    <app-review-section [id]="accommodationData.id" [type]="'accommodation'" />
 
     <div class="comment-section">
-        <app-accommodation-review *ngFor="let review of reviews" [review]="review"/>
+        <app-accommodation-review *ngFor="let review of reviews" [review]="review" />
     </div>
 </div>

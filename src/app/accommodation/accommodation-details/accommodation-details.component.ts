@@ -46,6 +46,7 @@ export class AccommodationDetailsComponent {
     reviews!: AccommodationReview[];
     hostId?: number;
     ownerMode: boolean = false;
+    currentRole: string | null = null;
     statuses: string[] = ['ACCEPTED'];
 
     constructor(
@@ -75,6 +76,7 @@ export class AccommodationDetailsComponent {
     }
 
     ngOnInit(): void {
+        this.currentRole = this.authService.getRole();
         this.route.params.subscribe(params => {
             this.id = params['id'];
             this.accommodation = this.service.getById(this.id);
@@ -131,10 +133,10 @@ export class AccommodationDetailsComponent {
         });
 
         // statuses : string[];
-        
+
 
         this.reviewService.findAllAccommodationReviewsFiltered(this.id, null, ['ACCEPTED']).subscribe({
-            next: (data : AccommodationReview[]) => {
+            next: (data: AccommodationReview[]) => {
                 this.reviews = data;
                 console.log("Reviews: ", this.reviews);
             },
