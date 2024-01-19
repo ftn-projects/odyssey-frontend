@@ -13,7 +13,6 @@ import { MaterialModule } from './infrastructure/material/material.module';
 import { LayoutModule } from './layout/layout.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { Interceptor } from './infrastructure/auth/interceptor';
-import { ReviewModule } from './review/review.module';
 import { ReportModule } from './report/report.module';
 import { NotificationModule } from './notification/notification.module';
 import { WebSocketService } from './shared/web-socket.service';
@@ -35,7 +34,6 @@ import { NgxEchartsModule } from 'ngx-echarts';
         UserModule,
         AuthModule,
         ReservationModule,
-        ReviewModule,
         ReportModule,
         NotificationModule,   
         NgxEchartsModule.forRoot({

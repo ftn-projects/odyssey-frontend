@@ -53,7 +53,7 @@ const routes: Routes = [
         canActivate: [AuthGuard], data: { role: ['ADMIN'] }
     },
     {
-        path: 'account', component: AccountManagementComponent,
+        path: 'account/:id', component: AccountManagementComponent,
         canActivate: [AuthGuard], data: { role: ['ADMIN', 'HOST', 'GUEST'] }
     },
     {
