@@ -5,6 +5,7 @@ import { Accommodation } from '../model/accommodation.model';
 import { AccommodationService } from '../accommodation.service';
 import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
 import { AuthService } from '../../infrastructure/auth/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-accommodation-list',
@@ -19,7 +20,8 @@ export class AccommodationListComponent {
         private dialog: MatDialog, 
         private service: AccommodationService, 
         private fb: FormBuilder,
-        private authService: AuthService
+        private authService: AuthService,
+        private snackbar: MatSnackBar,
         ) {
         this.searchParameters = fb.group({
             location: fb.group({
@@ -73,6 +75,9 @@ export class AccommodationListComponent {
                 },
                 error: (err) => { console.log(err) }
             })
+        }
+        else{
+
         }
     }
 

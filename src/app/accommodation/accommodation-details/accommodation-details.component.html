@@ -4,10 +4,6 @@
             <div class="accommodation-name">
                 <div class="title-text">{{accommodationData.title}}</div>
                 <div class="rating-container">
-                    <button mat-stroked-button *ngIf="!ownerMode">
-                        <mat-icon>favorite</mat-icon>
-                        Save
-                    </button>
                     <button mat-raised-button color="primary" [routerLink]="'/accommodation/edit/' + id"
                         *ngIf="ownerMode">
                         <mat-icon>edit</mat-icon>

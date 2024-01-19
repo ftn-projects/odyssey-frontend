@@ -46,6 +46,14 @@ export class AccommodationService {
         return this.http.get<Accommodation[]>(this.path+"/favorites/" + guestId);
     }
 
+    favorite(guestId: number, accommodationId: number): Observable<void> {
+        return this.http.put<void>(`${this.path}/favorites/${guestId}/${accommodationId}`, {});
+    }
+
+    unfavorite(guestId: number, accommodationId: number): Observable<void> {
+        return this.http.delete<void>(`${this.path}/favorites/${guestId}/${accommodationId}`, {});
+    }
+
     getAmenities(): Observable<Amenity[]> {
         return this.http.get<Amenity[]>(this.path + '/amenities');
     }
