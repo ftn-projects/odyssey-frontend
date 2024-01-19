@@ -157,10 +157,8 @@ export class AccommodationRequestCreateComponent implements OnInit {
 
         this.requestService.create(this.accommodation).subscribe({
             next: (model) => {
-                console.log('model', model);
                 this.uploadSelectedImages(model.id!).subscribe({
                     next: () => {
-                        console.log('Uploaded images.');
                         confirm('Accommodation has been successfully created.');
                         this.router.navigate(['']);
                     },
@@ -248,8 +246,6 @@ export class AccommodationRequestCreateComponent implements OnInit {
 
     images: Image[] = [];
     selectImages(selectedImages: File[]) {
-        console.log(selectedImages);
-
         selectedImages.forEach(image => {
             var reader = new FileReader();
             reader.readAsDataURL(image);
