@@ -1,1 +1,4 @@
 <app-review-summary [ratings]="ratings"/>
+<div class="comment-section">
+    <app-accommodation-review *ngFor="let review of reviews" [review]="review" />
+</div>
