@@ -42,6 +42,10 @@ export class AccommodationService {
         return this.http.get<Accommodation>(environment.apiHost + 'accommodations/' + id);
     }
 
+    getFavorites(guestId: number): Observable<Accommodation[]>{
+        return this.http.get<Accommodation[]>(this.path+"/favorites/" + guestId);
+    }
+
     getAmenities(): Observable<Amenity[]> {
         return this.http.get<Amenity[]>(this.path + '/amenities');
     }
@@ -53,6 +57,7 @@ export class AccommodationService {
     getImageUrl(id: number, imageName: string): string {
         return this.path + '/' + id + '/images/' + imageName;
     }
+    
 
     amenityIcons = new Map<string, string>([
         ['TV', 'tv'],
