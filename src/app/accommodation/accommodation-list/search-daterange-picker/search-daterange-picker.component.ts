@@ -8,7 +8,7 @@ import { AvailabilitySlot } from '../../model/availability-slot.model';
     styleUrl: './search-daterange-picker.component.css'
 })
 export class SearchDaterangePickerComponent {
-    constructor (@Optional() private rootFormGroup : FormGroupDirective) {
+    constructor (@Optional() public rootFormGroup : FormGroupDirective) {
         if(this.rootFormGroup){
             this.form = this.rootFormGroup.control;
             }
@@ -16,10 +16,6 @@ export class SearchDaterangePickerComponent {
     @Input() availableSlots: AvailabilitySlot[] | null = null;
     @Input() form!: FormGroup;
 
-
-    ngOnInit(): void {
-        
-    }
 
     customDateFilter = (date: Date | null): boolean => {
         if (!date) {
@@ -36,7 +32,6 @@ export class SearchDaterangePickerComponent {
         }
       };
     
-      // Helper function to check if a date is within a slot
       private isDateInSlot(date: Date, slot: AvailabilitySlot): boolean {
         const startDate = new Date(slot.timeSlot.start);
         const endDate = new Date(slot.timeSlot.end);

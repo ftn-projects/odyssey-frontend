@@ -35,4 +35,21 @@ export class StatsService {
         if(end) params = params.set('endDate', end);
         return this.httpClient.get<AccommodationTotalStats[]>(this.path + `/host/${id}/all`, {params});
     }
+
+    downloadHostFile(id? : number | null, start? : number | null, end? : number | null) : Observable<Blob> {
+        let params = new HttpParams();
+        if(start) params = params.set('startDate', start);
+        if(end) params = params.set('endDate', end);
+        const options = { params: params, responseType: 'blob' as 'json' };
+        return this.httpClient.get<Blob>(this.path + `/host/${id}/file`, options);
+    }
+
+    downloadAccommodationFile(id? : number | null, start? : number | null, end? : number | null) : Observable<Blob> {
+        let params = new HttpParams();
+        if(start) params = params.set('startDate', start);
+        if(end) params = params.set('endDate', end);
+        const options = { params: params, responseType: 'blob' as 'json' };
+        return this.httpClient.get<Blob>(this.path + `/accommodation/${id}/file`, options);
+    }
+    
 }

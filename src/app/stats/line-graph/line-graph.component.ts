@@ -12,6 +12,7 @@ export class LineGraphComponent implements OnChanges{
 
     @Input() stats?: MonthlyStats[];
 
+
     chartOption: EChartsOption = {
         title: {
           text: 'Monthly Income'
@@ -50,8 +51,40 @@ export class LineGraphComponent implements OnChanges{
 
 
     ngOnChanges(changes: SimpleChanges): void {
-        this.chartOption.xAxis = { type: 'category', boundaryGap: false, data: this.getMonthLabels(this.stats) };
-        this.chartOption.series = this.getSeriesData(this.stats);
+        const chartOptionIn: EChartsOption = {
+            title: {
+              text: 'Monthly Income'
+            },
+            tooltip: {
+              trigger: 'axis'
+            },
+            legend: {
+              data: ['Income']
+            },
+            grid: {
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
+            },
+            toolbox: {
+              feature: {
+                saveAsImage: {}
+              }
+            },
+            xAxis: {
+              type: 'category',
+              boundaryGap: false,
+              data: []
+            },
+            yAxis: {
+              type: 'value'
+            },
+            series: []
+          };
+        chartOptionIn.xAxis = { type: 'category', boundaryGap: false, data: this.getMonthLabels(this.stats) };
+        chartOptionIn.series = this.getSeriesData(this.stats);
+        this.chartOption = chartOptionIn;
     }
 
 

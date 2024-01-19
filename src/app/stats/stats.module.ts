@@ -6,6 +6,7 @@ import { AccommodationModule } from '../accommodation/accommodation.module';
 import { LineGraphComponent } from './line-graph/line-graph.component';
 import { AccommodationStatCardComponent } from './accommodation-stat-card/accommodation-stat-card.component';
 import { AccommodationStatsExpandedComponent } from './accommodation-stats-expanded/accommodation-stats-expanded.component';
+import { MaterialModule } from '../infrastructure/material/material.module';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { AccommodationStatsExpandedComponent } from './accommodation-stats-expan
   imports: [
     CommonModule,
     AccommodationModule,
+    MaterialModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     })

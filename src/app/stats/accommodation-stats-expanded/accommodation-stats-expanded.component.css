@@ -1,9 +1,27 @@
-
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
   .container{
+    display: flex;
+    flex-direction: column;
     padding: 50px;
-    display: block;
     width: 80vw;
     min-width: 500px;
     height: 500px;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .graph{
+    width:100%;
+  }
+
+  .download-button{
+    width:fit-content;
+    padding: 10px;
+    align-self: flex-end;
   }
