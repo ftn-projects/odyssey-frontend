@@ -16,6 +16,7 @@ export class NavBarComponent implements OnInit {
     protected visible: boolean = true;
     protected image: string = '../../../assets/profile_example.png';
     protected unreadCount: number = 0;
+    currentId = '';
 
     notificationSocket: any = null;
 
@@ -25,6 +26,10 @@ export class NavBarComponent implements OnInit {
         private notificationService: NotificationService,
         private webSocketService: WebSocketService,
         private router: Router) {
+    }
+
+    getLoggedId(): string {
+        return this.authService.getId();
     }
 
     ngOnInit(): void {
