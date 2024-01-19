@@ -1,9 +1,8 @@
 <div class="imageContainer" [routerLink]="'/accommodation/details/' + accommodation.id">
     <div class="heartContainer">
-        <div class="iconContainer">
-            <span class="material-symbols-outlined heart-icon">
-                favorite
-            </span>
+        <div class="iconContainer" (click)="favoriteEvent($event)">
+            <mat-icon *ngIf="!isFavorite" class="heart-icon">favorite_border</mat-icon>
+            <mat-icon *ngIf="isFavorite" class="heart-icon">favorite</mat-icon>
         </div>
     </div>
     <img [src]="imageUrl">
@@ -28,4 +27,6 @@
         <span *ngIf="accommodation.totalPrice!=-1" class="price_total"><span
                 class="text_dot">·</span>${{accommodation.totalPrice}} total</span>
     </div>
+
+
 </div>
