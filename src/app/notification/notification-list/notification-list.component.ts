@@ -52,7 +52,7 @@ export class NotificationListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.socket = this.webSocketService.subscribe('/topic/notificationChange', this.authService.getId(), () =>
+        this.socket = this.webSocketService.subscribe('/topic/notifications', this.authService.getId(), () =>
             this.loadData());
 
         switch (this.authService.getRole()) {
@@ -67,7 +67,7 @@ export class NotificationListComponent implements OnInit, OnDestroy {
         this.loadData();
     }
 
-    ngOnDestroy() { if (this.socket) this.socket.close(); }
+    ngOnDestroy() { if (this.socket) this.socket.disconnect(); }
 
     @ViewChild(MatPaginator)
     paginator!: MatPaginator;

@@ -37,7 +37,7 @@ export class NavBarComponent implements OnInit {
 
             this.image = `${environment.apiHost}users/image/${id}`;
             this.notificationSocket = this.webSocketService.subscribe(
-                '/topic/notificationChange', id, () => this.updateUnreadCount());
+                '/topic/notifications', id, () => this.updateUnreadCount());
             this.updateUnreadCount();
         });
     }
@@ -57,7 +57,7 @@ export class NavBarComponent implements OnInit {
 
     onLogout() {
         this.authService.removeUser();
-        this.notificationSocket.close();
+        this.notificationSocket.disconnect();
         this.router.navigate(['']);
     }
 }

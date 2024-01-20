@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../env/env';
-import SockJS from 'sockjs-client/dist/sockjs.js';
 import * as Stomp from 'stompjs';
 
 @Injectable({
@@ -8,17 +7,16 @@ import * as Stomp from 'stompjs';
 })
 export class WebSocketService {
     public subscribe(topic: string, subscriberId: number, callback: () => void): any {
-        const socket = new SockJS(`${environment.wsHost}ws`)
-        const stompClient = Stomp.over(socket);
+        const stompClient = Stomp.client(environment.wsHost);
 
-        stompClient.connect({}, () => {
+        stompClient.connect({}, (response: any) => {
             stompClient.subscribe(topic, (response: any) => {
                 if (response.body == subscriberId)
                     callback();
             });
         });
 
-        return socket;
+        return stompClient;
     }
 }
 
