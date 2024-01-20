@@ -1,0 +1,10 @@
+.comment-section {
+    margin: auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 100px;
+    padding-bottom: 50px;
+    margin-top: 50px;
+}
+

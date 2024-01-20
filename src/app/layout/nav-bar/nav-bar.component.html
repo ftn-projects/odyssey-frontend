@@ -31,7 +31,7 @@
 </mat-toolbar>
 <mat-menu #accountMenu="matMenu" class="account-menu" xPosition="before" yPosition="above" [overlapTrigger]="false"
     style="margin-top: 100px;">
-    <a mat-menu-item [routerLink]="'/account'" *ngIf="loggedIn()">
+    <a mat-menu-item [routerLink]="'/account/' + getLoggedId()" *ngIf="loggedIn()">
         <mat-icon>person</mat-icon>
         <span class="closable-menu-span">Account</span>
     </a>

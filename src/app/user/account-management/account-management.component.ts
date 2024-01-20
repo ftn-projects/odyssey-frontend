@@ -3,10 +3,11 @@ import { COUNTRIES_DB_EU, Country } from '@angular-material-extensions/select-co
 import { User } from '../model/user.model';
 import { UserService } from '../user.service';
 import { PasswordUpdate } from '../model/password-update.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../infrastructure/auth/auth.service';
 import { SharedService } from '../../shared/shared.service';
 import { environment } from '../../../env/env';
+
 
 @Component({
     selector: 'app-account',
@@ -16,9 +17,10 @@ import { environment } from '../../../env/env';
 export class AccountManagementComponent implements OnInit {
     sections = [false, false, false, false, false];
     selectedCountry: Country = { alpha2Code: 'RS' };
-
-    private id = -1;
-    protected role = '';
+    id = -1;
+    role = '';
+    viewverRole = '';
+    viewverId = -1;
     protected image = '';
     protected imageUpload = '';
     protected user: User = { address: {}, settings: {} };
@@ -30,7 +32,8 @@ export class AccountManagementComponent implements OnInit {
         private router: Router,
         private userService: UserService,
         private authService: AuthService,
-        private sharedService: SharedService
+        private sharedService: SharedService,
+        private route: ActivatedRoute
     ) {
     }
 
@@ -39,13 +42,17 @@ export class AccountManagementComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.role = this.authService.getRole();
-        this.id = this.authService.getId();
-
+        this.route.params.subscribe(params => {
+            this.id = +params['id'];
+        });
+        this.viewverId = this.authService.getId();
+        this.viewverRole = this.authService.getRole();
         this.image = `${environment.apiHost}users/image/${this.id}`;
         this.imageUpload = this.image;
         this.userService.findById(this.id).subscribe({
             next: (user) => {
+                this.role=user.role ?? ' ';    
+                //THIS IS NOT GOOD, FIX THIS BECAUSE THE USER DOESN'T HAVE A ROLE SOMEHOW
                 this.user = this.deepcopy(user);
                 this.editedUser = this.deepcopy(user);
                 this.password.userId = user.id;
