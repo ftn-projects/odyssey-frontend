@@ -24,7 +24,7 @@
     <div class="price_container" *ngIf="accommodation.defaultPrice!=-1">
         <span class="price_number">${{ accommodation.defaultPrice}}</span>
         <span class="pricing_type"> {{accommodation.pricing.replace('_', ' ').toLowerCase()}}</span>
-        <span *ngIf="accommodation.totalPrice!=-1" class="price_total"><span
+        <span *ngIf="accommodation.totalPrice && accommodation.totalPrice!=-1" class="price_total"><span
                 class="text_dot">·</span>${{accommodation.totalPrice}} total</span>
     </div>
 

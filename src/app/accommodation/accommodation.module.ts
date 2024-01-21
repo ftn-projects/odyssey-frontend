@@ -22,6 +22,7 @@ import { AccommodationRequestsComponent } from './accommodation-requests/accommo
 import { AccommodationRequestDetailsComponent } from './accommodation-request-details/accommodation-request-details.component';
 import { AccommodationRequestCreateComponent } from './accommodation-request-create/accommodation-request-create.component';
 import { ReviewModule } from '../review/review.module';
+import { HostAccommodationsViewComponent } from './host-accommodations-view/host-accommodations-view.component';
 
 
 
@@ -44,6 +45,7 @@ import { ReviewModule } from '../review/review.module';
         AccommodationImagesDialogComponent,
         AccommodationRequestsComponent,
         AccommodationRequestDetailsComponent,
+        HostAccommodationsViewComponent,
     ],
     imports: [
         RouterModule,
