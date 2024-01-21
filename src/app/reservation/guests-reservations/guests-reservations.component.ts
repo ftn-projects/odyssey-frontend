@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { ReservationRequestService } from '../reservation-request.service';
 import { AuthService } from '../../infrastructure/auth/auth.service';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-guests-reservations',
@@ -36,6 +37,7 @@ export class GuestsReservationsComponent {
     get startInput() { return this.filterForm.get('start')?.value.getTime(); }
     get endInput() { return this.filterForm.get('end')?.value.getTime(); }
 
+    datePipe = new DatePipe('en-US');
 
     constructor(private service: ReservationRequestService, private authService: AuthService, private router: Router) {
     }
@@ -54,14 +56,14 @@ export class GuestsReservationsComponent {
     allowCancel(start: Date, cancellationDue: number, statusBefore: string): boolean {
         if (statusBefore == "REQUESTED") return true;
 
-        const cancelBy = new Date();
-        cancelBy.setDate((new Date(start)).getDate() - cancellationDue);
+        let cancelBy = new Date(start);
+        cancelBy.setDate(cancelBy.getDate() - cancellationDue);
         return new Date(Date.now()) <= cancelBy;
     }
 
     getCancelBy(start: Date, cancellationDue: number): String {
-        const cancelBy = new Date();
-        cancelBy.setDate((new Date(start)).getDate() - cancellationDue)
+        const cancelBy = new Date(start);
+        cancelBy.setDate(cancelBy.getDate() - cancellationDue)
         const day = cancelBy.getDate().toString().padStart(2, '0');
         const month = (cancelBy.getMonth() + 1).toString().padStart(2, '0');
         const year = cancelBy.getFullYear();
@@ -73,8 +75,13 @@ export class GuestsReservationsComponent {
     loadData() {
         this.service.findByGuestId(this.authService.getId()).subscribe({
             next: (data: AccreditReservation[]) => {
-                console.log(data);
-                this.requests = data;
+                this.requests = data.map(r => {
+                    r.start = new Date(r.start!);
+                    r.end = new Date(r.end!);
+                    r.requestDate = new Date(r.requestDate!);
+                    return r;
+                });
+                console.log(this.requests);
                 this.dataSource = new MatTableDataSource(this.requests);
                 this.dataSource.paginator = this.paginator;
                 this.dataSource.sort = this.sort;
