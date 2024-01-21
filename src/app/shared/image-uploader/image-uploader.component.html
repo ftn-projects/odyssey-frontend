@@ -1,0 +1,9 @@
+<input type="file" style="display: none;" accept="image/*" multiple="true" (change)="onImagesSelected($event)"
+    #fileUpload>
+<div class="image-upload">
+    <button mat-raised-button color="basic" class="image-upload-button" (click)="fileUpload.click()">
+        <mat-icon>attach_file</mat-icon>{{text}}
+    </button>
+
+    <div *ngIf="message" class="alert alert-secondary" role="alert">{{ message }}</div>
+</div>

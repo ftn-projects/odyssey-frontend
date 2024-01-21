@@ -1,0 +1,44 @@
+<div class="container" [formGroup]="filterFormGroup">
+    <div class="filter-header">
+        <span>Filter</span>
+        <button mat-icon-button class="close-button" (click)="closeDialog()" aria-label="Close">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div class="filter-body">
+        <div class="filter-section">
+            <h3>Price</h3>
+            <mat-slider formGroupName="price" mshowTickMarks min="0"  max="2000" discrete [displayWith]="formatLabel">
+                <input formControlName="min" value="0" matSliderStartThumb>
+                <input formControlName="max" value="2000" matSliderEndThumb>
+            </mat-slider>
+        </div>
+        <div class="filter-section">
+            <h3>Accommodation type</h3>
+            <mat-form-field>
+                <mat-label>Select accommodation type</mat-label>
+                <mat-select formControlName="accommodationType">
+                    <mat-option value="house">House</mat-option>
+                    <mat-option value="apartment">Apartment</mat-option>
+                    <mat-option value="hotel">Hotel</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="filter-section">
+            <h3>Amenities</h3>
+            <div class="amenities-grid" formArrayName="amenities">
+                <div *ngFor="let amenity of amenities; let i = index">
+                    <mat-checkbox [formControlName]="amenity.id!" color="primary">
+                        {{ amenity.title }}
+                    </mat-checkbox>
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+    
+    <div class="filter-footer">
+        <button mat-raised-button color="primary" (click)="applyFilters()">Apply filters</button>
+    </div>
+</div>

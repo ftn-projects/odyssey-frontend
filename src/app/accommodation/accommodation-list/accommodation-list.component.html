@@ -1,0 +1,42 @@
+<div class="body-container">
+    <div class="parameterSection" [formGroup]="searchParameters">
+        <mat-form-field class="parameter-child" subscriptSizing="dynamic" formGroupName="location">
+            <mat-icon matPrefix class="material-symbols-outlined input-prefix">
+                location_on
+            </mat-icon>
+            <mat-label>Address</mat-label>
+            <input matInput placeholder="Ex. Novi Sad" formControlName="address">
+        </mat-form-field>
+
+        <mat-form-field class="parameter-child" subscriptSizing="dynamic" formGroupName="guestGroup">
+            <mat-icon matPrefix class="material-symbols-outlined input-prefix">
+                people
+            </mat-icon>
+            <mat-label>Guests</mat-label>
+            <input type="number" matInput formControlName="guests">
+        </mat-form-field>
+
+        <app-search-daterange-picker [form]="dateRangeFormGroup" class="parameter-child" />
+
+
+        <button (click)="searchUpgraded()" class="search-button" mat-stroked-button extended color="primary">
+            <mat-icon>search</mat-icon>
+        </button>
+        
+    </div>
+    <mat-divider class="divider"></mat-divider>
+    <div class="filter-container" [ngClass]="{'sticky': isSticky}" [formGroup]="searchParameters">
+        <mat-slide-toggle formControlName="favorite">Toggle favorites</mat-slide-toggle>
+        <button (click)="openDialog()" mat-stroked-button class="filter-button">
+            <mat-icon>tune</mat-icon>
+            Filter
+        </button>
+    </div>
+
+    <div class="list-section-container">
+        <div class="list-section">
+            <app-accommodation-card *ngFor="let accommodation of accommodations" [accommodation]="accommodation"
+                class="accommodation-card" />
+        </div>
+    </div>
+</div>

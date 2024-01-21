@@ -1,0 +1,45 @@
+<mat-toolbar id="header" *ngIf="visible">
+    <a class="horizontal-flex" [routerLink]="'/'">
+        <img class="toolbar-logo-img" src="assets/logo.png" />
+        <span class="app-name">Odyssey</span>
+    </a>
+    <div class="horizontal-flex">
+        <a [routerLink]="'/'">Home</a>
+        <a [routerLink]="'/reservations/guest'" *ngIf="role == 'GUEST'">My reservations</a>
+        <a [routerLink]="'/reviews/guest'" *ngIf="role == 'GUEST'">My reviews</a>
+        <a [routerLink]="'/reviews/host'" *ngIf="role == 'HOST'">My reviews</a>
+        <a [routerLink]="'/reservations/host'" *ngIf="role == 'HOST'">Reservations</a>
+        <a [routerLink]="'/accommodations/host'" *ngIf="role == 'HOST'">My accommodations</a>
+        <a [routerLink]="'/accommodation/create'" *ngIf="role == 'HOST'">Create</a>
+        <a [routerLink]="'/stats'" *ngIf="role == 'HOST'">Statistics</a>
+        <a [routerLink]="'/reviewRequests'" *ngIf="role == 'ADMIN'">Reviews</a>
+        <a [routerLink]="'/accommodationRequests'" *ngIf="role == 'ADMIN'">Accommodations</a>
+        <a [routerLink]="'/users'" *ngIf="role == 'ADMIN'">Users</a>
+        <div style="margin-inline: 15px;" *ngIf="loggedIn()">
+            <div [matBadge]="unreadCount" matBadgeColor="warn" matBadgePosition="before" matBadgeSize="small"
+                [matBadgeHidden]="!unreadCount" style="width: 22px;">
+                <div class="toolbar-profile-container">
+                    <img [matMenuTriggerFor]="accountMenu" src="{{image}}" />
+                </div>
+            </div>
+        </div>
+        <a [routerLink]="'/login'" *ngIf="!loggedIn()">Log in</a>
+        <a [routerLink]="'/registration'" *ngIf="!loggedIn()">Sign up</a>
+    </div>
+</mat-toolbar>
+<mat-menu #accountMenu="matMenu" class="account-menu" xPosition="before" yPosition="above" [overlapTrigger]="false"
+    style="margin-top: 100px;">
+    <a mat-menu-item [routerLink]="'/account/' + getLoggedId()" *ngIf="loggedIn()">
+        <mat-icon>person</mat-icon>
+        <span class="closable-menu-span">Account</span>
+    </a>
+    <a mat-menu-item [routerLink]="'/notifications'" *ngIf="loggedIn()">
+        <mat-icon [matBadge]="unreadCount" matBadgeColor="warn" matBadgePosition="before" matBadgeSize="small"
+            [matBadgeHidden]="!unreadCount" aria-hidden="false">notifications</mat-icon>
+        <span class="closable-menu-span">Notifications</span>
+    </a>
+    <a mat-menu-item *ngIf="loggedIn()" (click)="onLogout();">
+        <mat-icon>logout</mat-icon>
+        <span class="closable-menu-span">Log out</span>
+    </a>
+</mat-menu>

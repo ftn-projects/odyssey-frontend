@@ -1,0 +1,34 @@
+<div class="wrapper">
+    <div class="formSide">
+        <a [routerLink]="'/'" class="backLink">&lt;&lt; Back to main site</a>
+
+        <div class="formWrapper">
+            <p class="title">LOGIN</p>
+
+            <form class="authForm" [formGroup]="loginForm">
+                <mat-form-field class="textBox">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" formControlName="email">
+                </mat-form-field>
+
+                <mat-form-field class="textBox">
+                    <mat-label>Password</mat-label>
+                    <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+                    <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' :
+                        'visibility'}}</mat-icon>
+                </mat-form-field>
+            </form>
+
+            <p class="promptText">Forgot password? <a href="">Click here</a></p>
+            <button mat-flat-button class="inputButton" type="submit" color="primary" id="continue"
+                (click)="onLogin()">Continue</button>
+            <p class="promptText">No account? <a [routerLink]="'/registration'">Register now</a></p>
+        </div>
+    </div>
+    <div class="imageScroll">
+        <div class="imageSide">
+            <p class="phrase">Become a part<br>of something<br>amazing</p>
+        </div>
+    </div>
+
+</div>

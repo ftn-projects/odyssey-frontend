@@ -1,0 +1,20 @@
+<div class="add-comment-section">
+    <app-review-star-rating (ratingChanged)="onRatingChanged($event)" />
+    <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+        <div class="add-comment-input-section">
+            <mat-form-field class="add-comment-input" subscriptSizing="dynamic">
+                <mat-label>Comment</mat-label>
+                <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="5" cdkAutosizeMaxRows="10"
+                    placeholder="Write something nice" formControlName="comment"></textarea>
+            </mat-form-field>
+        </div>
+
+        <div class="add-comment-submit-section">
+            <div class="add-comment-button-container">
+                <button mat-flat-button color="primary" type="submit" [disabled]="reviewForm.invalid">
+                    Submit review
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

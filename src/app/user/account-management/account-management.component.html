@@ -1,0 +1,247 @@
+<div class="destination-container">
+
+    <div style="display: flex; margin: 20px; align-items: center;">
+        <h1 class="page-title">Account management</h1>
+        <button *ngIf="viewverId==id" mat-raised-button color="primary" class="logout-btn" style="margin-left: auto;" (click)="onLogout();">
+            <mat-icon>logout</mat-icon>Log out
+        </button>
+    </div>
+
+    <section id="summary-section" class="card-section rounded-border">
+        <div class="about-profile-container">
+            <img src={{image}} />
+        </div>
+        <div id="summary-details" *ngIf="!sections[0]">
+            <p id="summary-name">{{user.name}} {{user.surname}}</p>
+            <p id=" summary-role">{{role}}</p>
+        </div>
+
+        <app-file-uploader *ngIf="sections[0]" [endpoint]="imageUpload" [paramName]="'image'"
+            [text]="'Upload image'"></app-file-uploader>
+
+        <div class="form-buttons">
+            <button mat-stroked-button id="btn-edit-image" *ngIf="!sections[0] && viewverId==id" (click)="onEditing(0);">
+                <mat-icon>edit</mat-icon>Edit image
+            </button>
+            <button mat-raised-button id="btn-save-image" *ngIf="sections[0]" color="primary"
+                (click)="onImageSave(); sections[0] = false;">
+                Save
+            </button>
+            <button mat-stroked-button id=" btn-cancel-image" *ngIf="sections[0]" (click)="sections[0] = false;">
+                Cancel
+            </button>
+        </div>
+    </section>
+
+    <section id="info-section" class="card-section rounded-border">
+        <div class="section-header">
+            <p class="section-title">Basic info</p>
+            <div class="form-buttons">
+                <button mat-stroked-button id="btn-edit-info" *ngIf="!sections[1] && viewverId==id" (click)="onEditing(1);">
+                    <mat-icon>edit</mat-icon>Edit
+                </button>
+                <button mat-raised-button id="btn-save-info" color="primary" *ngIf="sections[1]"
+                    (click)="onSave(); sections[1] = false;">
+                    Save
+                </button>
+                <button mat-stroked-button id="btn-cancel-info" *ngIf="sections[1]" (click)="sections[1] = false">
+                    Cancel
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="!sections[1]">
+            <mat-label class="field-label">First name</mat-label>
+            <p class="field-value">{{user.name}}</p>
+        </div>
+        <mat-form-field *ngIf="sections[1]">
+            <mat-label>First name</mat-label>
+            <input matInput type="text" [(ngModel)]="editedUser.name">
+        </mat-form-field>
+
+        <div *ngIf="!sections[1]">
+            <mat-label class="field-label">Last name</mat-label>
+            <p class="field-value">{{user.surname}}</p>
+        </div>
+        <mat-form-field *ngIf="sections[1]">
+            <mat-label>Last name</mat-label>
+            <input matInput type="text" [(ngModel)]="editedUser.surname">
+        </mat-form-field>
+
+        <div *ngIf="!sections[1]">
+            <mat-label class="field-label">Email address</mat-label>
+            <p id="email-value" class="field-value">{{user.email}}</p>
+        </div>
+        <mat-form-field *ngIf="sections[1]">
+            <mat-label>Email address</mat-label>
+            <input matInput type="email" [(ngModel)]="editedUser.email">
+        </mat-form-field>
+
+        <div *ngIf="!sections[1]">
+            <p class="field-label">Phone</p>
+            <p class="field-value">{{user.phone}}</p>
+        </div>
+        <mat-form-field *ngIf="sections[1]" style="display: inline-block; width: 80%;">
+            <mat-label>Phone</mat-label>
+            <input matInput type="text" [(ngModel)]="editedUser.phone">
+        </mat-form-field>
+    </section>
+
+    <section id="about-section" class="card-section rounded-border" *ngIf="role == 'HOST'">
+        <div class="section-header">
+            <p class="section-title">About</p>
+            <div class="form-buttons">
+                <button mat-stroked-button id="btn-edit-about" *ngIf="!sections[2] && viewverId==id" (click)="onEditing(2);">
+                    <mat-icon>edit</mat-icon>Edit
+                </button>
+                <button mat-raised-button id="btn-save-about" color="primary" *ngIf="sections[2]"
+                    (click)="onSave(); sections[2] = false;">
+                    Save
+                </button>
+                <button mat-stroked-button id="btn-cancel-about" *ngIf="sections[2]" (click)="sections[2] = false;">
+                    Cancel
+                </button>
+            </div>
+        </div>
+
+        <p *ngIf="!sections[2]" id="about-value" class="field-value">{{user.bio}}</p>
+        <mat-form-field id="about-form" *ngIf="sections[2]">
+            <textarea matInput id="about-textarea" type="text" rows="5" [(ngModel)]="editedUser.bio"></textarea>
+        </mat-form-field>
+    </section>
+
+    <section id="address-section" class="card-section rounded-border">
+        <div class="section-header">
+            <p class="section-title">Address</p>
+            <div class="form-buttons">
+                <button mat-stroked-button id="btn-edit-address" *ngIf="!sections[3] && viewverId==id" (click)="onEditing(3);">
+                    <mat-icon>edit</mat-icon>Edit
+                </button>
+                <button mat-raised-button id="btn-save-address" color="primary" *ngIf="sections[3]"
+                    (click)="onSave(); sections[3] = false;">
+                    Save
+                </button>
+                <button mat-stroked-button id="btn-cancel-address" *ngIf="sections[3]" (click)="sections[3] = false;">
+                    Cancel
+                </button>
+            </div>
+        </div>
+
+
+        <div *ngIf="!sections[3]">
+            <p class="field-label">Street</p>
+            <p id="street-value" class="field-value">{{user.address.street}}</p>
+        </div>
+        <mat-form-field *ngIf="sections[3]" style="width: 80%;">
+            <mat-label>Street</mat-label>
+            <input matInput type="text" [(ngModel)]="editedUser.address.street">
+        </mat-form-field>
+
+        <div *ngIf="!sections[3]">
+            <p class="field-label">City</p>
+            <p id="city-value" class="field-value">{{user.address.city}}</p>
+        </div>
+        <mat-form-field *ngIf="sections[3]">
+            <mat-label>City</mat-label>
+            <input matInput type="text" [(ngModel)]="editedUser.address.city">
+        </mat-form-field>
+
+        <div *ngIf="!sections[3]">
+            <p class="field-label">Country</p>
+            <p id="country-value" class="field-value">{{user.address.country}}</p>
+        </div>
+        <mat-select-country class="country-select" appearance="fill" label="Country" [value]="selectedCountry"
+            *ngIf="sections[3]">
+        </mat-select-country>
+    </section>
+
+    <section *ngIf="viewverId==id" id="notification-section" class="card-section rounded-border">
+        <div class="section-header">
+            <p class="section-title" style="margin-bottom: 16px;">Notifications</p>
+            <div class="form-buttons">
+                <button mat-raised-button id="btn-save-address" color="primary" (click)="onSave('Settings saved!')"
+                    *ngIf="settingsChanged">
+                    Save
+                </button>
+            </div>
+        </div>
+
+        <mat-slide-toggle *ngIf="['GUEST', 'HOST'].includes(role!)" (change)="onSettingsChange()"
+            [(ngModel)]="editedUser.settings!.reservationRequested">
+            <span class="toggle-text">On reservation request made</span>
+        </mat-slide-toggle>
+        <mat-slide-toggle *ngIf="role == 'GUEST'" (change)="onSettingsChange()"
+            [(ngModel)]="editedUser.settings!.reservationAccepted">
+            <span class="toggle-text">On reservation accept</span>
+        </mat-slide-toggle>
+        <mat-slide-toggle *ngIf="role == 'GUEST'" (change)="onSettingsChange()"
+            [(ngModel)]="editedUser.settings!.reservationDeclined">
+            <span class="toggle-text">On reservation decline</span>
+        </mat-slide-toggle>
+        <mat-slide-toggle *ngIf="role == 'HOST'" (change)="onSettingsChange()"
+            [(ngModel)]="editedUser.settings!.reservationCancelled">
+            <span class="toggle-text">On reservation cancellation</span>
+        </mat-slide-toggle>
+        <mat-slide-toggle *ngIf="role == 'HOST'" (change)="onSettingsChange()"
+            [(ngModel)]="editedUser.settings!.profileReviewed">
+            <span class="toggle-text">On profile reviewed</span>
+        </mat-slide-toggle>
+        <mat-slide-toggle *ngIf="['HOST', 'ADMIN'].includes(role!)" (change)="onSettingsChange()"
+            [(ngModel)]="editedUser.settings!.accommodationReviewed">
+            <span class="toggle-text">On accommodation reviewed</span>
+        </mat-slide-toggle>
+        <mat-slide-toggle *ngIf="role == 'ADMIN'" (change)="onSettingsChange()"
+            [(ngModel)]="editedUser.settings!.profileReviewed">
+            <span class="toggle-text">On host reviewed</span>
+        </mat-slide-toggle>
+    </section>
+
+    <section *ngIf="viewverId==id" id="account-section" class="card-section rounded-border">
+        <div class="section-header">
+            <p class="section-title">Account</p>
+            <div class="form-buttons">
+                <button mat-stroked-button id="btn-edit-password" *ngIf="!sections[5]" (click)="onEditing(5);">
+                    <mat-icon>edit</mat-icon>Edit password
+                </button>
+                <button mat-raised-button id="btn-save-password" color="primary" *ngIf="sections[5]"
+                    (click)="onSavePassword(); sections[5] = false;">
+                    Save
+                </button>
+                <button mat-stroked-button id="btn-cancel-password" *ngIf="sections[5]" (click)="sections[5] = false;">
+                    Cancel
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="!sections[5]">
+            <p class="field-label">Password</p>
+            <p id="password-value" class="field-value">••••••••••••••••</p>
+        </div>
+
+        <mat-form-field *ngIf=" sections[5]">
+            <mat-label>Current password</mat-label>
+            <input matInput type="password" [(ngModel)]="password.oldPassword">
+        </mat-form-field>
+        <mat-form-field *ngIf="sections[5]">
+            <mat-label>New password</mat-label>
+            <input matInput type="password" [(ngModel)]="password.newPassword">
+        </mat-form-field>
+        <mat-form-field *ngIf="sections[5]">
+            <mat-label>Confirm new password</mat-label>
+            <input matInput type="password" [(ngModel)]="confirmPassword">
+        </mat-form-field>
+
+        <button mat-stroked-button id="btn-deactivate" color="warn" style="grid-column: 1 / 4;"
+            (click)="onDeactivate()">
+            <mat-icon>warning</mat-icon>Deactivate account
+        </button>
+    </section>
+
+    <app-review-creation [type]="'HOST'"
+    *ngIf="viewverRole=='GUEST' && role=='HOST'"
+    [id]="id"></app-review-creation>
+
+
+    <app-review-section *ngIf="role=='HOST'" [id]="id" [type]="'host'"/>
+    
+</div>

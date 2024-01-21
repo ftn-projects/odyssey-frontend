@@ -1,0 +1,126 @@
+<div class="body-container" *ngIf="request | async as data">
+    <div class="header-name-image-container">
+        <div class="accommodation-name-container">
+            <div class="accommodation-name">
+                <div class="title-text">{{data.details!.title}}</div>
+            </div>
+            <div class="location-header">
+                <div class="location-icon-container">
+                    <mat-icon class="location-icon">location_on</mat-icon>
+                </div>
+                <div class="location-text-container">
+                    <div class="location-text">{{data.details!.address.city + ", " +
+                        data.details!.address.country}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="image-container">
+            <div class="grid-container">
+                <img *ngFor="let image of imageNames" [src]="image" alt="accommodation image" class="grid-item">
+
+            </div>
+            <button class="show-more-button" (click)="openDialog()" mat-fab extended>
+                <mat-icon>window</mat-icon>
+                Show more
+            </button>
+        </div>
+    </div>
+    <div class="accommodation-split-container">
+        <div class="split-container-column">
+            <div class="host-container">
+                <div class="host-section">
+                    <div class="host-header-container">
+                        <div class="host-info-container">
+                            <div class="host-image-container">
+                                <img [src]="hostImage" alt="profile image">
+                            </div>
+                            <div class="host-text-info-container">
+                                <div class="hosted-by-container">
+                                    <span class="hosted-by">Hosted by </span>
+                                    <span class="host-name">{{data.host!.name + " " +
+                                        data.host!.surname}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-host-section">
+                        <div class="about-host-title">
+                            About {{data.host!.name}}
+                        </div>
+                        <div class="about-host-container">
+                            {{data.host!.bio}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="amenities-section">
+                <div class="amenities-title">
+                    Amenities
+                </div>
+                <div class="amenities-container">
+                    <div class="amenities-item" *ngFor="let amenity of amenities">
+                        <mat-icon>{{amenity.icon}}</mat-icon>
+                        <div class="amenities-text">{{amenity.amenity.title}}</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="location-container">
+                <div class="amenities-title">
+                    Location
+                </div>
+                <div class="location-name">
+                    {{ data.details!.address.street + ", " +
+                    data.details!.address.city + ", " + data.details!.address.country}}
+                </div>
+                <div class="location-section">
+                    <div class="location-map-container">
+                        <app-map [coordinates]="mapCoordinates"></app-map>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="split-container-column">
+            <div class="reserve-container">
+                <div class="reserve-header-container">
+                    <div class="header-price-unit">
+                        <span class="header-price">$</span>
+                        <span class="header-price-value">{{data.details?.defaultPrice}} </span>
+                        <span class="header-price-unit">{{data.details?.pricing!.replace('_', '
+                            ').toLowerCase()}}</span>
+                    </div>
+                    <div class="header-guest-count">
+                        {{data.details?.minGuests}} - {{data.details?.maxGuests}} guests
+                    </div>
+                </div>
+                <div class="reservation-pricing-section" *ngIf="totalPrice">
+                    <div class="pricing-item-section">
+                        <div class="pricing-reason">
+                            <ng-container *ngIf="data.details?.pricing === 'PER_PERSON'; else perNight">
+                                ${{ data.details?.defaultPrice }} x {{
+                                reservationDetails.get('guestGroup.guests')?.value }} guests x {{ numberOfDays }} nights
+                            </ng-container>
+                            <ng-template #perNight>
+                                ${{ data.details?.defaultPrice }} x {{ numberOfDays }} nights
+                            </ng-template>
+                        </div>
+                        <div class="pricing-value">
+                            ${{totalPrice}}
+                        </div>
+                    </div>
+                    <mat-divider />
+                    <div class="pricing-item-section">
+                        <div class="pricing-reason-total">
+                            Total
+                        </div>
+                        <div class="pricing-value-total">
+                            ${{totalPrice}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="dialog-header">
+        <span>Notification</span>
+        <button mat-icon-button class="close-button" (click)="closeDialog()" aria-label="Close">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div class="dialog-body">
+        <div class="body-header">
+            <h2>{{notification.title}}</h2>
+            <p>{{datepipe.transform(notification.date, 'dd-MM-yyyy hh:mm')}}</p>
+        </div>
+
+        <p *ngIf="notification.text?.length">{{notification.text}}</p>
+
+        <div style="padding: 30px; padding-top: 15px">
+            <app-accommodation-review *ngIf="notification.type == 'ACCOMMODATION_REVIEW'"
+                [review]="notification.accommodationReview!"></app-accommodation-review>
+
+            <app-accommodation-review *ngIf="notification.type == 'HOST_REVIEW'"
+                [review]="notification.hostReview!"></app-accommodation-review>
+
+            <div *ngIf="notification.reservation" class="sections-container">
+                <div class="details-section">
+                    <p><b>Accommodation</b>: {{notification.reservation.accommodation?.title}}</p>
+                    <p><b>Guest</b>: {{notification.reservation.guest?.name}}
+                        {{notification.reservation.guest?.surname}}
+                    </p>
+                    <p><b>Duration</b>: {{datepipe.transform(notification.reservation.start, 'dd-MM-yyyy')}} -
+                        {{datepipe.transform(notification.reservation.end, 'dd-MM-yyyy')}}
+                    </p>
+                </div>
+                <div class="details-section">
+                    <p><b>Price</b>: {{notification.reservation.price}}$</p>
+                    <p><b>Guest number</b>: {{notification.reservation.guestNumber}}</p>
+                    <p><b>Status</b>:
+                        <ng-container>
+                            <span *ngIf="notification.type == 'RESERVATION_REQUESTED'">Requested</span>
+                            <span *ngIf="notification.type == 'RESERVATION_ACCEPTED'">Accepted</span>
+                            <span *ngIf="notification.type == 'RESERVATION_DECLINED'">Declined</span>
+                            <span *ngIf="notification.type == 'RESERVATION_CANCELLED'">Cancelled</span>
+                        </ng-container>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

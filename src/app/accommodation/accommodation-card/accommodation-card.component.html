@@ -1,0 +1,32 @@
+<div class="imageContainer" [routerLink]="'/accommodation/details/' + accommodation.id">
+    <div class="heartContainer">
+        <div class="iconContainer" (click)="favoriteEvent($event)">
+            <mat-icon *ngIf="!isFavorite" class="heart-icon">favorite_border</mat-icon>
+            <mat-icon *ngIf="isFavorite" class="heart-icon">favorite</mat-icon>
+        </div>
+    </div>
+    <img [src]="imageUrl">
+</div>
+
+<div class="infoContainer">
+    <div class="nameContainer">
+        <div class="title_text">{{ accommodation.title }}</div>
+        <div class="ratingContainer">
+            <span class="material-symbols-outlined star-icon">
+                star
+            </span>
+            <span class="rating_text">{{ accommodation.averageRating| number:'1.1-1'}}</span>
+        </div>
+    </div>
+    <div class="location_container">
+        <span class="location_text">{{ accommodation.address.city + " , " + accommodation.address.country}}</span>
+    </div>
+    <div class="price_container" *ngIf="accommodation.defaultPrice && accommodation.defaultPrice!=-1">
+        <span class="price_number">${{ accommodation.defaultPrice}}</span>
+        <span class="pricing_type"> {{accommodation.pricing.replace('_', ' ').toLowerCase()}}</span>
+        <span *ngIf="accommodation.totalPrice && accommodation.totalPrice!=-1" class="price_total"><span
+                class="text_dot">·</span>${{accommodation.totalPrice}} total</span>
+    </div>
+
+
+</div>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { EChartsOption } from 'echarts';
 
 @Component({
     selector: 'app-root',
@@ -9,4 +9,3 @@ import { BehaviorSubject } from 'rxjs';
 export class AppComponent {
     title = 'odyssey';
 }
-export const role = new BehaviorSubject("UNAUTH");

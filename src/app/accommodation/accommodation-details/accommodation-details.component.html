@@ -1,0 +1,161 @@
+<div class="body-container" *ngIf="accommodation | async as accommodationData">
+    <div class="header-name-image-container">
+        <div class="accommodation-name-container">
+            <div class="accommodation-name">
+                <div class="title-text">{{accommodationData.title}}</div>
+                <div class="rating-container">
+                    <button mat-raised-button color="primary" [routerLink]="'/accommodation/edit/' + id"
+                        *ngIf="ownerMode">
+                        <mat-icon>edit</mat-icon>
+                        Edit
+                    </button>
+                </div>
+            </div>
+            <div class="location-header">
+                <div class="location-icon-container">
+                    <mat-icon class="location-icon">location_on</mat-icon>
+                </div>
+                <div class="location-text-container">
+                    <div class="location-text">{{accommodationData.address.city + ", " +
+                        accommodationData.address.country}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="image-container">
+            <div class="grid-container">
+                <img *ngFor="let image of imageNames" [src]="image" alt="accommodation image" class="grid-item">
+
+            </div>
+            <button class="show-more-button" (click)="openDialog()" mat-fab extended>
+                <mat-icon>window</mat-icon>
+                Show more
+            </button>
+        </div>
+    </div>
+    <div class="accommodation-split-container">
+        <div class="split-container-column">
+            <div class="host-container" [routerLink]="'/account/' + hostId">
+                <div class="host-section">
+                    <div class="host-header-container">
+                        <div class="host-info-container">
+                            <div class="host-image-container">
+                                <img [src]="hostImage" alt="profile image">
+                            </div>
+                            <div class="host-text-info-container">
+                                <div class="hosted-by-container">
+                                    <span class="hosted-by">Hosted by </span>
+                                    <span class="host-name">{{ownerMode ? "you" : accommodationData.host.name + " " +
+                                        accommodationData.host.surname}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button mat-icon-button *ngIf="!ownerMode" (click)="reportHost()">
+                            <mat-icon>flag</mat-icon>
+                        </button>
+                    </div>
+                    <div class="about-host-section">
+                        <div class="about-host-title">
+                            About {{ownerMode ? "you" : accommodationData.host.name}}
+                        </div>
+                        <div class="about-host-container">
+                            {{accommodationData.host.bio}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="amenities-section">
+                <div class="amenities-title">
+                    Amenities
+                </div>
+                <div class="amenities-container">
+                    <div class="amenities-item" *ngFor="let amenity of amenities">
+                        <mat-icon>{{amenity.icon}}</mat-icon>
+                        <div class="amenities-text">{{amenity.amenity.title}}</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="location-container">
+                <div class="amenities-title">
+                    Location
+                </div>
+                <div class="location-name">
+                    {{ accommodationData.address.street + ", " +
+                    accommodationData.address.city + ", " + accommodationData.address.country}}
+                </div>
+                <div class="location-section">
+                    <div class="location-map-container">
+                        <app-map [coordinates]="mapCoordinates"></app-map>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="split-container-column">
+            <div class="reserve-container">
+                <div class="reserve-header-container">
+                    <div class="header-price-unit" *ngIf="perPricingPrice>0">
+                        <span class="header-price">$</span>
+                        <span class="header-price-value">{{perPricingPrice}} </span>
+                        <span class="header-price-unit">{{accommodationData.pricing.replace('_', '
+                            ').toLowerCase()}}</span>
+                    </div>
+                    <div class="header-guest-count">
+                        {{accommodationData.minGuests}} - {{accommodationData.maxGuests}} guests
+                    </div>
+                </div>
+                <div class="reserve-input-section" [formGroup]="reservationDetails">
+                    <app-search-daterange-picker [availableSlots]="accommodationData.availableSlots"
+                        [form]="dateRangeFormGroup" class="reservation-range-input" />
+                    <mat-form-field class="reservation-guests-input" subscriptSizing="dynamic"
+                        formGroupName="guestGroup">
+                        <span matPrefix class="material-symbols-outlined input-prefix">
+                            people
+                        </span>
+                        <mat-label>Guests</mat-label>
+                        <input matInput type="number" formControlName="guests">
+                    </mat-form-field>
+                </div>
+                <div class="reservation-pricing-section" *ngIf="totalPrice">
+                    <div class="pricing-item-section">
+                        <div class="pricing-reason">
+                            <ng-container *ngIf="accommodationData.pricing === 'PER_PERSON'; else perNight">
+                                ${{ perPricingPrice }} x {{
+                                reservationDetails.get('guestGroup.guests')?.value }} guests x {{ numberOfDays }} nights
+                            </ng-container>
+                            <ng-template #perNight>
+                                ${{ perPricingPrice }} x {{ numberOfDays }} nights
+                            </ng-template>
+                        </div>
+                        <div class="pricing-value">
+                            ${{totalPrice}}
+                        </div>
+                    </div>
+                    <mat-divider />
+                    <div class="pricing-item-section">
+                        <div class="pricing-reason-total">
+                            Total
+                        </div>
+                        <div class="pricing-value-total">
+                            ${{totalPrice}}
+                        </div>
+                    </div>
+                </div>
+                <div class="complete-button-container">
+                    <button mat-flat-button color="primary" (click)="sendReservation()"
+                        [disabled]="currentRole == null || ['HOST', 'ADMIN'].includes(currentRole)">Complete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-review-creation *ngIf="currentRole == 'GUEST'" [type]="'ACCOMMODATION'"
+        [id]="accommodationData.id"></app-review-creation>
+
+
+    <app-review-section [id]="accommodationData.id" [type]="'accommodation'" />
+
+    
+</div>
