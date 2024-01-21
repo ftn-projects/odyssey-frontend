@@ -139,7 +139,7 @@ export class AccommodationRequestCreateComponent implements OnInit {
             error: (err) => {
                 console.log(err);
                 if (err.status == 404)
-                    this.sharedService.displayError(`Accommodation with id ${id} not found.`);
+                    this.sharedService.displaySnackWithButton(`Accommodation with id ${id} not found.`, "OK");
             }
         });
         COUNTRIES_DB_EU.forEach((c) => {
@@ -166,7 +166,7 @@ export class AccommodationRequestCreateComponent implements OnInit {
                         let errMessage = 'Could not upload the images!';
                         if (err.error && err.error.message)
                             errMessage = err.error.message;
-                        this.sharedService.displayError(errMessage);
+                        this.sharedService.displaySnackWithButton(errMessage, "OK");
                     }
                 });
             },
@@ -178,21 +178,21 @@ export class AccommodationRequestCreateComponent implements OnInit {
         let start = this.dateRange.get('start')?.value;
         let end = this.dateRange.get('end')?.value;
         if (!start) {
-            this.sharedService.displayError('Please select starting date of the slot.');
+            this.sharedService.displaySnackWithButton('Please select starting date of the slot.', "OK");
             return;
         }
         if (!end) {
-            this.sharedService.displayError('Please select ending date of the slot.');
+            this.sharedService.displaySnackWithButton('Please select ending date of the slot.', "OK");
             return;
         }
 
         const slot = { timeSlot: { start: start!, end: end! }, price: this.price }
         if (slot.price < 0) {
-            this.sharedService.displayError('Price cannot be negative.');
+            this.sharedService.displaySnackWithButton('Price cannot be negative.', "OK");
             return;
         }
         if (slot.timeSlot.end < slot.timeSlot.start) {
-            this.sharedService.displayError('End is before start.');
+            this.sharedService.displaySnackWithButton('End is before start.', "OK");
             return;
         }
 

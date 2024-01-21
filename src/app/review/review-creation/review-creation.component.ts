@@ -71,7 +71,7 @@ export class ReviewCreationComponent implements OnInit {
                         },
                         error: (error) => {
                             console.log('Error getting the accommodation', error);
-                            this.sharedService.displayError('Something went wrong.');
+                            this.sharedService.displaySnackWithButton('Something went wrong.', "OK");
                         }
                     });
                 }
@@ -83,7 +83,7 @@ export class ReviewCreationComponent implements OnInit {
                         },
                         error: (error) => {
                             console.log('Error getting the host', error);
-                            this.sharedService.displayError('Something went wrong.');
+                            this.sharedService.displaySnackWithButton('Something went wrong.', "OK");
                         }
                     });
                 }
@@ -116,7 +116,7 @@ export class ReviewCreationComponent implements OnInit {
                     this.sharedService.displaySnack('Review submitted!');
                 },
                 error: (error) => {
-                    this.sharedService.displayError(error.error);
+                    this.sharedService.displaySnackWithButton(error.error, "OK");
                     console.log('Error sending the review', error);
                 }
             });
