@@ -5,6 +5,7 @@ import { Dialog } from '@angular/cdk/dialog';
 import { AccommodationStatsExpandedComponent } from '../accommodation-stats-expanded/accommodation-stats-expanded.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
   selector: 'app-accommodation-stat-card',
@@ -18,7 +19,8 @@ export class AccommodationStatCardComponent implements OnChanges{
     constructor(
         private accommodationService : AccommodationService,
         private dialog : MatDialog,
-        private snackbar : MatSnackBar
+        private snackbar : MatSnackBar,
+        private sharedService: SharedService
     ) { }
 
     ngOnChanges(): void {
@@ -30,8 +32,8 @@ export class AccommodationStatCardComponent implements OnChanges{
                     this.imageSource = this.accommodationService.getImageUrl(this.stats?.accommodation?.id ?? 1, data[0]);
                 },
                 error: (error) => {
-                    this.openSnackBar("Error while fetching stats", "Close");
-                    console.error('Error fetching stats:', error);
+                    let errorMessage = this.sharedService.getError(error, 'Error while getting accommodations');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
                 }
             });
         }
