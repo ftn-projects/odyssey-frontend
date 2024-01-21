@@ -5,8 +5,6 @@
     </a>
     <div class="horizontal-flex">
         <a [routerLink]="'/'">Home</a>
-        <a [routerLink]="'/accommodations'">Search</a>
-        <a [routerLink]="'/'">Contact</a>
         <a [routerLink]="'/reservations/guest'" *ngIf="role == 'GUEST'">My reservations</a>
         <a [routerLink]="'/reviews/guest'" *ngIf="role == 'GUEST'">My reviews</a>
         <a [routerLink]="'/reviews/host'" *ngIf="role == 'HOST'">My reviews</a>
