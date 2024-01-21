@@ -6,6 +6,7 @@ import { ReviewService } from '../review.service';
 import { ReviewRequest } from '../model/review-request.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Review } from '../model/review.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-reivew-management',
@@ -24,6 +25,7 @@ export class ReivewManagementComponent implements OnInit {
     statuses: string[] = ['Requested', 'Accepted', 'Declined', 'Reported'];
     types: string[] = ['Accommodation review', 'Host review'];
 
+    datePipe = new DatePipe('en-US');
 
     get searchInput() {
         let search = this.filterForm.get('search')?.value;
