@@ -52,7 +52,7 @@ export class NotificationListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.socket = this.webSocketService.subscribe('/topic/notifications', this.authService.getId(), () =>
+        this.socket = this.webSocketService.subscribe('/topic/notificationChange', this.authService.getId(), () =>
             this.loadData());
 
         switch (this.authService.getRole()) {
@@ -77,11 +77,11 @@ export class NotificationListComponent implements OnInit, OnDestroy {
         this.notificationService.findByUserId(
             this.authService.getId(),
             this.typesInput,
-            this.read,
+            this.read ? undefined : false,
         ).subscribe({
             next: (data) => {
                 let models: Notification[] = data.sort((a, b) => {
-                    return a.date > b.date ? 1 : a.date < b.date ? -1 : 0;
+                    return a.date > b.date ? -1 : a.date < b.date ? 1 : 0;
                 }).map(n => new Notification(n));
                 this.dataSource = new MatTableDataSource(models);
                 this.dataSource.paginator = this.paginator;

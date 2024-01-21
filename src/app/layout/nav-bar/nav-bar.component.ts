@@ -42,7 +42,7 @@ export class NavBarComponent implements OnInit {
 
             this.image = `${environment.apiHost}users/image/${id}`;
             this.notificationSocket = this.webSocketService.subscribe(
-                '/topic/notifications', id, () => this.updateUnreadCount());
+                '/topic/notificationChange', id, () => this.updateUnreadCount());
             this.updateUnreadCount();
         });
     }
