@@ -23,49 +23,49 @@ export class ReviewService {
         return this.http.get<Review[]>(this.path, { params });
     }
 
-    findAllAccommodationReviewsFiltered(accommodationId? : number | null, submitterId? : number | null, statuses? : string[] | null) : Observable<AccommodationReview[]>{
+    findAllAccommodationReviewsFiltered(accommodationId?: number | null, submitterId?: number | null, statuses?: string[] | null): Observable<AccommodationReview[]> {
         let params = new HttpParams();
-        if(accommodationId) params = params.set('accommodationId', accommodationId.toString());
-        if(submitterId) params = params.set('submitterId', submitterId.toString());
-        if(statuses) params = params.set('listTypes', statuses?.join(','));
-        return this.http.get<AccommodationReview[]>(this.path + '/accommodation', {params});
+        if (accommodationId) params = params.set('accommodationId', accommodationId.toString());
+        if (submitterId) params = params.set('submitterId', submitterId.toString());
+        if (statuses) params = params.set('listTypes', statuses?.join(','));
+        return this.http.get<AccommodationReview[]>(this.path + '/accommodation', { params });
     }
 
-    findAllHostReviewsFiltered(hostId? : number | null, submitterId? : number | null, statuses? : string[] | null) : Observable<HostReview[]>{
+    findAllHostReviewsFiltered(hostId?: number | null, submitterId?: number | null, statuses?: string[] | null): Observable<HostReview[]> {
         let params = new HttpParams();
-        if(hostId) params = params.set('hostId', hostId.toString());
-        if(submitterId) params = params.set('submitterId', submitterId.toString());
-        if(statuses) params = params.set('listTypes', statuses?.join(','));
-        return this.http.get<HostReview[]>(this.path + '/host', {params});
+        if (hostId) params = params.set('hostId', hostId.toString());
+        if (submitterId) params = params.set('submitterId', submitterId.toString());
+        if (statuses) params = params.set('listTypes', statuses?.join(','));
+        return this.http.get<HostReview[]>(this.path + '/host', { params });
     }
 
-    findAllAccommodationReviewsByHost(hostId? : number | null, statuses? : string[] | null) : Observable<AccommodationReview[]>{
+    findAllAccommodationReviewsByHost(hostId?: number | null, statuses?: string[] | null): Observable<AccommodationReview[]> {
         let params = new HttpParams();
-        if(statuses) params = params.set('listTypes', statuses?.join(','));
-        return this.http.get<AccommodationReview[]>(`${this.path}/accommodation/host/${hostId}`, {params});
+        if (statuses) params = params.set('listTypes', statuses?.join(','));
+        return this.http.get<AccommodationReview[]>(`${this.path}/accommodation/host/${hostId}`, { params });
     }
 
-    getAccommodationRatings(id?: number) : Observable<number[]>{
+    getAccommodationRatings(id?: number): Observable<number[]> {
         return this.http.get<number[]>(`${this.path}/accommodation/rating/${id}`);
     }
 
-    getHostRatings(id?: number) : Observable<number[]>{
+    getHostRatings(id?: number): Observable<number[]> {
         return this.http.get<number[]>(`${this.path}/host/rating/${id}`);
     }
 
-    reportAccommodationReview(id? : number) : Observable<void>{
+    reportAccommodationReview(id?: number): Observable<void> {
         return this.http.put<void>(`${this.path}/accommodation/report/${id}`, {});
     }
 
-    reportHostReview(id? : number) : Observable<void>{
+    reportHostReview(id?: number): Observable<void> {
         return this.http.put<void>(`${this.path}/host/report/${id}`, {});
     }
 
-    deleteAccommodationReview(id? : number) : Observable<void>{
+    deleteAccommodationReview(id?: number): Observable<void> {
         return this.http.delete<void>(`${this.path}/accommodation/${id}`);
     }
 
-    deleteHostReview(id? : number) : Observable<void>{
+    deleteHostReview(id?: number): Observable<void> {
         return this.http.delete<void>(`${this.path}/host/${id}`);
     }
 
@@ -75,6 +75,10 @@ export class ReviewService {
 
     decline(id: number): Observable<void> {
         return this.http.put<void>(`${this.path}/decline/${id}`, {});
+    }
+
+    dismiss(id: number): Observable<void> {
+        return this.http.put<void>(`${this.path}/dismiss/${id}`, {});
     }
 
     createAccommodationReview(review: AccommodationReview): Observable<AccommodationReview> {

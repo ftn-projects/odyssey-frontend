@@ -67,4 +67,5 @@ th {
 .buttons {
     white-space: nowrap;
     width: fit-content;
+    gap: 10px;
 }

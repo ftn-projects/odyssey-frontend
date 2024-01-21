@@ -83,8 +83,9 @@
                     <button mat-flat-button class="inputButton" type="submit" color="accent" style="margin-right: 5px;"
                         *ngIf="row.status == 'REQUESTED' " (click)="accept(row.id)">Accept</button>
                     <button mat-flat-button class="inputButton" type="submit" color="warn"
-                        *ngIf="row.status == 'REQUESTED' || row.status == 'ACCEPTED'"
-                        (click)="decline(row.id)">Decline</button>
+                        *ngIf="row.status != 'DECLINED'" (click)="decline(row.id)">Decline</button>
+                    <button mat-flat-button class="inputButton" type="submit" color="default"
+                        *ngIf="row.status == 'REPORTED'" (click)="dismiss(row.id)">Dismiss</button>
                 </td>
             </ng-container>
 
