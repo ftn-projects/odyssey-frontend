@@ -42,6 +42,10 @@ export class AccommodationService {
         return this.http.get<Accommodation>(environment.apiHost + 'accommodations/' + id);
     }
 
+    getByHostId(hostId: number): Observable<Accommodation[]> {
+        return this.http.get<Accommodation[]>(this.path + '/host/' + hostId);
+    }
+
     getFavorites(guestId: number): Observable<Accommodation[]>{
         return this.http.get<Accommodation[]>(this.path+"/favorites/" + guestId);
     }

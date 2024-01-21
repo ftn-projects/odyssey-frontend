@@ -1,0 +1,22 @@
+.container{
+    display:flex;
+    flex-direction: column;
+    padding: 50px;
+    gap:20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-section {
+    padding: 0 50px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+}
+
+.list-section>.accommodation-card {
+    flex-basis: 350px;
+    flex-grow: 1;
+    margin: 10px;
+    margin-bottom: 50px;
+}

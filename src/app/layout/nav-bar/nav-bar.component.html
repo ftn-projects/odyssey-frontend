@@ -11,7 +11,7 @@
         <a [routerLink]="'/reviews/guest'" *ngIf="role == 'GUEST'">My reviews</a>
         <a [routerLink]="'/reviews/host'" *ngIf="role == 'HOST'">My reviews</a>
         <a [routerLink]="'/reservations/host'" *ngIf="role == 'HOST'">Reservations</a>
-        <a [routerLink]="'/'" *ngIf="role == 'HOST'">My accommodations</a>
+        <a [routerLink]="'/accommodations/host'" *ngIf="role == 'HOST'">My accommodations</a>
         <a [routerLink]="'/accommodation/create'" *ngIf="role == 'HOST'">Create</a>
         <a [routerLink]="'/stats'" *ngIf="role == 'HOST'">Statistics</a>
         <a [routerLink]="'/reviewRequests'" *ngIf="role == 'ADMIN'">Reviews</a>

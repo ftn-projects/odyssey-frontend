@@ -19,6 +19,7 @@ import { HostReviewsComponent } from './review/host-reviews/host-reviews.compone
 import { UserManagementComponent } from './user/user-management/user-management.component';
 import { NotificationListComponent } from './notification/notification-list/notification-list.component';
 import { StatsPageComponent } from './stats/stats-page/stats-page.component';
+import { HostAccommodationsViewComponent } from './accommodation/host-accommodations-view/host-accommodations-view.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'accommodations' },
@@ -55,6 +56,10 @@ const routes: Routes = [
     {
         path: 'account/:id', component: AccountManagementComponent,
         canActivate: [AuthGuard], data: { role: ['ADMIN', 'HOST', 'GUEST'] }
+    },
+    {
+        path: 'accommodations/host', component: HostAccommodationsViewComponent,
+        canActivate: [AuthGuard], data: { role: ['HOST'] }
     },
     {
         path: 'notifications', component: NotificationListComponent,
