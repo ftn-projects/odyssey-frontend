@@ -25,6 +25,10 @@ export class SharedService {
         this.snackbar.open(text, action, { duration: duration });
     }
 
+    displaySnackWithButton(message: string, action: string) {
+        this.snackbar.open(message, action);
+    }
+
     displayFirstError(err: HttpErrorResponse) {
         console.log(err);
         if (!err.error) return;
