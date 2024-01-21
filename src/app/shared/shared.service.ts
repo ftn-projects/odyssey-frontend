@@ -12,7 +12,13 @@ export class SharedService {
     private navbarVisible$ = new BehaviorSubject(true);
     navbarVisible = this.navbarVisible$.asObservable();
 
-    constructor(private snackbar: MatSnackBar, private authService: AuthService) {
+    constructor(private snackbar: MatSnackBar) {
+    }
+
+    getError(response: any, deafaultMessage: string) {
+        if (!(response instanceof HttpErrorResponse &&
+            response.headers.has('error-type'))) return deafaultMessage;
+        return response.error;
     }
 
     displaySnack(text: string, duration: number = 1000, action: string = '') {

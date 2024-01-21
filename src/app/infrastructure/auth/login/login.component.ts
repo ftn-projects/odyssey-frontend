@@ -45,7 +45,9 @@ export class LoginComponent {
                 },
                 error: (err) => {
                     console.log(err);
-                    this.sharedService.displaySnack('Invalid email or password!');
+
+                    let errorMessage = this.sharedService.getError(err, 'Invalid email or password!');
+                    this.sharedService.displaySnack(errorMessage); // nono
                 }
             });
         }
