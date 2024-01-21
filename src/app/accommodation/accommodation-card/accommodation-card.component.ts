@@ -4,6 +4,7 @@ import { AccommodationService } from '../accommodation.service';
 import { map } from 'rxjs';
 import { AuthService } from '../../infrastructure/auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SharedService } from '../../shared/shared.service';
 // import FileReader
 
 
@@ -17,7 +18,8 @@ export class AccommodationCardComponent {
     @Input()
     accommodation!: Accommodation;
     isFavorite: boolean = false;
-    constructor(private service: AccommodationService, private authService : AuthService, private snackbar : MatSnackBar){}
+    constructor(private service: AccommodationService, private authService : AuthService, private snackbar : MatSnackBar,
+        private sharedService: SharedService){}
     imageUrl!: string;
 
     ngOnInit(): void {
@@ -26,7 +28,8 @@ export class AccommodationCardComponent {
             this.imageUrl = this.service.getImageUrl(this.accommodation.id, data[0]);
           },
           error: (err) => {
-            console.error('Error fetching image URLs:', err);
+            let errorMessage = this.sharedService.getError(err, 'Error while fetching images');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
           },
         });
         
@@ -40,7 +43,9 @@ export class AccommodationCardComponent {
                     else{
                         this.isFavorite=false;
                     }
-                }
+                },
+                error: (err) => { let errorMessage = this.sharedService.getError(err, 'Error while getting favorites');
+                this.sharedService.displaySnackWithButton(errorMessage, "OK");}
             }
             );
         }
@@ -71,7 +76,8 @@ export class AccommodationCardComponent {
                           this.isFavorite=false;
                         },
                         error: (err) => {
-                          this.openSnackBar("Error while unfavoriting accommodation", "Close");
+                            let errorMessage = this.sharedService.getError(err, 'Error while unfavoriting accommodations');
+                            this.sharedService.displaySnackWithButton(errorMessage, "OK");
                         },
                       });
                 }
@@ -87,7 +93,9 @@ export class AccommodationCardComponent {
                       });
                 }
             },
-            error: (err) => { console.log(err) }
+            error: (err) => { console.log(err);
+                let errorMessage = this.sharedService.getError(err, 'Error while getting favorites');
+                this.sharedService.displaySnackWithButton(errorMessage, "OK"); }
         })
       }
 

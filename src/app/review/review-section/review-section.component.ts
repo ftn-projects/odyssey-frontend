@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Review } from '../model/review.model';
 import { ReviewService } from '../review.service';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
   selector: 'app-review-section',
@@ -13,7 +14,7 @@ export class ReviewSectionComponent implements OnInit{
     reviews?: Review[];
     ratings?: number[];
 
-    constructor(private reviewService: ReviewService){
+    constructor(private reviewService: ReviewService, private sharedService: SharedService){
 
     }
 
@@ -24,7 +25,8 @@ export class ReviewSectionComponent implements OnInit{
                     this.reviews = data;
                 },
                 error: (error) => {
-                    console.error('Error fetching reviews:', error);
+                    let errorMessage = this.sharedService.getError(error, 'Error while getting reviews');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
                 }
             });
 
@@ -33,7 +35,8 @@ export class ReviewSectionComponent implements OnInit{
                     this.ratings = data;
                 },
                 error: (error) => {
-                    console.error('Error fetching ratings:', error);
+                    let errorMessage = this.sharedService.getError(error, 'Error while getting reviews');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
                 }
             });
 
@@ -46,7 +49,8 @@ export class ReviewSectionComponent implements OnInit{
                     this.reviews = data;
                 },
                 error: (error) => {
-                    console.error('Error fetching reviews:', error);
+                    let errorMessage = this.sharedService.getError(error, 'Error while getting reviews');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
                 }
             });
 
@@ -55,7 +59,8 @@ export class ReviewSectionComponent implements OnInit{
                     this.ratings = data;
                 },
                 error: (error) => {
-                    console.error('Error fetching ratings:', error);
+                    let errorMessage = this.sharedService.getError(error, 'Error while getting reviews');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
                 }
             });
         }

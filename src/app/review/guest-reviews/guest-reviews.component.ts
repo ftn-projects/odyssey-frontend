@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Review } from '../model/review.model';
 import { AuthService } from '../../infrastructure/auth/auth.service';
 import { ReviewService } from '../review.service';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
   selector: 'app-guest-reviews',
@@ -14,7 +15,8 @@ export class GuestReviewsComponent implements OnInit {
 
     constructor(
         private authServuce : AuthService,
-        private reviewService : ReviewService
+        private reviewService : ReviewService,
+        private sharedService: SharedService
     ) { }
 
 
@@ -30,7 +32,8 @@ export class GuestReviewsComponent implements OnInit {
                 userReviews.push(...data);
             },
             error: (error) => {
-                console.error('Error fetching reviews:', error);
+                let errorMessage = this.sharedService.getError(error, 'Error while getting review');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
             }
         });
 
@@ -39,7 +42,8 @@ export class GuestReviewsComponent implements OnInit {
                 userReviews.push(...data);
             },
             error: (error) => {
-                console.error('Error fetching reviews:', error);
+                let errorMessage = this.sharedService.getError(error, 'Error while getting reviews');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
             }
         });
 

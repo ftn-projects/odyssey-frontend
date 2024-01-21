@@ -9,6 +9,7 @@ import { AccommodationTotalStats } from '../model/accommodation-total-stats.mode
 import { AuthService } from '../../infrastructure/auth/auth.service';
 import { MonthlyStats } from '../model/monthly-stats.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
   selector: 'app-stats-page',
@@ -24,7 +25,8 @@ export class StatsPageComponent implements OnInit{
         private formBuilder: FormBuilder,
         private statsService : StatsService,
         private authService : AuthService,
-        private snackbar: MatSnackBar
+        private snackbar: MatSnackBar,
+        private sharedService: SharedService
     ) { 
         this.myForm = new FormGroup({
             dateRange: new FormGroup({
@@ -67,8 +69,8 @@ export class StatsPageComponent implements OnInit{
                 
             },
             error: (error) => {
-                this.openSnackBar("Error while fetching stats", "Close");
-                console.error('Error fetching stats:', error);
+                let errorMessage = this.sharedService.getError(error, 'Error while getting stats');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
             }
         });
 
@@ -77,8 +79,8 @@ export class StatsPageComponent implements OnInit{
                 this.allAccommodationStats = data;               
             },
             error: (error) => {
-                this.openSnackBar("Error while fetching stats", "Close");
-                console.error('Error fetching stats:', error);
+                let errorMessage = this.sharedService.getError(error, 'Error while getting accommodations');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
             }
         });
     }

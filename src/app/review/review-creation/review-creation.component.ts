@@ -118,6 +118,8 @@ export class ReviewCreationComponent implements OnInit {
                 error: (error) => {
                     this.sharedService.displaySnackWithButton(error.error, "OK");
                     console.log('Error sending the review', error);
+                    
+                    
                 }
             });
         }
@@ -137,7 +139,8 @@ export class ReviewCreationComponent implements OnInit {
                     console.log('Review sent', data);
                 },
                 error: (error) => {
-                    console.log('Error sending the review', error);
+                    let errorMessage = this.sharedService.getError(error, 'Error while getting accommodations');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
                 }
             });
 

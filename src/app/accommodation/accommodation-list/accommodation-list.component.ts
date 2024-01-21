@@ -6,6 +6,7 @@ import { AccommodationService } from '../accommodation.service';
 import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
 import { AuthService } from '../../infrastructure/auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
     selector: 'app-accommodation-list',
@@ -22,6 +23,7 @@ export class AccommodationListComponent {
         private fb: FormBuilder,
         private authService: AuthService,
         private snackbar: MatSnackBar,
+        private sharedService: SharedService
         ) {
         this.searchParameters = fb.group({
             location: fb.group({
@@ -61,7 +63,9 @@ export class AccommodationListComponent {
             next: (data: Accommodation[]) => {
                 this.accommodations = data;
             },
-            error: (err) => { console.log(err) }
+            error: (err) => { 
+                let errorMessage = this.sharedService.getError(err, 'Error while loading accommodations');
+            this.sharedService.displaySnackWithButton(errorMessage, "OK"); }
         })
     }
 
@@ -73,7 +77,9 @@ export class AccommodationListComponent {
                     this.favoriteAccommodationIds = data.map(accommodation => accommodation.id);
                     this.search();
                 },
-                error: (err) => { console.log(err) }
+                error: (err) => { console.log(err);
+                    let errorMessage = this.sharedService.getError(err, 'Error while getting accommodations');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK"); }
             })
         }
         else{
@@ -104,7 +110,9 @@ export class AccommodationListComponent {
                     this.accommodations = data;
                 }
             },
-            error: (err) => { console.log(err) }
+            error: (err) => { console.log(err);
+            let errorMessage = this.sharedService.getError(err, 'Error while getting accommodations');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");  }
         })
     }
 
