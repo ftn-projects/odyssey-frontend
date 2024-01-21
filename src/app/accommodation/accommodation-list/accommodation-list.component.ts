@@ -77,7 +77,7 @@ export class AccommodationListComponent {
             })
         }
         else{
-
+            this.search();
         }
     }
 
