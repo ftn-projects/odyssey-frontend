@@ -6,7 +6,7 @@
         </button>
     </div>
     <div class="container">
-        <app-line-graph [stats]="mainMontlyStats" class="graph"></app-line-graph>
+        <app-line-graph [stats]="mainMontlyStats" [accommodationStats]="allAccommodationStats" class="graph"></app-line-graph>
         <button mat-flat-button class="download-button" color="warn" (click)="downloadFile()">Download as PDF</button>
     </div>
     <div class="cards-container">

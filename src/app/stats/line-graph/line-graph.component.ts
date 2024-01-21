@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { EChartsOption } from 'echarts';
 import { TotalStats } from '../model/total-stats.model';
 import { MonthlyStats } from '../model/monthly-stats.model';
+import { AccommodationTotalStats } from '../model/accommodation-total-stats.model';
 
 @Component({
   selector: 'app-line-graph',
@@ -11,6 +12,7 @@ import { MonthlyStats } from '../model/monthly-stats.model';
 export class LineGraphComponent implements OnChanges{
 
     @Input() stats?: MonthlyStats[];
+    @Input() accommodationStats?: AccommodationTotalStats[];
 
 
     chartOption: EChartsOption = {
@@ -55,6 +57,7 @@ export class LineGraphComponent implements OnChanges{
             title: {
               text: 'Monthly Income'
             },
+            animationDuration: 10000,
             tooltip: {
               trigger: 'axis'
             },
@@ -83,7 +86,7 @@ export class LineGraphComponent implements OnChanges{
             series: []
           };
         chartOptionIn.xAxis = { type: 'category', boundaryGap: false, data: this.getMonthLabels(this.stats) };
-        chartOptionIn.series = this.getSeriesData(this.stats);
+        chartOptionIn.series = this.getSeriesData(this.stats, this.accommodationStats!);
         this.chartOption = chartOptionIn;
     }
 
@@ -94,20 +97,34 @@ export class LineGraphComponent implements OnChanges{
         const size : number = stats?.length ?? 0;
         for (let i = 0; i < size ?? 0; i++) {
             const date = new Date(stats?.[i]?.month ?? 0);
-            stringArray.push(date.toLocaleString('default', { month: 'short' }) || '');
+            stringArray.push(date.toLocaleString('default', { year: 'numeric', month: 'short' }) || '');
         }
         return stringArray;
     }
 
 
-    private getSeriesData(stats : MonthlyStats[] | undefined): any[] {
+    private getSeriesData(
+        stats: MonthlyStats[] | undefined,
+        accommodationStats: AccommodationTotalStats[]
+      ): any[] {
+        const allAccommodationIncomeSeries = accommodationStats?.map(
+          (accStat) => ({
+            name: accStat.accommodation?.title ?? 'Accommodation', // Use accommodation name if available
+            type: 'line',
+            smooth: true,
+            
+            data: accStat.monthlyStats?.map((m) => m.totalIncome) || [],
+          })
+        );
+      
         return [
-            {
-                name: 'Income',
-                type: 'line',
-                stack: 'Total',
-                data: stats?.map((monthlyStat: MonthlyStats) => monthlyStat.totalIncome) || []
-            }
+          {
+            name: 'Total income',
+            type: 'line',
+            smooth: true,
+            data: stats?.map((monthlyStat: MonthlyStats) => monthlyStat.totalIncome) || [],
+          },
+          ...allAccommodationIncomeSeries,
         ];
-    }
+      }
 }
