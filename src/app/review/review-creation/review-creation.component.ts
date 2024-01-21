@@ -125,6 +125,7 @@ export class ReviewCreationComponent implements OnInit {
         }
         else if (this.type == 'HOST') {
             if (!this.host) return;
+            console.log(this.loggedUser)
             const hostReview: HostReview = {
                 rating: this.reviewForm.get('rating')?.value,
                 comment: this.reviewForm.get('comment')?.value,
@@ -139,7 +140,7 @@ export class ReviewCreationComponent implements OnInit {
                     console.log('Review sent', data);
                 },
                 error: (error) => {
-                    let errorMessage = this.sharedService.getError(error, 'Error while getting accommodations');
+                    let errorMessage = this.sharedService.getError(error, 'Error while sending review');
                     this.sharedService.displaySnackWithButton(errorMessage, "OK");
                 }
             });
