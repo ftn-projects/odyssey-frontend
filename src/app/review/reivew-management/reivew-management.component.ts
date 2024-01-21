@@ -6,6 +6,7 @@ import { ReviewService } from '../review.service';
 import { ReviewRequest } from '../model/review-request.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Review } from '../model/review.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-reivew-management',
@@ -21,9 +22,10 @@ export class ReivewManagementComponent implements OnInit {
     });
     status = new FormControl('');
     type = new FormControl('');
-    statuses: string[] = ['Requested', 'Accepted', 'Declined'];
+    statuses: string[] = ['Requested', 'Accepted', 'Declined', 'Reported'];
     types: string[] = ['Accommodation review', 'Host review'];
 
+    datePipe = new DatePipe('en-US');
 
     get searchInput() {
         let search = this.filterForm.get('search')?.value;
@@ -35,7 +37,8 @@ export class ReivewManagementComponent implements OnInit {
             switch (s) {
                 case 'Requested': selected.push('REQUESTED'); break;
                 case 'Accepted': selected.push('ACCEPTED'); break;
-                case 'Declined': selected.push('DECLINED');
+                case 'Declined': selected.push('DECLINED'); break;
+                case 'Reported': selected.push('REPORTED');
             }
         }
         return selected.length > 0 ? selected : undefined;
@@ -69,6 +72,12 @@ export class ReivewManagementComponent implements OnInit {
 
     decline(id: number) {
         this.service.decline(id).subscribe({
+            next: () => this.loadData(),
+            error: (err) => console.log(err)
+        });
+    }
+    dismiss(id: number) {
+        this.service.dismiss(id).subscribe({
             next: () => this.loadData(),
             error: (err) => console.log(err)
         });

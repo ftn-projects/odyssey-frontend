@@ -34,8 +34,8 @@ export class AccreditReservationComponent {
     });
 
     get titleInput() { return this.filterForm.get('title')?.value; }
-    get startInput() { return this.filterForm.get('start')?.value.getTime; }
-    get endInput() { return this.filterForm.get('end')?.value.getTime; }
+    get startInput() { return this.filterForm.get('start')?.value.getTime(); }
+    get endInput() { return this.filterForm.get('end')?.value.getTime(); }
 
 
     constructor(
