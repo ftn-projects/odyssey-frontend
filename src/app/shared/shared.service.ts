@@ -37,7 +37,7 @@ export class SharedService {
     }
 
     displayError(message: any) {
-        this.displaySnack(`Error: ${message}`, 5000);
+        this.displaySnack(`Error: ${message}`, 5000, "OK");
     }
 
     showNavbar() { this.navbarVisible$.next(true); }

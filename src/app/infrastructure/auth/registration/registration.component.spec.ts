@@ -219,13 +219,47 @@ describe('RegistrationComponent', () => {
             url: `assets/svg-country-flags/svg/rs.svg`
         })
 
+        httpClient.verify();
+
+        const req = httpClient.expectOne({
+            method: 'POST',
+            url: `http://localhost:8080/api/v1/users/register`
+        });
+        req.flush({ status: 201, statusText: 'CREATED' });
+
+        httpClient.verify();
+
+
+    });
+
+    it('should register not account ', () => {
+        component.registrationForm.controls['email'].setValue('petar@gmail.com');
+        component.registrationForm.controls['name'].setValue('Nikola');
+        component.registrationForm.controls['surname'].setValue('Nikolic');
+        component.registrationForm.controls['street'].setValue('Ulica 15');
+        component.registrationForm.controls['city'].setValue('Grad');
+        component.registrationForm.controls['phone'].setValue('12345678');
+        component.registrationForm.controls['password'].setValue('sifra123');
+        component.registrationForm.controls['confirmedPassword'].setValue('sifra123');
+        expect(component.registrationForm.valid).toBeTruthy();
+
+        spyOn(component, 'onRegister');
+        element = fixture.debugElement.query(By.css('button')).nativeElement;
+        element.click();
+        expect(component.onRegister).toHaveBeenCalledTimes(1);
+
+        const flag = httpClient.expectOne({
+            method: 'GET',
+            url: `assets/svg-country-flags/svg/rs.svg`
+        })
+
 
         fixture.whenStable().then(() => {
             const req = httpClient.expectOne({
                 method: 'POST',
                 url: `http://localhost:8080/api/v1/users/register`
             });
-            req.flush({ status: 201, statusText: 'CREATED' });
+            req.flush({ status: 400, statusText: 'BAD REQUEST' });
 
             httpClient.verify();
         });
