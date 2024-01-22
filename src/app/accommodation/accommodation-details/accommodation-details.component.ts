@@ -23,6 +23,7 @@ import { ReviewService } from '../../review/review.service';
 import { ReportService } from '../../report/report.service';
 import { UserReport } from '../../report/model/user-report.model';
 import { ReportDialogComponent } from '../../report/report-dialog/report-dialog.component';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
     selector: 'app-accommodation-details',
@@ -45,6 +46,7 @@ export class AccommodationDetailsComponent {
     reviews!: AccommodationReview[];
     hostId?: number;
     ownerMode: boolean = false;
+    currentRole: string | null = null;
     statuses: string[] = ['ACCEPTED'];
 
     constructor(
@@ -56,7 +58,8 @@ export class AccommodationDetailsComponent {
         private authService: AuthService,
         private mapService: MapService,
         private reviewService: ReviewService,
-        private snackbar: MatSnackBar
+        private snackbar: MatSnackBar,
+        private sharedService: SharedService
     ) {
         this.reservationDetails = new FormGroup({
             dateRange: new FormGroup({
@@ -69,7 +72,12 @@ export class AccommodationDetailsComponent {
         });
     }
 
+    get dateRangeFormGroup(): FormGroup {
+        return this.reservationDetails.get('dateRange') as FormGroup;
+    }
+
     ngOnInit(): void {
+        this.currentRole = this.authService.getRole();
         this.route.params.subscribe(params => {
             this.id = params['id'];
             this.accommodation = this.service.getById(this.id);
@@ -87,7 +95,8 @@ export class AccommodationDetailsComponent {
                 this.imageNames.push(...firstFiveImageNames.map(imageName => this.service.getImageUrl(this.id, imageName)));
             },
             error: (err) => {
-                console.error('Error fetching image URLs:', err);
+                let errorMessage = this.sharedService.getError(err, 'Error while fetching images');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
             },
         });
 
@@ -106,7 +115,10 @@ export class AccommodationDetailsComponent {
                             this.mapCoordinates = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
                         }
                     },
-                    error: (err) => console.error(err),
+                    error: (err) => {
+                        let errorMessage = this.sharedService.getError(err, 'Error while getting map data');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
+                    }
                 });
             }
 
@@ -119,7 +131,9 @@ export class AccommodationDetailsComponent {
                             icon: icons.get(a.title || 'DEFAULT') || icons.get('DEFAULT') || '',
                             amenity: a
                         }));
-                }
+                },
+                error: (err) => {let errorMessage = this.sharedService.getError(err, 'Error while getting amenities');
+                this.sharedService.displaySnackWithButton(errorMessage, "OK");}
             });
 
             this.ownerMode = accommodation.host.id == this.authService.getId();
@@ -134,7 +148,8 @@ export class AccommodationDetailsComponent {
                 console.log("Reviews: ", this.reviews);
             },
             error: (error) => {
-                console.error('Error fetching reviews:', error);
+                let errorMessage = this.sharedService.getError(error, 'Error while fetching accommodations');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
             }
         });
     }
@@ -201,8 +216,8 @@ export class AccommodationDetailsComponent {
                         this.openSnackBar('Reservation request created successfully', 'Close');
                     },
                     error: (err) => {
-                        console.log(err);
-                        this.openSnackBar("Something went wrong!", "Close");
+                        let errorMessage = this.sharedService.getError(err, 'Error while getting accommodations');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
                     }
                 });
             });

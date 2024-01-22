@@ -16,18 +16,17 @@
             <input type="number" matInput formControlName="guests">
         </mat-form-field>
 
-        <app-search-daterange-picker formGroupName="dateRange" class="parameter-child" />
+        <app-search-daterange-picker [form]="dateRangeFormGroup" class="parameter-child" />
 
 
-        <button (click)="search()" class="search-button" mat-stroked-button extended color="primary">
+        <button (click)="searchUpgraded()" class="search-button" mat-stroked-button extended color="primary">
             <mat-icon>search</mat-icon>
         </button>
+        
     </div>
     <mat-divider class="divider"></mat-divider>
-    <div class="filter-container" [ngClass]="{'sticky': isSticky}">
-        <mat-button-toggle class="heart-toggle">
-            <mat-icon>favorite</mat-icon>
-        </mat-button-toggle>
+    <div class="filter-container" [ngClass]="{'sticky': isSticky}" [formGroup]="searchParameters">
+        <mat-slide-toggle formControlName="favorite">Toggle favorites</mat-slide-toggle>
         <button (click)="openDialog()" mat-stroked-button class="filter-button">
             <mat-icon>tune</mat-icon>
             Filter

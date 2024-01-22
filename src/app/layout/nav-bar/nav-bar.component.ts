@@ -16,6 +16,9 @@ export class NavBarComponent implements OnInit {
     protected visible: boolean = true;
     protected image: string = '../../../assets/profile_example.png';
     protected unreadCount: number = 0;
+    currentId = '';
+
+    notificationSocket: any = null;
 
     constructor(
         private authService: AuthService,
@@ -23,6 +26,10 @@ export class NavBarComponent implements OnInit {
         private notificationService: NotificationService,
         private webSocketService: WebSocketService,
         private router: Router) {
+    }
+
+    getLoggedId(): string {
+        return this.authService.getId();
     }
 
     ngOnInit(): void {
@@ -34,9 +41,9 @@ export class NavBarComponent implements OnInit {
             if (!id) return;
 
             this.image = `${environment.apiHost}users/image/${id}`;
-            let socket = this.webSocketService.subscribe('/topic/notificationChange', id, () => this.updateUnreadCount());
+            this.notificationSocket = this.webSocketService.subscribe(
+                '/topic/notificationChange', id, () => this.updateUnreadCount());
             this.updateUnreadCount();
-            this.authService.registerNotificationSocket(socket);
         });
     }
 
@@ -55,6 +62,7 @@ export class NavBarComponent implements OnInit {
 
     onLogout() {
         this.authService.removeUser();
+        this.notificationSocket.disconnect();
         this.router.navigate(['']);
     }
 }

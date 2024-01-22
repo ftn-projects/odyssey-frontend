@@ -9,6 +9,7 @@ import { ReviewService } from '../review.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog} from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
   selector: 'app-accommodation-review',
@@ -28,7 +29,8 @@ export class AccommodationReviewComponent implements OnInit{
         private authService : AuthService,
         private reviewService : ReviewService,
         private snackbar : MatSnackBar,
-        private dialog : MatDialog
+        private dialog : MatDialog,
+        private sharedService: SharedService
     ) { 
         
     }
@@ -108,7 +110,8 @@ export class AccommodationReviewComponent implements OnInit{
                     this.reportSuccess = true;
                 },
                 error: (error) => {
-                    this.openSnackBar('Error reporting review:', "Close");
+                    let errorMessage = this.sharedService.getError(error, 'Error while reporting review');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
                 }
             });
         }
@@ -119,7 +122,8 @@ export class AccommodationReviewComponent implements OnInit{
                     this.reportSuccess = true;
                 },
                 error: (error) => {
-                    this.openSnackBar('Error reporting review:', "Close");
+                    let errorMessage = this.sharedService.getError(error, 'Error while reporting review');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
                 }
             });
         }
@@ -133,7 +137,8 @@ export class AccommodationReviewComponent implements OnInit{
                     this.deleteSuccess = true;
                 },
                 error: (error) => {
-                    this.openSnackBar('Error deleting review:', "Close");
+                    let errorMessage = this.sharedService.getError(error, 'Error while deleting review');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
                 }
             });
         }
@@ -144,7 +149,8 @@ export class AccommodationReviewComponent implements OnInit{
                     this.deleteSuccess = true;
                 },
                 error: (error) => {
-                    this.openSnackBar('Error deleting review:', "Close");
+                    let errorMessage = this.sharedService.getError(error, 'Error while deleting review');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
                 }
             });
         }

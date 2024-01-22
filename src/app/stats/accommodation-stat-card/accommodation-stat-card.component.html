@@ -1,0 +1,12 @@
+<div class="card-container" (click)="openDialog()">
+    <div class="image-container">
+        <img [src]="imageSource">
+    </div>
+    <div class="info-container">
+        <p>{{ stats?.accommodation?.title }}</p>
+        <p>Location: {{ stats?.accommodation?.address?.country + ", " + stats?.accommodation?.address?.city}}</p>
+        <p>Default price: {{ stats?.accommodation?.defaultPrice }}</p>
+        <p>Total reservations: {{stats?.totalReservations}}</p>
+        <p>Total income: ${{stats?.totalIncome}}</p>
+    </div>
+</div>

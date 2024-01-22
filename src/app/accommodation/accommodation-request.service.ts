@@ -25,7 +25,6 @@ export class AccommodationRequestService {
     }
 
     create(request: AccommodationRequestCreation): Observable<AccommodationRequestCreation> {
-        console.log(request);
         return this.http.post<AccommodationRequestCreation>(this.path, request);
     }
 

@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AccommodationService } from '../../accommodation.service';
 import { Amenity } from '../../model/amenity.model';
+import { SharedService } from '../../../shared/shared.service';
 
 @Component({
     selector: 'app-filter-dialog',
@@ -14,7 +15,8 @@ export class FilterDialogComponent implements OnInit {
         private elRef: ElementRef,
         private dialogRef: MatDialogRef<FilterDialogComponent>,
         private fb: FormBuilder,
-        private service: AccommodationService
+        private service: AccommodationService,
+        private sharedService: SharedService
     ) { }
 
     ngOnInit(): void {
@@ -30,7 +32,8 @@ export class FilterDialogComponent implements OnInit {
                     amenities: this.buildCheckboxes()
                 });
             },
-            error: (_) => { console.log("Greska!") }
+            error: (err) => { let errorMessage = this.sharedService.getError(err, 'Error while getting amenities');
+            this.sharedService.displaySnackWithButton(errorMessage, "OK"); }
         })
     }
 

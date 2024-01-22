@@ -1,0 +1,24 @@
+.card-container{
+    display: flex;
+    flex-direction: row;
+    width:700px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.image-container {
+    position: relative;
+    flex:1;
+}
+
+.image-container>img {
+
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    aspect-ratio: 4/3;
+}
+
+.info-container{
+    padding: 20px;
+    flex:1;
+}

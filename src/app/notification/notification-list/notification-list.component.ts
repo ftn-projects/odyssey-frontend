@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -16,7 +16,7 @@ import { WebSocketService } from '../../shared/web-socket.service';
     templateUrl: './notification-list.component.html',
     styleUrl: './notification-list.component.css'
 })
-export class NotificationListComponent implements OnInit {
+export class NotificationListComponent implements OnInit, OnDestroy {
     displayedColumns: string[] = ['title', 'description', 'date', 'action'];
     dataSource: MatTableDataSource<Notification> = new MatTableDataSource();
 
@@ -26,6 +26,8 @@ export class NotificationListComponent implements OnInit {
     read: boolean = true;
 
     datepipe: DatePipe = new DatePipe('en-US');
+
+    socket: any = null;
 
     constructor(
         private notificationService: NotificationService,
@@ -50,9 +52,8 @@ export class NotificationListComponent implements OnInit {
     }
 
     ngOnInit() {
-        let socket = this.webSocketService.subscribe('/topic/notificationChange', this.authService.getId(), () =>
+        this.socket = this.webSocketService.subscribe('/topic/notificationChange', this.authService.getId(), () =>
             this.loadData());
-        this.authService.registerNotificationSocket(socket);
 
         switch (this.authService.getRole()) {
             case 'ADMIN':
@@ -66,6 +67,8 @@ export class NotificationListComponent implements OnInit {
         this.loadData();
     }
 
+    ngOnDestroy() { if (this.socket) this.socket.disconnect(); }
+
     @ViewChild(MatPaginator)
     paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
@@ -74,11 +77,11 @@ export class NotificationListComponent implements OnInit {
         this.notificationService.findByUserId(
             this.authService.getId(),
             this.typesInput,
-            this.read,
+            this.read ? undefined : false,
         ).subscribe({
             next: (data) => {
                 let models: Notification[] = data.sort((a, b) => {
-                    return a.date > b.date ? 1 : a.date < b.date ? -1 : 0;
+                    return a.date > b.date ? -1 : a.date < b.date ? 1 : 0;
                 }).map(n => new Notification(n));
                 this.dataSource = new MatTableDataSource(models);
                 this.dataSource.paginator = this.paginator;

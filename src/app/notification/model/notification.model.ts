@@ -25,7 +25,7 @@ export class Notification {
     constructor(notification: any) {
         this.id = notification.id;
         this.title = notification.title;
-        this.shortTitle = notification.title.length > 10 ? notification.title.substring(0, 20) + '...' : notification.title;
+        this.shortTitle = notification.title.length > 20 ? notification.title.substring(0, 20) + '...' : notification.title;
         this.date = notification.date;
         this.read = notification.read;
         this.type = notification.type;
@@ -45,6 +45,6 @@ export class Notification {
                 `Price: ${this.reservation!.price}, Guests: ${this.reservation!.guestNumber}`
         else this.text = notification.text;
 
-        this.shortText = text.length > 10 ? text.substring(0, 30) + '...' : text;
+        this.shortText = text.length > 30 ? text.substring(0, 30) + '...' : text;
     }
 }

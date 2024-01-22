@@ -27,6 +27,11 @@ export class ReportDialogComponent {
     }
 
     submitReport() {
+        if (!this.reportGroup.valid) {
+            this.sharedService.displaySnackWithButton('Please provide the description.', 'OK');
+            return;
+        }
+
         this.reportService.reportUser({
             description: this.reportGroup.controls['description'].value,
             submitterId: this.authService.getId(),

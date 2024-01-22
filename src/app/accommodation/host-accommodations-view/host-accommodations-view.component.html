@@ -1,0 +1,9 @@
+<div class="container">   
+    <h1>My accommodations</h1>
+    <div class="list-section-container">
+        <div class="list-section">
+            <app-accommodation-card *ngFor="let accommodation of accommodations" [accommodation]="accommodation"
+                class="accommodation-card" />
+        </div>
+    </div>
+</div> 

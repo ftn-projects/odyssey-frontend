@@ -2,7 +2,7 @@
 
     <div style="display: flex; margin: 20px; align-items: center;">
         <h1 class="page-title">Account management</h1>
-        <button mat-raised-button color="primary" class="logout-btn" style="margin-left: auto;" (click)="onLogout();">
+        <button *ngIf="viewverId==id" mat-raised-button color="primary" class="logout-btn" style="margin-left: auto;" (click)="onLogout();">
             <mat-icon>logout</mat-icon>Log out
         </button>
     </div>
@@ -20,7 +20,7 @@
             [text]="'Upload image'"></app-file-uploader>
 
         <div class="form-buttons">
-            <button mat-stroked-button id="btn-edit-image" *ngIf="!sections[0]" (click)="onEditing(0);">
+            <button mat-stroked-button id="btn-edit-image" *ngIf="!sections[0] && viewverId==id" (click)="onEditing(0);">
                 <mat-icon>edit</mat-icon>Edit image
             </button>
             <button mat-raised-button id="btn-save-image" *ngIf="sections[0]" color="primary"
@@ -37,7 +37,7 @@
         <div class="section-header">
             <p class="section-title">Basic info</p>
             <div class="form-buttons">
-                <button mat-stroked-button id="btn-edit-info" *ngIf="!sections[1]" (click)="onEditing(1);">
+                <button mat-stroked-button id="btn-edit-info" *ngIf="!sections[1] && viewverId==id" (click)="onEditing(1);">
                     <mat-icon>edit</mat-icon>Edit
                 </button>
                 <button mat-raised-button id="btn-save-info" color="primary" *ngIf="sections[1]"
@@ -91,7 +91,7 @@
         <div class="section-header">
             <p class="section-title">About</p>
             <div class="form-buttons">
-                <button mat-stroked-button id="btn-edit-about" *ngIf="!sections[2]" (click)="onEditing(2);">
+                <button mat-stroked-button id="btn-edit-about" *ngIf="!sections[2] && viewverId==id" (click)="onEditing(2);">
                     <mat-icon>edit</mat-icon>Edit
                 </button>
                 <button mat-raised-button id="btn-save-about" color="primary" *ngIf="sections[2]"
@@ -114,7 +114,7 @@
         <div class="section-header">
             <p class="section-title">Address</p>
             <div class="form-buttons">
-                <button mat-stroked-button id="btn-edit-address" *ngIf="!sections[3]" (click)="onEditing(3);">
+                <button mat-stroked-button id="btn-edit-address" *ngIf="!sections[3] && viewverId==id" (click)="onEditing(3);">
                     <mat-icon>edit</mat-icon>Edit
                 </button>
                 <button mat-raised-button id="btn-save-address" color="primary" *ngIf="sections[3]"
@@ -155,7 +155,7 @@
         </mat-select-country>
     </section>
 
-    <section id="notification-section" class="card-section rounded-border">
+    <section *ngIf="viewverId==id" id="notification-section" class="card-section rounded-border">
         <div class="section-header">
             <p class="section-title" style="margin-bottom: 16px;">Notifications</p>
             <div class="form-buttons">
@@ -196,7 +196,7 @@
         </mat-slide-toggle>
     </section>
 
-    <section id="account-section" class="card-section rounded-border">
+    <section *ngIf="viewverId==id" id="account-section" class="card-section rounded-border">
         <div class="section-header">
             <p class="section-title">Account</p>
             <div class="form-buttons">
@@ -236,4 +236,12 @@
             <mat-icon>warning</mat-icon>Deactivate account
         </button>
     </section>
+
+    <app-review-creation [type]="'HOST'"
+    *ngIf="viewverRole=='GUEST' && role=='HOST'"
+    [id]="id"></app-review-creation>
+
+
+    <app-review-section *ngIf="role=='HOST'" [id]="id" [type]="'host'"/>
+    
 </div>
