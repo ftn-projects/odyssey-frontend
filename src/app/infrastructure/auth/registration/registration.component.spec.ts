@@ -52,15 +52,7 @@ describe('RegistrationComponent', () => {
     });
 
     it('should select role guest', () => {
-        expect(component.selectedRole).toEqual('guest');
-    });
-
-    it('should select country Serbia', () => {
-        expect(component.selectedCountry).toEqual({ name: 'Serbia', alpha2Code: 'RS' });
-    });
-
-    it('should select country Serbia', () => {
-        expect(component.selectedCountry).toEqual({ name: 'Serbia', alpha2Code: 'RS' });
+        expect(component.selectedRole).toEqual('GUEST');
     });
 
     it('should call onRegister when button is clicked', () => {
@@ -77,6 +69,7 @@ describe('RegistrationComponent', () => {
         component.registrationForm.controls['surname'].setValue('');
         component.registrationForm.controls['street'].setValue('');
         component.registrationForm.controls['city'].setValue('');
+        component.registrationForm.controls['country'].setValue('');
         component.registrationForm.controls['phone'].setValue('');
         component.registrationForm.controls['password'].setValue('');
         component.registrationForm.controls['confirmedPassword'].setValue('');
@@ -89,18 +82,20 @@ describe('RegistrationComponent', () => {
         component.registrationForm.controls['surname'].setValue('123');
         component.registrationForm.controls['street'].setValue('--');
         component.registrationForm.controls['city'].setValue('123');
+        component.registrationForm.controls['country'].setValue('123');
         component.registrationForm.controls['phone'].setValue('asd');
         component.registrationForm.controls['password'].setValue('12');
         component.registrationForm.controls['confirmedPassword'].setValue('34');
         expect(component.registrationForm.valid).toBeFalsy();
     });
 
-    it('form should be valid due to invalid fields', () => {
+    it('form should be valid', () => {
         component.registrationForm.controls['email'].setValue('asd@gmail.com');
         component.registrationForm.controls['name'].setValue('Nikola');
         component.registrationForm.controls['surname'].setValue('Nikolic');
         component.registrationForm.controls['street'].setValue('Ulica 15');
         component.registrationForm.controls['city'].setValue('Grad');
+        component.registrationForm.controls['country'].setValue('Srbija');
         component.registrationForm.controls['phone'].setValue('12345678');
         component.registrationForm.controls['password'].setValue('sifra123');
         component.registrationForm.controls['confirmedPassword'].setValue('sifra123');
@@ -113,27 +108,20 @@ describe('RegistrationComponent', () => {
         component.registrationForm.controls['surname'].setValue('');
         component.registrationForm.controls['street'].setValue('');
         component.registrationForm.controls['city'].setValue('');
+        component.registrationForm.controls['country'].setValue('');
         component.registrationForm.controls['phone'].setValue('');
         component.registrationForm.controls['password'].setValue('');
         component.registrationForm.controls['confirmedPassword'].setValue('');
         expect(component.registrationForm.valid).toBeFalsy();
 
-        spyOn(component, 'onRegister');
+        spyOn(component, 'register');
         element = fixture.debugElement.query(By.css('button')).nativeElement;
         element.click();
-        expect(component.onRegister).toHaveBeenCalledTimes(1);
+        expect(component.register).toHaveBeenCalledTimes(0);
 
-        const flag = httpClient.expectOne({
-            method: 'GET',
-            url: `assets/svg-country-flags/svg/rs.svg`
-        })
-
-
-        fixture.whenStable().then(() => {
-            const req = httpClient.expectNone({
-                method: 'POST',
-                url: `http://localhost:8080/api/v1/users/register`
-            });
+        const req = httpClient.expectNone({
+            method: 'POST',
+            url: `http://localhost:8080/api/v1/users/register`
         });
     });
 
@@ -143,27 +131,20 @@ describe('RegistrationComponent', () => {
         component.registrationForm.controls['surname'].setValue('123');
         component.registrationForm.controls['street'].setValue('--');
         component.registrationForm.controls['city'].setValue('123');
+        component.registrationForm.controls['country'].setValue('123');
         component.registrationForm.controls['phone'].setValue('asd');
         component.registrationForm.controls['password'].setValue('12');
         component.registrationForm.controls['confirmedPassword'].setValue('34');
         expect(component.registrationForm.valid).toBeFalsy();
 
-        spyOn(component, 'onRegister');
+        spyOn(component, 'register');
         element = fixture.debugElement.query(By.css('button')).nativeElement;
         element.click();
-        expect(component.onRegister).toHaveBeenCalledTimes(1);
+        expect(component.register).toHaveBeenCalledTimes(0);
 
-        const flag = httpClient.expectOne({
-            method: 'GET',
-            url: `assets/svg-country-flags/svg/rs.svg`
-        })
-
-
-        fixture.whenStable().then(() => {
-            const req = httpClient.expectNone({
-                method: 'POST',
-                url: `http://localhost:8080/api/v1/users/register`
-            });
+        const req = httpClient.expectNone({
+            method: 'POST',
+            url: `http://localhost:8080/api/v1/users/register`
         });
     });
 
@@ -174,28 +155,22 @@ describe('RegistrationComponent', () => {
         component.registrationForm.controls['surname'].setValue('Nikolic');
         component.registrationForm.controls['street'].setValue('Ulica 15');
         component.registrationForm.controls['city'].setValue('Grad');
+        component.registrationForm.controls['country'].setValue('Srbija');
         component.registrationForm.controls['phone'].setValue('12345678');
         component.registrationForm.controls['password'].setValue('sifra');
         component.registrationForm.controls['confirmedPassword'].setValue('sifra123');
         expect(component.registrationForm.valid).toBeTruthy();
 
-        spyOn(component, 'onRegister');
+        spyOn(component, 'register');
         element = fixture.debugElement.query(By.css('button')).nativeElement;
         element.click();
-        expect(component.onRegister).toHaveBeenCalledTimes(1);
+        expect(component.register).toHaveBeenCalledTimes(0);
 
-        const flag = httpClient.expectOne({
-            method: 'GET',
-            url: `assets/svg-country-flags/svg/rs.svg`
-        })
-
-
-        fixture.whenStable().then(() => {
-            const req = httpClient.expectNone({
-                method: 'POST',
-                url: `http://localhost:8080/api/v1/users/register`
-            });
+        const req = httpClient.expectNone({
+            method: 'POST',
+            url: `http://localhost:8080/api/v1/users/register`
         });
+
     });
 
     it('should register account ', () => {
@@ -204,22 +179,16 @@ describe('RegistrationComponent', () => {
         component.registrationForm.controls['surname'].setValue('Nikolic');
         component.registrationForm.controls['street'].setValue('Ulica 15');
         component.registrationForm.controls['city'].setValue('Grad');
+        component.registrationForm.controls['country'].setValue('Srbija');
         component.registrationForm.controls['phone'].setValue('12345678');
         component.registrationForm.controls['password'].setValue('sifra123');
         component.registrationForm.controls['confirmedPassword'].setValue('sifra123');
         expect(component.registrationForm.valid).toBeTruthy();
 
-        spyOn(component, 'onRegister');
-        element = fixture.debugElement.query(By.css('button')).nativeElement;
-        element.click();
-        expect(component.onRegister).toHaveBeenCalledTimes(1);
-
-        const flag = httpClient.expectOne({
-            method: 'GET',
-            url: `assets/svg-country-flags/svg/rs.svg`
-        })
-
-        httpClient.verify();
+        component.register().subscribe({
+            next: () => console.log("Registered"),
+            error: (err) => console.log("Didn't register")
+        });
 
         const req = httpClient.expectOne({
             method: 'POST',
@@ -232,38 +201,30 @@ describe('RegistrationComponent', () => {
 
     });
 
-    it('should register not account ', () => {
+    it('should not register account because user with provided email already exists ', () => {
         component.registrationForm.controls['email'].setValue('petar@gmail.com');
         component.registrationForm.controls['name'].setValue('Nikola');
         component.registrationForm.controls['surname'].setValue('Nikolic');
         component.registrationForm.controls['street'].setValue('Ulica 15');
         component.registrationForm.controls['city'].setValue('Grad');
+        component.registrationForm.controls['country'].setValue('Srbija');
         component.registrationForm.controls['phone'].setValue('12345678');
         component.registrationForm.controls['password'].setValue('sifra123');
         component.registrationForm.controls['confirmedPassword'].setValue('sifra123');
         expect(component.registrationForm.valid).toBeTruthy();
 
-        spyOn(component, 'onRegister');
-        element = fixture.debugElement.query(By.css('button')).nativeElement;
-        element.click();
-        expect(component.onRegister).toHaveBeenCalledTimes(1);
-
-        const flag = httpClient.expectOne({
-            method: 'GET',
-            url: `assets/svg-country-flags/svg/rs.svg`
-        })
-
-
-        fixture.whenStable().then(() => {
-            const req = httpClient.expectOne({
-                method: 'POST',
-                url: `http://localhost:8080/api/v1/users/register`
-            });
-            req.flush({ status: 400, statusText: 'BAD REQUEST' });
-
-            httpClient.verify();
+        component.register().subscribe({
+            next: () => console.log("Registered"),
+            error: (err) => console.log("Didn't register")
         });
 
+        const req = httpClient.expectOne({
+            method: 'POST',
+            url: `http://localhost:8080/api/v1/users/register`
+        });
+        req.flush({ status: 400, statusText: 'BAD_REQUEST' });
+
+        httpClient.verify();
 
     });
 
