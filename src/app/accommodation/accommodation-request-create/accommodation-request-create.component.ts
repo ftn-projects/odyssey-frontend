@@ -155,9 +155,11 @@ export class AccommodationRequestCreateComponent implements OnInit {
 
         this.requestService.create(this.accommodation).subscribe({
             next: (model) => {
+
+                this.sharedService.displaySnackWithButton('Accommodation request has been successfully created.', "OK");
                 this.uploadSelectedImages(model.id!).subscribe({
                     next: () => {
-                        confirm('Accommodation has been successfully created.');
+                        //    confirm('Accommodation has been successfully created.');
                         this.router.navigate(['']);
                     },
                     error: (err) => {
@@ -187,7 +189,7 @@ export class AccommodationRequestCreateComponent implements OnInit {
         }
 
         const slot = { timeSlot: { start: start!, end: end! }, price: this.price }
-        if (slot.price < 0) {
+        if (slot.price <= 0) {
             this.sharedService.displaySnackWithButton('Price cannot be negative.', "OK");
             return;
         }
