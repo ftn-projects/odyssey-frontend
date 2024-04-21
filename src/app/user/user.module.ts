@@ -9,7 +9,7 @@ import { SharedModule } from '../shared/shared.module';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReviewModule } from '../review/review.module';
-
+import { SuperadminModule } from '../superadmin/superadmin.module';
 
 
 @NgModule({

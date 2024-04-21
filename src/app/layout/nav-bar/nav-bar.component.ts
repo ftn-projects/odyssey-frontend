@@ -33,7 +33,7 @@ export class NavBarComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.authService.role.subscribe((role) => this.role = role);
+        this.authService.role.subscribe((role) => {this.role = role;      console.log("ROLE", this.role);});
         this.sharedService.navbarVisible.subscribe(
             (visible) => this.visible = visible
         );
@@ -45,6 +45,7 @@ export class NavBarComponent implements OnInit {
                 '/topic/notificationChange', id, () => this.updateUnreadCount());
             this.updateUnreadCount();
         });
+
     }
 
     updateUnreadCount() {
@@ -58,7 +59,7 @@ export class NavBarComponent implements OnInit {
         });
     }
 
-    loggedIn(): boolean { return ['ADMIN', 'HOST', 'GUEST'].includes(this.role); }
+    loggedIn(): boolean { return ['ADMIN', 'HOST', 'GUEST', 'SUPERADMIN'].includes(this.role); }
 
     onLogout() {
         this.authService.removeUser();

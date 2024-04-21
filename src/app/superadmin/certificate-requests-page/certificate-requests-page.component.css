@@ -1,0 +1,38 @@
+table {
+    width: 100%;
+}
+
+.mat-mdc-form-field {
+    font-size: 14px;
+    width: 70%;
+    margin: auto;
+}
+
+td,
+th {
+    width: 16%;
+}
+
+.holder {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 5%;
+}
+
+.title {
+    margin-top: 5%;
+    font-size: 3em;
+    text-align: center;
+    margin-bottom: 3%;
+}
+
+.header {
+    background-color: #bbd8e6;
+}
+
+.buttons {
+    white-space: nowrap;
+    width: fit-content;
+}

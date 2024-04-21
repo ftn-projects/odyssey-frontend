@@ -14,6 +14,8 @@
         <a [routerLink]="'/stats'" *ngIf="role == 'HOST'">Statistics</a>
         <a [routerLink]="'/reviewRequests'" *ngIf="role == 'ADMIN'">Reviews</a>
         <a [routerLink]="'/accommodationRequests'" *ngIf="role == 'ADMIN'">Accommodations</a>
+        <a [routerLink]="'/certificateRequests'" *ngIf="role == 'SUPERADMIN'">Certificate requests</a>
+        <a [routerLink]="'/certificates'" *ngIf="role == 'SUPERADMIN'">Certificates</a>
         <a [routerLink]="'/users'" *ngIf="role == 'ADMIN'">Users</a>
         <div style="margin-inline: 15px;" *ngIf="loggedIn()">
             <div [matBadge]="unreadCount" matBadgeColor="warn" matBadgePosition="before" matBadgeSize="small"

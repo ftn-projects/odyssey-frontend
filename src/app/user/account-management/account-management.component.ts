@@ -7,7 +7,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../infrastructure/auth/auth.service';
 import { SharedService } from '../../shared/shared.service';
 import { environment } from '../../../env/env';
-
+import { Certificate } from '../../superadmin/model/certificate.mode';
+import { CertificateRequest } from '../../superadmin/model/certificate-request.model';
+import { CertificateStatus } from '../../superadmin/model/certificate-request.model';
+import { SuperadminService } from '../../superadmin/superadmin.service';
 
 @Component({
     selector: 'app-account',
@@ -33,7 +36,8 @@ export class AccountManagementComponent implements OnInit {
         private userService: UserService,
         private authService: AuthService,
         private sharedService: SharedService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private superadminService: SuperadminService
     ) {
     }
 
@@ -144,4 +148,21 @@ export class AccountManagementComponent implements OnInit {
             s1.profileReviewed == s2.profileReviewed &&
             s1.accommodationReviewed == s2.accommodationReviewed);
     }
+
+    protected onCertificateSend(){
+       let  certificateRequest :  CertificateRequest;
+         certificateRequest = {
+              commonName: this.user.name + " " + this.user.surname,
+              email: this.user.email,
+              uid: this.user.id!.toString(),
+              date: new Date(),
+              status: CertificateStatus.PENDING
+         }
+         this.superadminService.sendRequest(certificateRequest).subscribe({
+             next: () => this.sharedService.displaySnack('Certificate request sent!'),
+             error: (err) => this.sharedService.displayFirstError(err)
+         });
+    }
+
+
 }
