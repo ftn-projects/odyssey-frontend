@@ -18,8 +18,17 @@ export class SuperadminService {
         return this.http.get<CertificateRequest[]>(this.path + "requests");
     }
 
+    getByCommonName(name: string, surname: string): Observable<Blob> {
+        const options = { responseType: 'blob' as 'json' };
+        return this.http.get<Blob>(this.path + "certificates/download/" + name + "/" + surname, options);
+    }
+
     sendRequest(request: CertificateRequest): Observable<CertificateRequest> {
         return this.http.post<CertificateRequest>(this.path + "requests", request);
+    }
+
+    hasCertificate(name: string, surname: string): Observable<boolean> {
+        return this.http.get<boolean>(this.path + "certificates/has/" + name + "/" + surname);
     }
 
     approveRequest(id: number): Observable<CertificateRequest> {
