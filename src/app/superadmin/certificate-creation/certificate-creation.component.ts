@@ -132,16 +132,14 @@ const newMap: Record<string, string[]> = {};
 extensionsMap.forEach((val: string[], key: string) => {
     newMap[key] = val;
 });
-console.log("Extensions map: ", newMap);
-
 // Create the certificate object
 let certificate = {
     parentAlias: this.getSelectedCertificate?.serialNumber,
     commonName: this.getSelectedUser?.name + ' ' + this.getSelectedUser?.surname,
     email: this.getSelectedUser?.email,
     uid: this.getSelectedUser?.id,
-    startDate: this.getStartedDate,
-    endDate: this.getEndDate,
+    startDate: this.getStartedDate.getTime(),
+    endDate: this.getEndDate.getTime(),
     extensions: newMap
 };
 
