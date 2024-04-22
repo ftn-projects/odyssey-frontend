@@ -6,46 +6,50 @@ import { CertificateCreationComponent } from '../certificate-creation/certificat
 import { SuperadminService } from '../superadmin.service';
 
 @Component({
-  selector: 'app-certificate-info',
-  templateUrl: './certificate-info.component.html',
-  styleUrl: './certificate-info.component.css'
+    selector: 'app-certificate-info',
+    templateUrl: './certificate-info.component.html',
+    styleUrl: './certificate-info.component.css'
 })
 export class CertificateInfoComponent {
     constructor(
-        private userService : UserService, 
-        private superadminService : SuperadminService,
+        private userService: UserService,
+        private superadminService: SuperadminService,
         private sharedService: SharedService,
         public dialogRef: MatDialogRef<CertificateCreationComponent>,
         private dialog: MatDialog,
         @Inject(MAT_DIALOG_DATA) public inputData: any
-    ){}
+    ) { }
+
+    returnVal = 'NO';
 
 
     ngOnInit(): void {
         console.log(this.inputData);
     }
 
-    onDelete(){
-        this.superadminService.deleteCertificate(this.inputData.serialNumber).subscribe({
+    onDelete() {
+        this.superadminService.deleteCertificate(this.inputData.cert.serialNumber).subscribe({
             next: (data: any) => {
-                console.log(data);
-                this.dialogRef.close();
+                console.log('Deleted:', data)
+                this.sharedService.displaySnack('Certificates deleted successfully');
+                this.dialogRef.close('YES');
             },
             error: (err) => console.log(err)
         });
     }
 
-    onAddMore(){
+    onAddMore() {
         this.openDialog();
     }
-    openDialog(){
+
+    openDialog() {
         const dialogRef = this.dialog.open(CertificateCreationComponent, {
 
         });
-    
+
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
-            
+            this.returnVal = result;
+            this.dialogRef.close(this.returnVal);
         });
-        }
+    }
 }

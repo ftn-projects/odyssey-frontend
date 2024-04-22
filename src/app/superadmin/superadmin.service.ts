@@ -7,38 +7,39 @@ import { Certificate } from './model/certificate.mode';
 
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class SuperadminService {
 
-  constructor(private http: HttpClient) { }
-  private path: string = environment.certificateApi;
+    constructor(private http: HttpClient) { }
+    private path: string = environment.certificateApi;
 
-  getAll(): Observable<CertificateRequest[]>{
-    return this.http.get<CertificateRequest[]>(this.path + "requests");
-  }
+    getAll(): Observable<CertificateRequest[]> {
+        return this.http.get<CertificateRequest[]>(this.path + "requests");
+    }
 
-  sendRequest(request: CertificateRequest): Observable<CertificateRequest>{
-    return this.http.post<CertificateRequest>(this.path + "requests", request);
-  }
+    sendRequest(request: CertificateRequest): Observable<CertificateRequest> {
+        return this.http.post<CertificateRequest>(this.path + "requests", request);
+    }
 
-  approveRequest(id: number): Observable<CertificateRequest>{
-    return this.http.put<CertificateRequest>(this.path + "requests/accept/" + id, {});
-}
+    approveRequest(id: number): Observable<CertificateRequest> {
+        return this.http.put<CertificateRequest>(this.path + "requests/accept/" + id, {});
+    }
 
-    declineRequest(id: number): Observable<CertificateRequest>{
+    declineRequest(id: number): Observable<CertificateRequest> {
         return this.http.put<CertificateRequest>(this.path + "requests/decline/" + id, {});
     }
 
-  getAllCertificates(): Observable<Certificate[]>{
-    return this.http.get<Certificate[]>(this.path + "certificates")
-  }
+    getAllCertificates(): Observable<Certificate[]> {
+        return this.http.get<Certificate[]>(this.path + "certificates")
+    }
 
-  sendCertificate(certificate: any): Observable<any>{
-    return this.http.post<Certificate>(this.path + "certificates", certificate);
-  }
+    sendCertificate(certificate: any): Observable<any> {
+        return this.http.post<Certificate>(this.path + "certificates", certificate);
+    }
 
-  deleteCertificate(serialNumber: string): Observable<any>{
-    return this.http.delete(this.path + "certificates/" + serialNumber);
-  } 
+    deleteCertificate(serialNumber: string): Observable<any> {
+        console.log(this.path + "certificates/" + serialNumber);
+        return this.http.delete(this.path + "certificates/" + serialNumber);
+    }
 }
