@@ -27,6 +27,10 @@ export class UserService {
         return this.http.put<User>(this.path, user);
     }
 
+    getAll(): Observable<User[]> {
+        return this.http.get<User[]>(this.path);
+    }
+
     updatePassword(passwordUpdate: PasswordUpdate): Observable<PasswordUpdate> {
         console.log(passwordUpdate);
         return this.http.put<PasswordUpdate>(`${this.path}/password`, passwordUpdate);

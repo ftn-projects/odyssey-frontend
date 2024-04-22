@@ -49,13 +49,6 @@ export class CertificateRequestsPageComponent {
     }
 
     approveRequest(request: CertificateRequest){
-        // this.service.approveRequest(id).subscribe({
-        //     next: (data: CertificateRequest) => {
-        //         this.loadData();
-        //         this.sharedService.displaySnack("Request approved");
-        //     },
-        //     error: (err) => this.sharedService.displayFirstError(err)
-        // });
         this.openDialog(request);
     }
 
@@ -69,13 +62,26 @@ export class CertificateRequestsPageComponent {
         });
     }
 
+    sendApproval(id: number){
+        this.service.approveRequest(id).subscribe({
+            next: (data: CertificateRequest) => {
+                this.loadData();
+                this.sharedService.displaySnack("Request approved");
+            },
+            error: (err) => this.sharedService.displayFirstError(err)
+        });
+    }
+
     openDialog(certRequest: CertificateRequest){
+        console.log("Request: ", certRequest);
         const dialogRef = this.dialog.open(CertificateCreationComponent, {
-            data: {request: certRequest, certificate: null},
+            data: {request: certRequest},
           });
       
           dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
+            if(result=="YES"){
+                this.sendApproval(certRequest.id!);
+            }
             
           });
     }

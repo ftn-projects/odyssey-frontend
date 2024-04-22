@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../env/env';
 import { Certificate } from './model/certificate.mode';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -32,4 +33,12 @@ export class SuperadminService {
   getAllCertificates(): Observable<Certificate[]>{
     return this.http.get<Certificate[]>(this.path + "certificates")
   }
+
+  sendCertificate(certificate: any): Observable<any>{
+    return this.http.post<Certificate>(this.path + "certificates", certificate);
+  }
+
+  deleteCertificate(serialNumber: string): Observable<any>{
+    return this.http.delete(this.path + "certificates/" + serialNumber);
+  } 
 }

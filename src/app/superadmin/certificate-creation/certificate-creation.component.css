@@ -1,0 +1,40 @@
+.all-container{
+    width:400px;
+    height: 500px;
+    padding: 15px;
+    border-radius: 15px;
+    overflow-y: scroll;
+}
+
+.header-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+h1, h2{
+    font-family: 'Montserrat', sans-serif;
+}
+
+.user-input{
+    margin-top: 10px;
+    width:100% !important;
+}
+
+ul {
+    list-style-type: none;
+    margin-top: 4px;
+  }
+
+.button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+
+}
+
+.submit-button{
+    width: 100px;
+}

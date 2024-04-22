@@ -46,6 +46,7 @@ import { HostAccommodationsViewComponent } from './host-accommodations-view/host
         AccommodationRequestsComponent,
         AccommodationRequestDetailsComponent,
         HostAccommodationsViewComponent,
+        SearchDaterangePickerComponent
     ],
     imports: [
         RouterModule,
