@@ -38,7 +38,8 @@ export class AuthService {
     }
 
     getId(): any { return this.getToken()?.subId; }
-    getRole(): any { return this.getToken()?.role[0].name; }
+    getRole(): any { 
+        return this.getToken()?.role[0].name; }
     getEmail(): any { return this.getToken()?.sub; }
 
     getToken(): any {

@@ -20,6 +20,8 @@ import { UserManagementComponent } from './user/user-management/user-management.
 import { NotificationListComponent } from './notification/notification-list/notification-list.component';
 import { StatsPageComponent } from './stats/stats-page/stats-page.component';
 import { HostAccommodationsViewComponent } from './accommodation/host-accommodations-view/host-accommodations-view.component';
+import { CertificateRequestsPageComponent } from './superadmin/certificate-requests-page/certificate-requests-page.component';
+import { CertificatesViewComponent } from './superadmin/certificates-view/certificates-view.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'accommodations' },
@@ -60,6 +62,14 @@ const routes: Routes = [
     {
         path: 'accommodations/host', component: HostAccommodationsViewComponent,
         canActivate: [AuthGuard], data: { role: ['HOST'] }
+    },
+    {
+        path:'certificateRequests', component: CertificateRequestsPageComponent,
+        canActivate: [AuthGuard], data: { role: ['SUPERADMIN']}
+    },
+    {
+        path:'certificates', component: CertificatesViewComponent,
+        canActivate: [AuthGuard], data: { role: ['SUPERADMIN']}
     },
     {
         path: 'notifications', component: NotificationListComponent,

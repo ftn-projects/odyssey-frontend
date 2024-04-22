@@ -1,0 +1,29 @@
+
+.all-container{
+    width:400px;
+    height: 500px;
+    padding: 25px;
+    border-radius: 15px;
+    overflow-y: scroll;
+}
+
+.header-container{
+    margin:auto;
+    text-align: center;
+}
+
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
+ul{
+    padding-left: 15px;
+}
+
+.buttons-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:15px;
+    margin-top: 10px;
+}

@@ -1,0 +1,51 @@
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+<div class="all-container">
+    <div class="header-container">
+        <h1>Certificate info</h1>
+    </div>
+    <div class="data-container">
+        <div class="general-information">
+            <h2>General information</h2>
+            <div class="serial-number">
+                <p>Serial number: {{inputData.cert.serialNumber}}</p>
+            </div>
+            <div class="parent-serial-number">
+                <p>Parent serial number: {{inputData.cert.parentSerialNumber ? inputData.cert.parentSerialNumber : '/'}}
+                </p>
+            </div>
+            <div class="validity-date">
+                <h2>Validity date</h2>
+                <p>From: {{inputData.cert.validity.start | date:'dd/MM/yyyy hh:mm'}}</p>
+                <p>To: {{inputData.cert.validity.end | date:'dd/MM/yyyy hh:mm'}}</p>
+            </div>
+            <div class="extenstions">
+                <h2>Extensions</h2>
+                <ul>
+                    <li *ngFor="let extension of inputData.cert.extensions">
+                        <p>{{extension.name}}</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="subject-info">
+            <div class="subject-header">
+                <h2>Subject</h2>
+            </div>
+            <div class="CN">
+                <p>CN: {{inputData.cert.subject.CN}}</p>
+            </div>
+        </div>
+        <div class="issuer-info">
+            <div class="issuer-header">
+                <h2>Issuer</h2>
+            </div>
+            <div class="issuer-CN">
+                <p>CN: {{inputData.cert.issuer.CN}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="buttons-container">
+        <button class="download-button" (click)="onAddMore()" mat-flat-button color="primary">Add more</button>
+        <button class="revoke-button" (click)="onDelete()" mat-flat-button color="warn">Delete</button>
+    </div>
+</div>

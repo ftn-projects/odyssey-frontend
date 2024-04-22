@@ -17,6 +17,7 @@ import { ReportModule } from './report/report.module';
 import { NotificationModule } from './notification/notification.module';
 import { WebSocketService } from './shared/web-socket.service';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { SuperadminModule } from './superadmin/superadmin.module';
 
 
 
@@ -36,6 +37,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
         ReservationModule,
         ReportModule,
         NotificationModule,   
+        SuperadminModule,
         NgxEchartsModule.forRoot({
             /**
              * This will import all modules from echarts.

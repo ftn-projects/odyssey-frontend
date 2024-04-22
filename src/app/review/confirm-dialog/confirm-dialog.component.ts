@@ -13,6 +13,7 @@ export class ConfirmDialogComponent {
 }
 
 export interface DialogData {
+    request: any;
     message: string;
     buttonText: {
       ok: string;

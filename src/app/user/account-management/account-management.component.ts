@@ -7,7 +7,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../infrastructure/auth/auth.service';
 import { SharedService } from '../../shared/shared.service';
 import { environment } from '../../../env/env';
-
+import { Certificate } from '../../superadmin/model/certificate.mode';
+import { CertificateRequest } from '../../superadmin/model/certificate-request.model';
+import { CertificateStatus } from '../../superadmin/model/certificate-request.model';
+import { SuperadminService } from '../../superadmin/superadmin.service';
+import * as crypto from 'crypto';
 
 @Component({
     selector: 'app-account',
@@ -33,7 +37,8 @@ export class AccountManagementComponent implements OnInit {
         private userService: UserService,
         private authService: AuthService,
         private sharedService: SharedService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private superadminService: SuperadminService
     ) {
     }
 
@@ -51,7 +56,7 @@ export class AccountManagementComponent implements OnInit {
         this.imageUpload = this.image;
         this.userService.findById(this.id).subscribe({
             next: (user) => {
-                this.role=user.role ?? ' ';    
+                this.role = user.role ?? ' ';
                 //THIS IS NOT GOOD, FIX THIS BECAUSE THE USER DOESN'T HAVE A ROLE SOMEHOW
                 this.user = this.deepcopy(user);
                 this.editedUser = this.deepcopy(user);
@@ -60,6 +65,14 @@ export class AccountManagementComponent implements OnInit {
 
                 COUNTRIES_DB_EU.forEach((c, _) => {
                     if (c.name == this.user.address.country) this.selectedCountry = c;
+                });
+
+                this.superadminService.hasCertificate(user.name!, this.user.surname!).subscribe({
+                    next: (result) => {
+                        this.hasCertificate = result;
+                        console.log(this.hasCertificate)
+                    },
+                    error: (err) => this.sharedService.displayError('Certificate info could not be acquired')
                 });
             },
             error: (err) => console.log(err)
@@ -143,5 +156,37 @@ export class AccountManagementComponent implements OnInit {
             s1.reservationCancelled == s2.reservationCancelled &&
             s1.profileReviewed == s2.profileReviewed &&
             s1.accommodationReviewed == s2.accommodationReviewed);
+    }
+
+    protected hasCertificate = false;
+
+    protected onCertificateSend() {
+        let certificateRequest: CertificateRequest;
+        certificateRequest = {
+            commonName: this.user.name + " " + this.user.surname,
+            email: this.user.email,
+            uid: this.user.id!.toString(),
+            date: new Date(),
+            status: CertificateStatus.PENDING
+        }
+        this.superadminService.sendRequest(certificateRequest).subscribe({
+            next: () => this.sharedService.displaySnack('Certificate request sent!'),
+            error: (err) => this.sharedService.displayFirstError(err)
+        });
+    }
+
+    protected onCertificateDownload() {
+        this.superadminService.getByCommonName(this.user.name!, this.user.surname!).subscribe({
+            next: (cert: any) => {
+                const blob = new Blob([cert], { type: 'application/x-x509-ca-cert' });
+                const url = window.URL.createObjectURL(blob);
+                window.open(url);
+                console.log(cert);
+            },
+            error: (err) => {
+                this.sharedService.displayError('Certificate could not be loaded');
+                console.log(err);
+            }
+        });
     }
 }
