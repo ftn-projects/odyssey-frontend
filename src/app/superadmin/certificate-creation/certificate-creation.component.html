@@ -8,9 +8,10 @@
         <mat-form-field style="width: 100%;">
             <mat-label>User</mat-label>
             <mat-select formControlName="userControl">
-                <mat-option *ngFor="let user of allUsers" [value]="user">{{ user.name + " " + user.surname }}</mat-option>
+                <mat-option *ngFor="let user of allUsers" [value]="user">{{ user.name + " " + user.surname
+                    }}</mat-option>
             </mat-select>
-          </mat-form-field>
+        </mat-form-field>
     </div>
     <div class="user-input certificate-input-container">
         <mat-form-field style="width: 100%;">
@@ -18,21 +19,47 @@
             <mat-select formControlName="certControl">
                 <mat-option *ngFor="let cert of allCertificates" [value]="cert">{{ cert.serialNumber }}</mat-option>
             </mat-select>
-          </mat-form-field>
+        </mat-form-field>
     </div>
+
+    <div class="user-input">
+        <h2> Certificate type </h2>
+        <mat-radio-group formControlName="crtType">
+            <ul>
+                <li>
+                    <mat-radio-button value="CA">CA</mat-radio-button>
+                </li>
+                <li>
+                    <mat-radio-button value="HTTPS">HTTPS</mat-radio-button>
+                </li>
+                <li>
+                    <mat-radio-button value="NONE">None</mat-radio-button>
+                </li>
+            </ul>
+        </mat-radio-group>
+    </div>
+
     <div class="user-input extensions-input-container">
-        <h2 (click)="idk()">Extensions</h2>
-        <ul *ngIf="getSelectedCertificate">
-              <li *ngFor="let extension of getSelectedCertificate.extensions">
-                <mat-checkbox [checked]="isExtensionChecked(extension.name)" (change)="toggleExtension($event, extension.name)">
-                  {{extension.name}}
+        <h2 (click)="idk()">Key Usages</h2>
+        <ul>
+            <li *ngFor="let extension of keyUsages">
+                <mat-checkbox [checked]="isExtensionChecked(extension)" (change)="toggleExtension($event, extension)">
+                    {{extension}}
                 </mat-checkbox>
-              </li>
-          </ul>
+            </li>
+        </ul>
+        <ul *ngIf="getCrtType == 'CA'">
+            <li *ngFor="let ca of caSpecific">
+                <mat-checkbox [checked]="isExtensionChecked(ca)" (change)="toggleExtension($event, ca)">
+                    {{ca}}
+                </mat-checkbox>
+            </li>
+        </ul>
     </div>
     <div class="user-input daterange-input-container">
         <h2> Validation period </h2>
-        <app-cert-date-picker style="width: 100%;" *ngIf="getSelectedCertificate" [form]="dateRangeFormGroup" [certificate]="getSelectedCertificate"></app-cert-date-picker>
+        <app-cert-date-picker style="width: 100%;" *ngIf="getSelectedCertificate" [form]="dateRangeFormGroup"
+            [certificate]="getSelectedCertificate"></app-cert-date-picker>
     </div>
     <div class="button-container">
         <button (click)="onSubmit()" class="submit-button" mat-flat-button color="primary">Create</button>

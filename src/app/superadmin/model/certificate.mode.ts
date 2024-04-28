@@ -1,25 +1,32 @@
-export interface Certificate{
+export interface Certificate {
     parentAlias?: string,
     commonName?: string,
-    email?: string,
     uid?: string,
     startDate?: Date,
     endDate?: Date,
-    extensions?: Map<Extension, string[]>
+    isCa?: Boolean,
+    isHttps?: Boolean,
+    keyUsages?: Map<KeyUsage, string[]>
 }
 
-export enum Extension {
-    BASIC_CONSTRAINTS,
-    KEY_USAGE,
-    SUBJECT_KEY_IDENTIFIER,
-    AUTHORITY_KEY_IDENTIFIER
+export enum KeyUsage {
+    DIGITAL_SIGNATURE,
+    NON_REPUDIATION,
+    KEY_ENCIPHERMENT,
+    DATA_ENCIPHERMENT,
+    KEY_AGREEMENT,
+    CERTIFICATE_SIGN,
+    CRL_SIGN
 }
 
 //create mapper that maps string value to enum
-export const ExtensionMapper = {
-    'Basic Constraints': Extension.BASIC_CONSTRAINTS,
-    'Key Usage': Extension.KEY_USAGE,
-    'Subject Key Identifier': Extension.SUBJECT_KEY_IDENTIFIER,
-    'Authority Key Identifier': Extension.AUTHORITY_KEY_IDENTIFIER
+export const KeyUsageMapper = {
+    'Digital Signature': KeyUsage.DIGITAL_SIGNATURE,
+    'Non-Repudiation': KeyUsage.NON_REPUDIATION,
+    'Key Data Encipherment': KeyUsage.KEY_ENCIPHERMENT,
+    'Data Encipherment': KeyUsage.DATA_ENCIPHERMENT,
+    'Key Agreement': KeyUsage.KEY_AGREEMENT,
+    'Certificate Signer': KeyUsage.CERTIFICATE_SIGN,
+    'CRL Signer': KeyUsage.CRL_SIGN
 }
 
