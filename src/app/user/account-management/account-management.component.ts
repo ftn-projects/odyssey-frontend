@@ -7,11 +7,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../infrastructure/auth/auth.service';
 import { SharedService } from '../../shared/shared.service';
 import { environment } from '../../../env/env';
-import { Certificate } from '../../superadmin/model/certificate.mode';
 import { CertificateRequest } from '../../superadmin/model/certificate-request.model';
 import { CertificateStatus } from '../../superadmin/model/certificate-request.model';
 import { SuperadminService } from '../../superadmin/superadmin.service';
-import * as crypto from 'crypto';
+import * as asn1js from 'asn1js';
 
 @Component({
     selector: 'app-account',
@@ -179,6 +178,13 @@ export class AccountManagementComponent implements OnInit {
         this.superadminService.getByCommonName(this.user.name!, this.user.surname!).subscribe({
             next: (cert: any) => {
                 const blob = new Blob([cert], { type: 'application/x-x509-ca-cert' });
+
+                console.log(cert)
+                console.log(blob)
+
+                // perform verification
+                this.parseSignature(cert)
+
                 const url = window.URL.createObjectURL(blob);
                 window.open(url);
                 console.log(cert);
@@ -188,5 +194,24 @@ export class AccountManagementComponent implements OnInit {
                 console.log(err);
             }
         });
+    }
+
+    private parseSignature(certificateBytes: any) {
+        try {
+            // Parse the X.509 certificate using asn1js library
+            const asn1 = asn1js.fromBER(certificateBytes.buffer);
+            const certificateSequence = asn1.result;
+
+            console.log(certificateSequence);
+
+            // Navigate through the ASN.1 structure to find the public key and signature
+            // const tbsCertificate = certificateSequence.sub[0];
+            // const subjectPublicKeyInfo = tbsCertificate.sub[6]; // The 7th element typically holds the subjectPublicKeyInfo
+            // const publicKey = subjectPublicKeyInfo.sub[1].valueBlock.valueHex; // Extracting the public key
+            // const signature = certificateSequence.sub[2].valueBlock.valueHex; // Extracting the signature
+
+        } catch (error) {
+            console.error('Error extracting public key and signature:', error);
+        }
     }
 }

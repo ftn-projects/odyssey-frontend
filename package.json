@@ -27,6 +27,7 @@
         "@auth0/angular-jwt": "^5.2.0",
         "@types/leaflet": "^1.9.8",
         "@types/sockjs-client": "^1.5.4",
+        "asn1js": "^3.0.5",
         "cropperjs": "^1.6.1",
         "d3": "^7.9.0",
         "echarts": "^5.4.3",
