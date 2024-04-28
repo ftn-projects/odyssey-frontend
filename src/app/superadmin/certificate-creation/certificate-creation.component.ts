@@ -2,14 +2,14 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatFormField } from '@angular/material/form-field';
 import { User } from '../../user/model/user.model';
-import { Certificate, Extension } from '../model/certificate.mode';
+import { Certificate, KeyUsage } from '../model/certificate.mode';
 import { UserService } from '../../user/user.service';
 import { SuperadminService } from '../superadmin.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DialogData } from '../../review/confirm-dialog/confirm-dialog.component';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SearchDaterangePickerComponent } from '../../accommodation/accommodation-list/search-daterange-picker/search-daterange-picker.component';
-import { ExtensionMapper } from '../model/certificate.mode';
+import { KeyUsageMapper } from '../model/certificate.mode';
 import { SharedService } from '../../shared/shared.service';
 
 @Component({
@@ -21,6 +21,8 @@ export class CertificateCreationComponent {
     selectedUser?: User;
     selectedCertificate: any;
 
+    keyUsages = ['Digital Signature', 'Non-Repudiation', 'Key Data Encipherment', 'Data Encipherment', 'Key Agreement'];
+    caSpecific = ['Certificate Signer', 'CRL Signer'];
     InputUser?: User;
     allUsers: User[] = [];
     allCertificates: any[] = [];
@@ -31,7 +33,8 @@ export class CertificateCreationComponent {
         dateRange: new FormGroup({
             start: new FormControl(),
             end: new FormControl()
-        })
+        }),
+        crtType: new FormControl()
     });
 
     constructor(
@@ -89,6 +92,10 @@ export class CertificateCreationComponent {
         return this.formGroup.get('extensions')?.value;
     }
 
+    get getCrtType() {
+        return this.formGroup.get('crtType')?.value;
+    }
+
     isExtensionChecked(extensionName: string): boolean {
         let extensions: string[] = this.formGroup.get('extensions')?.value as string[];
         return extensions.includes(extensionName);
@@ -126,9 +133,7 @@ export class CertificateCreationComponent {
 
         // Populate the map with the enum values as keys and empty arrays as values
         extensionEnums.forEach(ext => {
-            if (ext === 'BASIC_CONSTRAINTS')
-                extensionsMap.set(ext, ['true']);
-            else extensionsMap.set(ext, []);
+            extensionsMap.set(ext, []);
         });
         const newMap: Record<string, string[]> = {};
         extensionsMap.forEach((val: string[], key: string) => {
@@ -138,11 +143,12 @@ export class CertificateCreationComponent {
         let certificate = {
             parentAlias: this.getSelectedCertificate?.serialNumber,
             commonName: this.getSelectedUser?.name + ' ' + this.getSelectedUser?.surname,
-            email: this.getSelectedUser?.email,
             uid: this.getSelectedUser?.id,
             startDate: this.getStartedDate.getTime(),
             endDate: this.getEndDate.getTime(),
-            extensions: newMap
+            isCa: this.getCrtType == 'CA' ? true : false,
+            isHttps: this.getCrtType == 'HTTPS' ? true : false,
+            keyUsages: newMap
         };
 
         console.log("Certificate: ", certificate);
@@ -158,10 +164,13 @@ export class CertificateCreationComponent {
 
     convertStringToEnumRepresentation(extension: string): string {
         switch (extension) {
-            case 'Basic Constraints': return 'BASIC_CONSTRAINTS';
-            case 'Key Usage': return 'KEY_USAGE';
-            case 'Subject Key Identifier': return 'SUBJECT_KEY_IDENTIFIER';
-            case 'Authority Key Identifier': return 'AUTHORITY_KEY_IDENTIFIER';
+            case 'Digital Signature': return 'DIGITAL_SIGNATURE';
+            case 'Non-Repudiation': return 'NON_REPUDIATION';
+            case 'Key Data Encipherment': return 'KEY_ENCIPHERMENT';
+            case 'Data Encipherment': return 'DATA_ENCIPHERMENT';
+            case 'Key Agreement': return 'KEY_AGREEMENT';
+            case 'Certificate Signer': return 'CERTIFICATE_SIGN';
+            case 'CRL Signer': return 'CRL_SIGN';
             default: return '';
         }
     }
