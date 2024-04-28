@@ -35,6 +35,7 @@
         "leaflet": "^1.9.4",
         "localstorage-polyfill": "^1.0.1",
         "ngx-echarts": "^17.1.0",
+        "pkijs": "^3.0.16",
         "rxjs": "~7.8.0",
         "sockjs-client": "^1.6.1",
         "stompjs": "^2.3.3",

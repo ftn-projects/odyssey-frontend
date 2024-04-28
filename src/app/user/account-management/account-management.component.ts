@@ -11,6 +11,7 @@ import { CertificateRequest } from '../../superadmin/model/certificate-request.m
 import { CertificateStatus } from '../../superadmin/model/certificate-request.model';
 import { SuperadminService } from '../../superadmin/superadmin.service';
 import * as asn1js from 'asn1js';
+import * as pkijs from 'pkijs';
 
 @Component({
     selector: 'app-account',
@@ -176,18 +177,17 @@ export class AccountManagementComponent implements OnInit {
 
     protected onCertificateDownload() {
         this.superadminService.getByCommonName(this.user.name!, this.user.surname!).subscribe({
-            next: (cert: any) => {
-                const blob = new Blob([cert], { type: 'application/x-x509-ca-cert' });
-
-                console.log(cert)
-                console.log(blob)
-
-                // perform verification
-                this.parseSignature(cert)
-
-                const url = window.URL.createObjectURL(blob);
-                window.open(url);
-                console.log(cert);
+            next: (cert: Blob) => {
+                cert.arrayBuffer().then((value) => {
+                    this.parseSignature(value).then((success) => {
+                        if (success) {
+                            // const url = window.URL.createObjectURL(cert);
+                            // window.open(url);
+                        } else {
+                            this.sharedService.displayError("Certificate validation failed.");
+                        }
+                    });
+                });
             },
             error: (err) => {
                 this.sharedService.displayError('Certificate could not be loaded');
@@ -196,22 +196,18 @@ export class AccountManagementComponent implements OnInit {
         });
     }
 
-    private parseSignature(certificateBytes: any) {
-        try {
-            // Parse the X.509 certificate using asn1js library
-            const asn1 = asn1js.fromBER(certificateBytes.buffer);
-            const certificateSequence = asn1.result;
+    private parseSignature(certificateBytes: any): Promise<boolean> {
+        // Parse the X.509 certificate using asn1js library
+        const asn1 = asn1js.fromBER(certificateBytes);
+        const certificate = new pkijs.Certificate({ schema: asn1.result });
+        const signature = certificate.signatureValue;
 
-            console.log(certificateSequence);
-
-            // Navigate through the ASN.1 structure to find the public key and signature
-            // const tbsCertificate = certificateSequence.sub[0];
-            // const subjectPublicKeyInfo = tbsCertificate.sub[6]; // The 7th element typically holds the subjectPublicKeyInfo
-            // const publicKey = subjectPublicKeyInfo.sub[1].valueBlock.valueHex; // Extracting the public key
-            // const signature = certificateSequence.sub[2].valueBlock.valueHex; // Extracting the signature
-
-        } catch (error) {
-            console.error('Error extracting public key and signature:', error);
-        }
+        return certificate.getPublicKey().then((key) => {
+            // TODO verify signature
+            return true;
+        }).catch((error) => {
+            console.log(error)
+            return false;
+        });
     }
 }
