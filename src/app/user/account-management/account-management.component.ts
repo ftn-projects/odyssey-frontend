@@ -161,16 +161,13 @@ export class AccountManagementComponent implements OnInit {
     protected hasCertificate = false;
 
     protected onCertificateSend() {
-        let certificateRequest: CertificateRequest;
-        certificateRequest = {
+        const certificateRequest = {
             commonName: this.user.name + " " + this.user.surname,
             email: this.user.email,
             uid: this.user.id!.toString(),
-            date: new Date(),
-            status: CertificateStatus.PENDING
-        }
+        };
         this.superadminService.sendRequest(certificateRequest).subscribe({
-            next: () => this.sharedService.displaySnack('Certificate request sent!'),
+            next: () => this.sharedService.displaySnack('Certificate request sent'),
             error: (err) => this.sharedService.displayFirstError(err)
         });
     }
@@ -178,13 +175,16 @@ export class AccountManagementComponent implements OnInit {
     protected onCertificateDownload() {
         this.superadminService.getByCommonName(this.user.name!, this.user.surname!).subscribe({
             next: (cert: Blob) => {
-                cert.arrayBuffer().then((value) => {
-                    this.parseSignature(value).then((success) => {
-                        if (success) {
-                            // const url = window.URL.createObjectURL(cert);
-                            // window.open(url);
-                        } else {
-                            this.sharedService.displayError("Certificate validation failed.");
+                cert.arrayBuffer().then(certificateBytes => {
+                    // validation
+                    this.validate(certificateBytes).then(([valid, filename]) => {
+                        if (valid) {
+                            // certificate download
+                            var url = window.URL.createObjectURL(cert);
+                            var anchor = document.createElement("a");
+                            anchor.download = filename + ".cer";
+                            anchor.href = url;
+                            anchor.click();
                         }
                     });
                 });
@@ -196,18 +196,24 @@ export class AccountManagementComponent implements OnInit {
         });
     }
 
-    private parseSignature(certificateBytes: any): Promise<boolean> {
-        // Parse the X.509 certificate using asn1js library
-        const asn1 = asn1js.fromBER(certificateBytes);
-        const certificate = new pkijs.Certificate({ schema: asn1.result });
-        const signature = certificate.signatureValue;
+    private async validate(certificateBytes: ArrayBuffer): Promise<[boolean, string]> {
+        try {
+            const asn1 = asn1js.fromBER(certificateBytes);
+            const certificate = new pkijs.Certificate({ schema: asn1.result });
 
-        return certificate.getPublicKey().then((key) => {
-            // TODO verify signature
-            return true;
-        }).catch((error) => {
-            console.log(error)
-            return false;
-        });
+            const now = new Date();
+            const verified = certificate.notBefore.value <= now && certificate.notAfter.value >= now;
+
+            const uidObjectId = "0.9.2342.19200300.100.1.1";
+            const attr = certificate.subject.typesAndValues.find(entry => entry.type === uidObjectId);
+
+            if (!verified)
+                this.sharedService.displayError("Certificate is invalid")
+
+            return [verified, (attr ? attr.value.valueBlock.value : "user")];
+        } catch (error) {
+            console.log("Certificate validation error", error);
+            return [false, ""];
+        }
     }
 }
