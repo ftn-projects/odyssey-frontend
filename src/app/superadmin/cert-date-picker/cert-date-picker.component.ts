@@ -17,6 +17,15 @@ export class CertDatePickerComponent {
     @Input() certificate: any;
     @Input() form!: FormGroup;
 
+    OnInit() {
+        // let now = new Date();
+        // const startDate = new Date(this.certificate.validity.start);
+        // const endDate = new Date(this.certificate.validity.end);
+
+        // console.log('start', startDate);
+        // console.log('end', endDate);
+        // console.log(this.customDateFilter(now));
+    }
 
     customDateFilter = (date: Date | null): boolean => {
         if (!date) {
@@ -26,16 +35,19 @@ export class CertDatePickerComponent {
         if (this.certificate) {
             const startDate = new Date(this.certificate.validity.start);
             const endDate = new Date(this.certificate.validity.end);
-            return this.addDates(startDate, -1) <= date && date <= this.addDates(endDate, 1);
+
+            this.dateToEpoch(startDate);
+            this.dateToEpoch(endDate);
+            let temp = date;
+            this.dateToEpoch(temp);
+            return startDate <= temp && temp <= endDate;
         }
         else {
             return false;
         }
     };
 
-    addDates(date: Date, days: number) {
-        var temp = new Date(date);
-        temp.setDate(temp.getDate() + days);
-        return temp;
+    dateToEpoch(thedate: Date) {
+        return thedate.setHours(0, 0, 0, 0);
     }
 }
