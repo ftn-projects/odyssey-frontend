@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SuperadminService } from '../superadmin.service';
-import { Certificate } from '../model/certificate.mode';
+import { Certificate } from '../model/certificate.model';
 import * as d3 from 'd3';
 import { MatDialog } from '@angular/material/dialog';
 import { CertificateCreationComponent } from '../certificate-creation/certificate-creation.component';
@@ -13,19 +13,11 @@ import { CertificateInfoComponent } from '../certificate-info/certificate-info.c
 })
 export class CertificatesViewComponent {
     constructor(private service: SuperadminService, private dialog: MatDialog) { }
-    certificates: any[] = [];
-
-
+    certificates: Certificate[] = [];
 
     loadData() {
         this.service.getAllCertificates().subscribe({
-            next: (data: any[]) => {
-                data = data.map((cert: any) => {
-                    return {
-                        ...cert,
-                        validity: { start: new Date(cert.validity.start), end: new Date(cert.validity.end) },
-                    }
-                });
+            next: (data: Certificate[]) => {
                 this.certificates = data;
                 this.createTree();
             },
@@ -37,24 +29,18 @@ export class CertificatesViewComponent {
         this.loadData();
     }
 
-
-
-
     createTree() {
         d3.selectAll("svg").remove();
 
         let container = d3.select("#tree");
         let root = d3.stratify<any>()
-            .id((d: unknown) => (d as any).serialNumber)
-            .parentId((d: unknown) => (d as any).parentSerialNumber)
+            .id((d: unknown) => (d as Certificate).alias)
+            .parentId((d: unknown) => (d as Certificate).parentAlias)
             (this.certificates);
-
 
         let treeLayout = d3.tree<any>()
             .size([600, 1000]) // Specify the size of the tree layout
             .separation((a, b) => (a.parent === b.parent ? 3 : 3));
-
-
 
         let treeData = treeLayout(root);
         let nodes = treeData.descendants(); // Extract nodes from the tree data
@@ -103,14 +89,12 @@ export class CertificatesViewComponent {
         const text = node.append("text")
             .attr("x", 10)
             .attr("y", 20)
-            .text((d: any) => d.data.serialNumber)
+            .text((d: any) => d.data.subject["CN"] ?? d.data.alias)
             .attr("font-family", "Montserrat");
 
         // Append the SVG to the container element
         container.append(() => svgg.node());
     }
-
-
 
     openDialog(certificate: any) {
         const dialogRef = this.dialog.open(CertificateInfoComponent, {

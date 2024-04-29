@@ -1,16 +1,12 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatFormField } from '@angular/material/form-field';
+import { Component, Inject } from '@angular/core';
 import { User } from '../../user/model/user.model';
-import { Certificate, Extension } from '../model/certificate.mode';
+import { Certificate, parseKeyUsage } from '../model/certificate.model';
 import { UserService } from '../../user/user.service';
 import { SuperadminService } from '../superadmin.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DialogData } from '../../review/confirm-dialog/confirm-dialog.component';
 import { FormControl, FormGroup } from '@angular/forms';
-import { SearchDaterangePickerComponent } from '../../accommodation/accommodation-list/search-daterange-picker/search-daterange-picker.component';
-import { ExtensionMapper } from '../model/certificate.mode';
 import { SharedService } from '../../shared/shared.service';
+import { CertificateCreation } from '../model/certificate-creation.model';
 
 @Component({
     selector: 'app-certificate-creation',
@@ -21,12 +17,22 @@ export class CertificateCreationComponent {
     selectedUser?: User;
     selectedCertificate: any;
 
+    commonKeyUsages = ['Digital Signature', 'Non-Repudiation'];
+    caKeyUsages = [...this.commonKeyUsages, 'Certificate Signer', 'CRL Signer'];
+    httpsKeyUsages = ['Digital Signature', 'Key Encipherment', 'Key Agreement'];
+    eeKeyUsages = [...this.commonKeyUsages, 'Key Encipherment', 'Data Encipherment', 'Key Agreement'];
+
     InputUser?: User;
     allUsers: User[] = [];
-    allCertificates: any[] = [];
-    formGroup = new FormGroup({
-        userControl: new FormControl(),
+    allCertificates: Certificate[] = [];
+
+    formGroup: FormGroup = new FormGroup({
+        certType: new FormControl(),
         certControl: new FormControl(),
+        userControl: new FormControl(),
+        cnControl: new FormControl(),
+        uidControl: new FormControl(),
+        emailControl: new FormControl(),
         extensions: new FormControl([]),
         dateRange: new FormGroup({
             start: new FormControl(),
@@ -41,36 +47,93 @@ export class CertificateCreationComponent {
         public dialogRef: MatDialogRef<CertificateCreationComponent>,
         @Inject(MAT_DIALOG_DATA) public inputData: any
     ) {
-    }
+        const name = inputData.request?.commonName.split(' ')[0];
+        const surname = inputData.request?.commonName.split(' ')[1];
+        let user: User | null = null;
 
-    ngOnInit(): void {
+        if (inputData.request != null)
+            user = { id: inputData.request.uid, name: name, surname: surname, email: inputData.email, address: {} };
 
-        this.loadUsers();
-        this.loadCertificates();
+        this.formGroup.get('cnControl')?.setValue(inputData.request?.commonName);
+        this.formGroup.get('uidControl')?.setValue(inputData.request?.uid);
+        this.formGroup.get('emailControl')?.setValue(inputData.request?.email);
 
-        this.formGroup.get('certControl')?.valueChanges.subscribe((newValue) => {
+        if (inputData.request == null) {
+            this.formGroup.get('certType')?.setValue('CA');
+            this.formGroup.get('certControl')?.setValue(inputData.certificate);
+            this.formGroup.get('certControl')?.disable();
+        } else {
+            this.formGroup.get('certType')?.setValue('USER_EE');
+            this.formGroup.get('certType')?.disable();
+            this.formGroup.get('cnControl')?.disable();
+            this.formGroup.get('uidControl')?.disable();
+            this.formGroup.get('emailControl')?.disable();
+        }
+
+        this.formGroup.get('certType')?.valueChanges.subscribe(_ => {
             this.formGroup.get('extensions')?.setValue([]);
+        });
+        this.formGroup.get('userControl')?.valueChanges.subscribe(user => {
+            this.formGroup?.get('cnControl')?.setValue(user?.name + ' ' + user?.surname);
+            this.formGroup?.get('uidControl')?.setValue(user?.id);
+            this.formGroup?.get('emailControl')?.setValue(user?.email);
         });
     }
 
+    ngOnInit(): void {
+        this.loadUsers();
+        this.loadCertificates();
+    }
 
     loadUsers() {
         this.userService.getAll().subscribe({
             next: (data: User[]) => {
                 this.allUsers = data;
+
+                if (this.inputData.request != null) {
+                    this.formGroup.get('userControl')?.patchValue(
+                        this.allUsers.find(u => this.inputData.request?.uid == null || u.id == this.inputData.request.uid)
+                    );
+                    this.formGroup.get('userControl')?.disable();
+                }
             },
             error: (err) => console.log(err)
         });
     }
 
     loadCertificates() {
+        let isCa = (c: Certificate) => c.extensions?.find(e => e.name == 'Basic Constraints')?.values?.at(0) == 'true' ?? false;
+
         this.superadminService.getAllCertificates().subscribe({
-            next: (data: any[]) => {
-                console.log(data);
-                this.allCertificates = data;
+            next: (data: Certificate[]) => {
+                this.allCertificates = data.filter(isCa);
+                this.formGroup.get('certControl')?.patchValue(
+                    this.allCertificates.find(c => this.inputData.certificate?.alias == null || c.alias == this.inputData.certificate.alias)
+                );
+                if (this.inputData.request == null)
+                    this.formGroup.get('certControl')?.disable();
             },
             error: (err) => console.log(err)
         });
+    }
+
+    isUser() {
+        return this.formGroup.get('certType')?.value == 'USER_EE';
+    }
+
+    isExtensionChecked(extensionName: string): boolean {
+        let extensions: string[] = this.formGroup.get('extensions')?.value as string[];
+        return extensions.includes(extensionName);
+    }
+
+    toggleExtension(event: any, extensionName: string) {
+        let extensions: string[] = this.formGroup.get('extensions')?.value || [];
+        if (event.checked) {
+            extensions = [...extensions, extensionName];
+        } else {
+            extensions = extensions.filter((ext: string) => ext !== extensionName);
+        }
+        this.formGroup.get('extensions')?.patchValue(extensions as never[]);
     }
 
     get dateRangeFormGroup(): FormGroup {
@@ -89,25 +152,24 @@ export class CertificateCreationComponent {
         return this.formGroup.get('extensions')?.value;
     }
 
-    isExtensionChecked(extensionName: string): boolean {
-        let extensions: string[] = this.formGroup.get('extensions')?.value as string[];
-        return extensions.includes(extensionName);
+    get getCertType() {
+        return this.formGroup.get('certType')?.value;
     }
-
-    toggleExtension(event: any, extensionName: string) {
-        let extensions: string[] = this.formGroup.get('extensions')?.value || [];
-        if (event.checked) {
-            extensions = [...extensions, extensionName];
-        } else {
-            extensions = extensions.filter((ext: string) => ext !== extensionName);
-        }
-        this.formGroup.get('extensions')?.setValue(extensions as never[]);
-    }
-
-
 
     get getSelectedUser() {
         return this.formGroup.get('userControl')?.value;
+    }
+
+    get getCommonName() {
+        return this.formGroup.get('cnControl')?.value;
+    }
+
+    get getUid() {
+        return this.formGroup.get('uidControl')?.value;
+    }
+
+    get getEmail() {
+        return this.formGroup.get('emailControl')?.value;
     }
 
     get getSelectedCertificate() {
@@ -115,59 +177,25 @@ export class CertificateCreationComponent {
     }
 
     onSubmit() {
-
-        let extensionStrings: string[] = this.getExtensions ?? [];
-
-        // Map extension strings to enum values
-        let extensionEnums: string[] = extensionStrings.map(ext => this.convertStringToEnumRepresentation(ext));
-
-        // Create an empty map to hold the extensions
-        let extensionsMap: Map<string, string[]> = new Map<string, string[]>();
-
-        // Populate the map with the enum values as keys and empty arrays as values
-        extensionEnums.forEach(ext => {
-            if (ext === 'BASIC_CONSTRAINTS')
-                extensionsMap.set(ext, ['true']);
-            else extensionsMap.set(ext, []);
-        });
-        const newMap: Record<string, string[]> = {};
-        extensionsMap.forEach((val: string[], key: string) => {
-            newMap[key] = val;
-        });
-        // Create the certificate object
-        let certificate = {
-            parentAlias: this.getSelectedCertificate?.serialNumber,
-            commonName: this.getSelectedUser?.name + ' ' + this.getSelectedUser?.surname,
-            email: this.getSelectedUser?.email,
-            uid: this.getSelectedUser?.id,
+        let certificate: CertificateCreation = {
+            parentAlias: this.getSelectedCertificate!.alias,
+            commonName: this.getCommonName,
+            uid: this.getUid,
+            email: this.getEmail,
             startDate: this.getStartedDate.getTime(),
             endDate: this.getEndDate.getTime(),
-            extensions: newMap
+            isHttps: this.getCertType == 'HTTPS' ? true : false,
+            isCa: this.getCertType == 'CA' ? true : false,
+            keyUsages: this.getExtensions.map((e: string) => parseKeyUsage[e])
         };
 
-        console.log("Certificate: ", certificate);
-
-        this.superadminService.sendCertificate(certificate).subscribe({
-            next: (data: Certificate) => {
+        this.superadminService.createCertificate(certificate).subscribe({
+            next: (cert) => {
+                console.log("Created:", cert);
                 this.sharedService.displaySnack('Certificate created successfully');
                 this.dialogRef.close("YES");
             },
             error: (err) => { console.log(err); this.sharedService.displayFirstError(err); }
         });
     }
-
-    convertStringToEnumRepresentation(extension: string): string {
-        switch (extension) {
-            case 'Basic Constraints': return 'BASIC_CONSTRAINTS';
-            case 'Key Usage': return 'KEY_USAGE';
-            case 'Subject Key Identifier': return 'SUBJECT_KEY_IDENTIFIER';
-            case 'Authority Key Identifier': return 'AUTHORITY_KEY_IDENTIFIER';
-            default: return '';
-        }
-    }
-
-    idk() {
-        console.log(this.formGroup.value);
-    }
-
 }

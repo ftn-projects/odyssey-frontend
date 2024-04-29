@@ -12,17 +12,17 @@ import { CertificateCreationComponent } from '../certificate-creation/certificat
 
 
 @Component({
-  selector: 'app-certificate-requests-page',
-  templateUrl: './certificate-requests-page.component.html',
-  styleUrl: './certificate-requests-page.component.css'
+    selector: 'app-certificate-requests-page',
+    templateUrl: './certificate-requests-page.component.html',
+    styleUrl: './certificate-requests-page.component.css'
 })
 export class CertificateRequestsPageComponent {
     certificateStatus = CertificateStatus;
     constructor(
         private service: SuperadminService,
-        private sharedService : SharedService,
+        private sharedService: SharedService,
         public dialog: MatDialog
-    ){}
+    ) { }
     requests: CertificateRequest[] = [];
     displayedColumns: string[] = ['id', 'commonName', 'email', 'uid', 'date', 'status', 'select'];
 
@@ -48,13 +48,13 @@ export class CertificateRequestsPageComponent {
         this.loadData();
     }
 
-    approveRequest(request: CertificateRequest){
+    approveRequest(request: CertificateRequest) {
         this.openDialog(request);
     }
 
-    declineRequest(id: number){
+    declineRequest(id: number) {
         this.service.declineRequest(id).subscribe({
-            next: (data: CertificateRequest) => {
+            next: (_: CertificateRequest) => {
                 this.loadData();
                 this.sharedService.displaySnack("Request declined");
             },
@@ -62,9 +62,9 @@ export class CertificateRequestsPageComponent {
         });
     }
 
-    sendApproval(id: number){
+    sendApproval(id: number) {
         this.service.approveRequest(id).subscribe({
-            next: (data: CertificateRequest) => {
+            next: (_: CertificateRequest) => {
                 this.loadData();
                 this.sharedService.displaySnack("Request approved");
             },
@@ -72,17 +72,15 @@ export class CertificateRequestsPageComponent {
         });
     }
 
-    openDialog(certRequest: CertificateRequest){
-        console.log("Request: ", certRequest);
+    openDialog(certRequest: CertificateRequest) {
         const dialogRef = this.dialog.open(CertificateCreationComponent, {
-            data: {request: certRequest},
-          });
-      
-          dialogRef.afterClosed().subscribe(result => {
-            if(result=="YES"){
+            data: { request: certRequest },
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result == "YES") {
                 this.sendApproval(certRequest.id!);
             }
-            
-          });
+        });
     }
 }

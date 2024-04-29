@@ -7,11 +7,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../infrastructure/auth/auth.service';
 import { SharedService } from '../../shared/shared.service';
 import { environment } from '../../../env/env';
-import { Certificate } from '../../superadmin/model/certificate.mode';
 import { CertificateRequest } from '../../superadmin/model/certificate-request.model';
 import { CertificateStatus } from '../../superadmin/model/certificate-request.model';
 import { SuperadminService } from '../../superadmin/superadmin.service';
-import * as crypto from 'crypto';
+import * as asn1js from 'asn1js';
+import * as pkijs from 'pkijs';
 
 @Component({
     selector: 'app-account',
@@ -67,12 +67,11 @@ export class AccountManagementComponent implements OnInit {
                     if (c.name == this.user.address.country) this.selectedCountry = c;
                 });
 
-                this.superadminService.hasCertificate(user.name!, this.user.surname!).subscribe({
+                this.superadminService.hasCertificate(this.user.id!).subscribe({
                     next: (result) => {
                         this.hasCertificate = result;
-                        console.log(this.hasCertificate)
                     },
-                    error: (err) => this.sharedService.displayError('Certificate info could not be acquired')
+                    error: (_) => this.sharedService.displayError('Certificate info could not be acquired')
                 });
             },
             error: (err) => console.log(err)
@@ -161,32 +160,59 @@ export class AccountManagementComponent implements OnInit {
     protected hasCertificate = false;
 
     protected onCertificateSend() {
-        let certificateRequest: CertificateRequest;
-        certificateRequest = {
+        const certificateRequest = {
             commonName: this.user.name + " " + this.user.surname,
             email: this.user.email,
             uid: this.user.id!.toString(),
-            date: new Date(),
-            status: CertificateStatus.PENDING
-        }
+        };
         this.superadminService.sendRequest(certificateRequest).subscribe({
-            next: () => this.sharedService.displaySnack('Certificate request sent!'),
+            next: () => this.sharedService.displaySnack('Certificate request sent'),
             error: (err) => this.sharedService.displayFirstError(err)
         });
     }
 
     protected onCertificateDownload() {
-        this.superadminService.getByCommonName(this.user.name!, this.user.surname!).subscribe({
-            next: (cert: any) => {
-                const blob = new Blob([cert], { type: 'application/x-x509-ca-cert' });
-                const url = window.URL.createObjectURL(blob);
-                window.open(url);
-                console.log(cert);
+        this.superadminService.getByCommonName(this.user.id!).subscribe({
+            next: (cert: Blob) => {
+                cert.arrayBuffer().then(certificateBytes => {
+                    // validation
+                    this.validate(certificateBytes).then(([valid, filename]) => {
+                        if (valid) {
+                            // certificate download
+                            var url = window.URL.createObjectURL(cert);
+                            var anchor = document.createElement("a");
+                            anchor.download = filename + ".cer";
+                            anchor.href = url;
+                            anchor.click();
+                        }
+                    });
+                });
             },
             error: (err) => {
                 this.sharedService.displayError('Certificate could not be loaded');
                 console.log(err);
             }
         });
+    }
+
+    private async validate(certificateBytes: ArrayBuffer): Promise<[boolean, string]> {
+        try {
+            const asn1 = asn1js.fromBER(certificateBytes);
+            const certificate = new pkijs.Certificate({ schema: asn1.result });
+
+            const now = new Date();
+            const verified = certificate.notBefore.value <= now && certificate.notAfter.value >= now;
+
+            const cnObjectId = "2.5.4.3";
+            const attr = certificate.subject.typesAndValues.find(entry => entry.type === cnObjectId);
+
+            if (!verified)
+                this.sharedService.displayError("Certificate is invalid")
+
+            return [verified, (attr ? attr.value.valueBlock.value : "user")];
+        } catch (error) {
+            console.log("Certificate validation error", error);
+            return [false, ""];
+        }
     }
 }

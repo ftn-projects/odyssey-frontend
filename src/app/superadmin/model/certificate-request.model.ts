@@ -1,4 +1,4 @@
-export interface CertificateRequest{
+export interface CertificateRequest {
     id?: number,
     commonName?: string,
     email?: string,

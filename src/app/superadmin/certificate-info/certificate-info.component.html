@@ -7,24 +7,11 @@
         <div class="general-information">
             <h2>General information</h2>
             <div class="serial-number">
-                <p>Serial number: {{inputData.cert.serialNumber}}</p>
+                <p>Alias: {{certificate.alias}}</p>
             </div>
             <div class="parent-serial-number">
-                <p>Parent serial number: {{inputData.cert.parentSerialNumber ? inputData.cert.parentSerialNumber : '/'}}
+                <p>Parent alias: {{certificate.parentAlias ?? '/'}}
                 </p>
-            </div>
-            <div class="validity-date">
-                <h2>Validity date</h2>
-                <p>From: {{inputData.cert.validity.start | date:'dd/MM/yyyy hh:mm'}}</p>
-                <p>To: {{inputData.cert.validity.end | date:'dd/MM/yyyy hh:mm'}}</p>
-            </div>
-            <div class="extenstions">
-                <h2>Extensions</h2>
-                <ul>
-                    <li *ngFor="let extension of inputData.cert.extensions">
-                        <p>{{extension.name}}</p>
-                    </li>
-                </ul>
             </div>
         </div>
         <div class="subject-info">
@@ -32,7 +19,7 @@
                 <h2>Subject</h2>
             </div>
             <div class="CN">
-                <p>CN: {{inputData.cert.subject.CN}}</p>
+                <p *ngFor="let dn of getSortedDn(certificate.subject | keyvalue)">{{dn.key}}: {{dn.value}}</p>
             </div>
         </div>
         <div class="issuer-info">
@@ -40,12 +27,26 @@
                 <h2>Issuer</h2>
             </div>
             <div class="issuer-CN">
-                <p>CN: {{inputData.cert.issuer.CN}}</p>
+                <p *ngFor="let dn of getSortedDn(certificate.issuer | keyvalue)">{{dn.key}}: {{dn.value}}</p>
             </div>
+        </div>
+        <div class="validity-date">
+            <h2>Validity</h2>
+            <p>Not before: {{certificate.validity!.start | date:'dd/MM/yyyy hh:mm'}}</p>
+            <p>Not after: {{certificate.validity!.end | date:'dd/MM/yyyy hh:mm'}}</p>
+        </div>
+        <div class="extenstions">
+            <h2>Extensions</h2>
+            <ul>
+                <li *ngFor="let extension of certificate.extensions">
+                    <p>{{extension.name}}</p>
+                </li>
+            </ul>
         </div>
     </div>
     <div class="buttons-container">
-        <button class="download-button" (click)="onAddMore()" mat-flat-button color="primary">Add more</button>
+        <button *ngIf="isCa" class="download-button" (click)="onAddMore()" mat-flat-button color="primary">Add
+            more</button>
         <button class="revoke-button" (click)="onDelete()" mat-flat-button color="warn">Delete</button>
     </div>
 </div>
