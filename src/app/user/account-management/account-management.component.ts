@@ -67,12 +67,11 @@ export class AccountManagementComponent implements OnInit {
                     if (c.name == this.user.address.country) this.selectedCountry = c;
                 });
 
-                this.superadminService.hasCertificate(user.name!, this.user.surname!).subscribe({
+                this.superadminService.hasCertificate(this.user.id!).subscribe({
                     next: (result) => {
                         this.hasCertificate = result;
-                        console.log(this.hasCertificate)
                     },
-                    error: (err) => this.sharedService.displayError('Certificate info could not be acquired')
+                    error: (_) => this.sharedService.displayError('Certificate info could not be acquired')
                 });
             },
             error: (err) => console.log(err)
@@ -173,7 +172,7 @@ export class AccountManagementComponent implements OnInit {
     }
 
     protected onCertificateDownload() {
-        this.superadminService.getByCommonName(this.user.name!, this.user.surname!).subscribe({
+        this.superadminService.getByCommonName(this.user.id!).subscribe({
             next: (cert: Blob) => {
                 cert.arrayBuffer().then(certificateBytes => {
                     // validation
@@ -204,8 +203,8 @@ export class AccountManagementComponent implements OnInit {
             const now = new Date();
             const verified = certificate.notBefore.value <= now && certificate.notAfter.value >= now;
 
-            const uidObjectId = "0.9.2342.19200300.100.1.1";
-            const attr = certificate.subject.typesAndValues.find(entry => entry.type === uidObjectId);
+            const cnObjectId = "2.5.4.3";
+            const attr = certificate.subject.typesAndValues.find(entry => entry.type === cnObjectId);
 
             if (!verified)
                 this.sharedService.displayError("Certificate is invalid")

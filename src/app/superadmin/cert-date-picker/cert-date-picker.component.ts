@@ -26,10 +26,16 @@ export class CertDatePickerComponent {
         if (this.certificate) {
             const startDate = new Date(this.certificate.validity.start);
             const endDate = new Date(this.certificate.validity.end);
-            return startDate <= date && date <= endDate;
+            return this.addDates(startDate, -1) <= date && date <= this.addDates(endDate, 1);
         }
         else {
             return false;
         }
     };
+
+    addDates(date: Date, days: number) {
+        var temp = new Date(date);
+        temp.setDate(temp.getDate() + days);
+        return temp;
+    }
 }
