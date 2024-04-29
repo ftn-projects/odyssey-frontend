@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SuperadminService } from '../superadmin.service';
-import { Certificate } from '../model/certificate.mode';
+import { Certificate } from '../model/certificate.model';
 import * as d3 from 'd3';
 import { MatDialog } from '@angular/material/dialog';
 import { CertificateCreationComponent } from '../certificate-creation/certificate-creation.component';

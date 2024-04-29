@@ -3,7 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dial
 import { SharedService } from '../../shared/shared.service';
 import { CertificateCreationComponent } from '../certificate-creation/certificate-creation.component';
 import { SuperadminService } from '../superadmin.service';
-import { Certificate, KeyUsage } from '../model/certificate.mode';
+import { Certificate, KeyUsage } from '../model/certificate.model';
+import { KeyValue } from '@angular/common';
 
 @Component({
     selector: 'app-certificate-info',
@@ -19,14 +20,12 @@ export class CertificateInfoComponent {
         @Inject(MAT_DIALOG_DATA) public inputData: any
     ) {
         this.certificate = inputData.cert;
-    }
-
-    isCa() {
-        return this.extensionsValues('Basic Constraints')?.at(0) == 'true' ?? false;
+        this.isCa = this.extensionsValues('Basic Constraints')?.at(0) == 'true' ?? false;
     }
 
     returnVal = 'NO';
     certificate!: Certificate;
+    isCa = false;
 
     onDelete() {
         this.superadminService.deleteCertificate(this.inputData.cert.alias).subscribe({
@@ -40,13 +39,12 @@ export class CertificateInfoComponent {
     }
 
     onAddMore() {
-        console.log(this.isCa());
         this.openDialog();
     }
 
     openDialog() {
         const dialogRef = this.dialog.open(CertificateCreationComponent, {
-
+            data: { certificate: this.certificate },
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -57,5 +55,19 @@ export class CertificateInfoComponent {
 
     extensionsValues(name: string): any[] | undefined {
         return this.certificate.extensions?.find(e => e.name == name)?.values;
+    }
+
+    private dnsOrder = ['CN', 'UID', 'OU', 'O', 'L', 'ST', 'C'];
+
+    getSortedDn(items: KeyValue<unknown, unknown>[]) {
+        let returnItems: KeyValue<unknown, unknown>[] = [];
+        for (let ord of this.dnsOrder) {
+            let ordered = [];
+            for (let item of items)
+                if (item.key === ord)
+                    ordered.push(item);
+            returnItems = returnItems.concat(ordered);
+        }
+        return returnItems;
     }
 }

@@ -13,26 +13,13 @@
                 <p>Parent alias: {{certificate.parentAlias ?? '/'}}
                 </p>
             </div>
-            <div class="validity-date">
-                <h2>Validity date</h2>
-                <p>From: {{certificate.validity!.start | date:'dd/MM/yyyy hh:mm'}}</p>
-                <p>To: {{certificate.validity!.end | date:'dd/MM/yyyy hh:mm'}}</p>
-            </div>
-            <div class="extenstions">
-                <h2>Extensions</h2>
-                <ul>
-                    <li *ngFor="let extension of certificate.extensions">
-                        <p>{{extension.name}}</p>
-                    </li>
-                </ul>
-            </div>
         </div>
         <div class="subject-info">
             <div class="subject-header">
                 <h2>Subject</h2>
             </div>
             <div class="CN">
-                <p>CN: {{certificate.subject.CN}}</p>
+                <p *ngFor="let dn of getSortedDn(certificate.subject | keyvalue)">{{dn.key}}: {{dn.value}}</p>
             </div>
         </div>
         <div class="issuer-info">
@@ -40,12 +27,25 @@
                 <h2>Issuer</h2>
             </div>
             <div class="issuer-CN">
-                <p>CN: {{certificate.issuer.CN}}</p>
+                <p *ngFor="let dn of getSortedDn(certificate.issuer | keyvalue)">{{dn.key}}: {{dn.value}}</p>
             </div>
+        </div>
+        <div class="validity-date">
+            <h2>Validity</h2>
+            <p>Not before: {{certificate.validity!.start | date:'dd/MM/yyyy hh:mm'}}</p>
+            <p>Not after: {{certificate.validity!.end | date:'dd/MM/yyyy hh:mm'}}</p>
+        </div>
+        <div class="extenstions">
+            <h2>Extensions</h2>
+            <ul>
+                <li *ngFor="let extension of certificate.extensions">
+                    <p>{{extension.name}}</p>
+                </li>
+            </ul>
         </div>
     </div>
     <div class="buttons-container">
-        <button *ngIf="isCa()" class="download-button" (click)="onAddMore()" mat-flat-button color="primary">Add
+        <button *ngIf="isCa" class="download-button" (click)="onAddMore()" mat-flat-button color="primary">Add
             more</button>
         <button class="revoke-button" (click)="onDelete()" mat-flat-button color="warn">Delete</button>
     </div>

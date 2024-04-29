@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { CertificateRequest } from './model/certificate-request.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../env/env';
-import { Certificate } from './model/certificate.mode';
+import { Certificate } from './model/certificate.model';
 import { CertificateCreation } from './model/certificate-creation.model';
 
 
@@ -50,5 +50,9 @@ export class SuperadminService {
 
     deleteCertificate(alias: string): Observable<Certificate[]> {
         return this.http.delete<Certificate[]>(this.path + "certificates/" + alias);
+    }
+
+    getByAlias(alias: string): Observable<Certificate> {
+        return this.http.get<Certificate>(this.path + "certificates/" + alias);
     }
 }

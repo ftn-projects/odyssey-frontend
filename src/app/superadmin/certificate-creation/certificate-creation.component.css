@@ -39,3 +39,11 @@ ul {
 .submit-button {
     width: 100px;
 }
+
+.readonly-wrapper {
+    cursor: not-allowed;
+}
+
+.readonly-wrapper .readonly-block {
+    pointer-events: none;
+}
