@@ -4,6 +4,7 @@ import { CertificateRequest } from './model/certificate-request.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../env/env';
 import { Certificate } from './model/certificate.mode';
+import { CertificateCreation } from './model/certificate-creation.model';
 
 
 @Injectable({
@@ -43,12 +44,11 @@ export class SuperadminService {
         return this.http.get<Certificate[]>(this.path + "certificates")
     }
 
-    sendCertificate(certificate: any): Observable<any> {
+    createCertificate(certificate: CertificateCreation): Observable<Certificate> {
         return this.http.post<Certificate>(this.path + "certificates", certificate);
     }
 
-    deleteCertificate(serialNumber: string): Observable<any> {
-        console.log(this.path + "certificates/" + serialNumber);
-        return this.http.delete(this.path + "certificates/" + serialNumber);
+    deleteCertificate(alias: string): Observable<Certificate[]> {
+        return this.http.delete<Certificate[]>(this.path + "certificates/" + alias);
     }
 }

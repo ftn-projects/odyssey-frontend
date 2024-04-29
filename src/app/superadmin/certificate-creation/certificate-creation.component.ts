@@ -1,16 +1,12 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatFormField } from '@angular/material/form-field';
+import { Component, Inject } from '@angular/core';
 import { User } from '../../user/model/user.model';
-import { Certificate, KeyUsage } from '../model/certificate.mode';
+import { Certificate } from '../model/certificate.mode';
 import { UserService } from '../../user/user.service';
 import { SuperadminService } from '../superadmin.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DialogData } from '../../review/confirm-dialog/confirm-dialog.component';
 import { FormControl, FormGroup } from '@angular/forms';
-import { SearchDaterangePickerComponent } from '../../accommodation/accommodation-list/search-daterange-picker/search-daterange-picker.component';
-import { KeyUsageMapper } from '../model/certificate.mode';
 import { SharedService } from '../../shared/shared.service';
+import { CertificateCreation } from '../model/certificate-creation.model';
 
 @Component({
     selector: 'app-certificate-creation',
@@ -23,9 +19,10 @@ export class CertificateCreationComponent {
 
     keyUsages = ['Digital Signature', 'Non-Repudiation', 'Key Data Encipherment', 'Data Encipherment', 'Key Agreement'];
     caSpecific = ['Certificate Signer', 'CRL Signer'];
+
     InputUser?: User;
     allUsers: User[] = [];
-    allCertificates: any[] = [];
+    allCertificates: Certificate[] = [];
     formGroup = new FormGroup({
         userControl: new FormControl(),
         certControl: new FormControl(),
@@ -47,7 +44,6 @@ export class CertificateCreationComponent {
     }
 
     ngOnInit(): void {
-
         this.loadUsers();
         this.loadCertificates();
 
@@ -55,7 +51,6 @@ export class CertificateCreationComponent {
             this.formGroup.get('extensions')?.setValue([]);
         });
     }
-
 
     loadUsers() {
         this.userService.getAll().subscribe({
@@ -112,7 +107,6 @@ export class CertificateCreationComponent {
     }
 
 
-
     get getSelectedUser() {
         return this.formGroup.get('userControl')?.value;
     }
@@ -139,22 +133,24 @@ export class CertificateCreationComponent {
         extensionsMap.forEach((val: string[], key: string) => {
             newMap[key] = val;
         });
+
         // Create the certificate object
-        let certificate = {
-            parentAlias: this.getSelectedCertificate?.serialNumber,
+        let certificate: CertificateCreation = {
+            parentAlias: this.getSelectedCertificate?.alias,
             commonName: this.getSelectedUser?.name + ' ' + this.getSelectedUser?.surname,
             uid: this.getSelectedUser?.id,
             startDate: this.getStartedDate.getTime(),
             endDate: this.getEndDate.getTime(),
-            isCa: this.getCrtType == 'CA' ? true : false,
             isHttps: this.getCrtType == 'HTTPS' ? true : false,
-            keyUsages: newMap
+            isCa: this.getCrtType == 'CA' ? true : false,
+            keyUsages: [] // TODO adjust
         };
 
         console.log("Certificate: ", certificate);
 
-        this.superadminService.sendCertificate(certificate).subscribe({
-            next: (data: Certificate) => {
+        this.superadminService.createCertificate(certificate).subscribe({
+            next: (cert) => {
+                console.log("Created:", cert);
                 this.sharedService.displaySnack('Certificate created successfully');
                 this.dialogRef.close("YES");
             },
@@ -178,5 +174,4 @@ export class CertificateCreationComponent {
     idk() {
         console.log(this.formGroup.value);
     }
-
 }

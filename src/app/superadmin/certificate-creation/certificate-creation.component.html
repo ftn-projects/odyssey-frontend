@@ -17,7 +17,7 @@
         <mat-form-field style="width: 100%;">
             <mat-label>Parent certificate</mat-label>
             <mat-select formControlName="certControl">
-                <mat-option *ngFor="let cert of allCertificates" [value]="cert">{{ cert.serialNumber }}</mat-option>
+                <mat-option *ngFor="let cert of allCertificates" [value]="cert">{{ cert.alias }}</mat-option>
             </mat-select>
         </mat-form-field>
     </div>

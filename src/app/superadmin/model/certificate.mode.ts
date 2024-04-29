@@ -1,12 +1,12 @@
 export interface Certificate {
+    alias?: string,
     parentAlias?: string,
-    commonName?: string,
-    uid?: string,
-    startDate?: Date,
-    endDate?: Date,
-    isCa?: Boolean,
-    isHttps?: Boolean,
-    keyUsages?: Map<KeyUsage, string[]>
+    issuer?: any,
+    subject?: any,
+    validity?: { start?: Date, end?: Date },
+    publicKey?: { format?: string, algorithm?: string, encoded?: any },
+    extensions?: { name?: string, critical?: boolean, values?: any[] }[],
+    signature?: { algorithm?: string, value?: any }
 }
 
 export enum KeyUsage {
@@ -19,14 +19,16 @@ export enum KeyUsage {
     CRL_SIGN
 }
 
-//create mapper that maps string value to enum
-export const KeyUsageMapper = {
-    'Digital Signature': KeyUsage.DIGITAL_SIGNATURE,
-    'Non-Repudiation': KeyUsage.NON_REPUDIATION,
-    'Key Data Encipherment': KeyUsage.KEY_ENCIPHERMENT,
-    'Data Encipherment': KeyUsage.DATA_ENCIPHERMENT,
-    'Key Agreement': KeyUsage.KEY_AGREEMENT,
-    'Certificate Signer': KeyUsage.CERTIFICATE_SIGN,
-    'CRL Signer': KeyUsage.CRL_SIGN
-}
+export const keyUsageDescription = new Map<KeyUsage, string>([
+    [KeyUsage.DIGITAL_SIGNATURE, 'Digital Signature'],
+    [KeyUsage.NON_REPUDIATION, 'Non-Repudiation'],
+    [KeyUsage.KEY_ENCIPHERMENT, 'Key Data Encipherment'],
+    [KeyUsage.DATA_ENCIPHERMENT, 'Data Encipherment'],
+    [KeyUsage.KEY_AGREEMENT, 'Key Agreement'],
+    [KeyUsage.CERTIFICATE_SIGN, 'Certificate Signer'],
+    [KeyUsage.CRL_SIGN, 'CRL Signer']
+]);
 
+export const parseKeyUsage = new Map<string, KeyUsage>(
+    Array.from(keyUsageDescription, e => [e[1], e[0]])
+);
