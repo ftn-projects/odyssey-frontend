@@ -22,7 +22,7 @@ export enum KeyUsage {
 export const keyUsageDescription: { [key: string]: string } = {
     'DIGITAL_SIGNATURE': 'Digital Signature',
     'NON_REPUDIATION': 'Non-Repudiation',
-    'KEY_ENCIPHERMENT': 'Key Data Encipherment',
+    'KEY_ENCIPHERMENT': 'Key Encipherment',
     'DATA_ENCIPHERMENT': 'Data Encipherment',
     'KEY_AGREEMENT': 'Key Agreement',
     'CERTIFICATE_SIGN': 'Certificate Signer',
@@ -32,7 +32,7 @@ export const keyUsageDescription: { [key: string]: string } = {
 export const parseKeyUsage: { [key: string]: string } = {
     'Digital Signature': 'DIGITAL_SIGNATURE',
     'Non-Repudiation': 'NON_REPUDIATION',
-    'Key Data Encipherment': 'KEY_ENCIPHERMENT',
+    'Key Encipherment': 'KEY_ENCIPHERMENT',
     'Data Encipherment': 'DATA_ENCIPHERMENT',
     'Key Agreement': 'KEY_AGREEMENT',
     'Certificate Signer': 'CERTIFICATE_SIGN',

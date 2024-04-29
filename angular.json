@@ -75,7 +75,7 @@
                     "options": {
                         "ssl": true,
                         "sslKey": "ssl/key.pem",
-                        "sslCert": "ssl/certificate.pem"
+                        "sslCert": "ssl/cert.pem"
                     },
                     "configurations": {
                         "production": {

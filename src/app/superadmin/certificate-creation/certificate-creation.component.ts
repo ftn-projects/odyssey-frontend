@@ -19,8 +19,8 @@ export class CertificateCreationComponent {
 
     commonKeyUsages = ['Digital Signature', 'Non-Repudiation'];
     caKeyUsages = [...this.commonKeyUsages, 'Certificate Signer', 'CRL Signer'];
-    httpsKeyUsages = ['Digital Signature', 'Key Data Encipherment', 'Key Agreement'];
-    eeKeyUsages = [...this.commonKeyUsages, 'Key Data Encipherment', 'Data Encipherment', 'Key Agreement'];
+    httpsKeyUsages = ['Digital Signature', 'Key Encipherment', 'Key Agreement'];
+    eeKeyUsages = [...this.commonKeyUsages, 'Key Encipherment', 'Data Encipherment', 'Key Agreement'];
 
     InputUser?: User;
     allUsers: User[] = [];
