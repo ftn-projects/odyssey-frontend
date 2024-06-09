@@ -48,7 +48,7 @@ export class AuthService {
     }
 
     logout(): void {
-        this.keycloakService.logout('https://localhost:4200/accommodations').then(() => {
+        this.keycloakService.logout().then(() => {
             this.user = null;
             this.roles = []
             this.role$.next(this.getRole());

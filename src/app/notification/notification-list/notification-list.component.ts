@@ -52,8 +52,8 @@ export class NotificationListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.socket = this.webSocketService.subscribe('/topic/notificationChange', this.authService.getId(), () =>
-            this.loadData());
+        // this.socket = this.webSocketService.subscribe('/topic/notificationChange', this.authService.getId(), () =>
+        //     this.loadData());
 
         switch (this.authService.getRole()) {
             case 'ADMIN':

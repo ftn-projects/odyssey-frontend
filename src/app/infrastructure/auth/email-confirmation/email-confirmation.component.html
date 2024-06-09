@@ -1,7 +1,5 @@
 <div class="wrapper">
     <div class="formSide">
-        <a [routerLink]="'/login'" class="backLink" *ngIf="success">&lt;&lt; Back to login</a>
-        <a [routerLink]="'/registration'" class="backLink" *ngIf="!success">&lt;&lt; Back to registration</a>
         <div class="formWrapper">
             <p class="title" *ngIf="success">WELCOME</p>
             <p class="title" *ngIf="!success">FAILED</p>

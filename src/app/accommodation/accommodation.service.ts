@@ -15,9 +15,7 @@ export class AccommodationService {
     private path: string = environment.apiHost + 'accommodations';
 
     constructor(private http: HttpClient
-        , private keycloak: KeycloakService
     ) {
-        console.log(this.keycloak.getToken());
     }
 
     getAll(

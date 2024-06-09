@@ -66,7 +66,6 @@ function initializeKeycloak(keycloak: KeycloakService) {
             deps: [KeycloakService],
         },
         KeycloakService,
-        WebSocketService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: KeycloakBearerInterceptor,

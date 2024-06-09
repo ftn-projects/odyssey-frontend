@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AccountManagementComponent } from './user/account-management/account-management.component';
-import { LoginComponent } from './infrastructure/auth/login/login.component';
-import { RegistrationComponent } from './infrastructure/auth/registration/registration.component';
 import { AccommodationListComponent } from './accommodation/accommodation-list/accommodation-list.component';
 import { AccommodationDetailsComponent } from './accommodation/accommodation-details/accommodation-details.component';
 import { EmailConfirmationComponent } from './infrastructure/auth/email-confirmation/email-confirmation.component';
@@ -64,12 +62,12 @@ const routes: Routes = [
         canActivate: [AuthGuard], data: { role: ['HOST'] }
     },
     {
-        path:'certificateRequests', component: CertificateRequestsPageComponent,
-        canActivate: [AuthGuard], data: { role: ['SUPERADMIN']}
+        path: 'certificateRequests', component: CertificateRequestsPageComponent,
+        canActivate: [AuthGuard], data: { role: ['SUPERADMIN'] }
     },
     {
-        path:'certificates', component: CertificatesViewComponent,
-        canActivate: [AuthGuard], data: { role: ['SUPERADMIN']}
+        path: 'certificates', component: CertificatesViewComponent,
+        canActivate: [AuthGuard], data: { role: ['SUPERADMIN'] }
     },
     {
         path: 'notifications', component: NotificationListComponent,
@@ -77,12 +75,9 @@ const routes: Routes = [
     },
     { path: 'reservations/host', component: AccreditReservationComponent },
     { path: 'reservations/guest', component: GuestsReservationsComponent },
-    { path: 'reviews/guest', component: GuestReviewsComponent},
-    { path: 'reviews/host', component: HostReviewsComponent},
-    { path: 'login', component: LoginComponent },
-    { path: 'stats', component: StatsPageComponent},
-    { path: 'registration', component: RegistrationComponent },
-    { path: 'emailConfirmation/:id', component: EmailConfirmationComponent }
+    { path: 'reviews/guest', component: GuestReviewsComponent },
+    { path: 'reviews/host', component: HostReviewsComponent },
+    { path: 'stats', component: StatsPageComponent }
 ];
 
 @NgModule({

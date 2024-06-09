@@ -25,8 +25,8 @@
                 </div>
             </div>
         </div>
-        <a *ngIf="!loggedIn()" (click)="login()">Log in</a>
-        <a *ngIf="!loggedIn()" (click)="register()">Sign up</a>
+        <a style="cursor: pointer;" *ngIf="!loggedIn()" (click)="login()">Log in</a>
+        <a style="cursor: pointer;" *ngIf="!loggedIn()" (click)="register()">Sign up</a>
     </div>
 </mat-toolbar>
 <mat-menu #accountMenu="matMenu" class="account-menu" xPosition="before" yPosition="above" [overlapTrigger]="false"

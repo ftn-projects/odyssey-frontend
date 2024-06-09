@@ -39,14 +39,14 @@ export class NavBarComponent implements OnInit {
         this.sharedService.navbarVisible.subscribe(
             (visible) => this.visible = visible
         );
-        this.authService.id.subscribe((id) => {
-            if (!id) return;
+        // this.authService.id.subscribe((id) => {
+        //     if (!id) return;
 
-            this.image = `${environment.apiHost}users/image/${id}`;
-            this.notificationSocket = this.webSocketService.subscribe(
-                '/topic/notificationChange', id, () => this.updateUnreadCount());
-            this.updateUnreadCount();
-        });
+        //     this.image = `${environment.apiHost}users/image/${id}`;
+        //     this.notificationSocket = this.webSocketService.subscribe(
+        //         '/topic/notificationChange', id, () => this.updateUnreadCount());
+        //     this.updateUnreadCount();
+        // });
 
     }
 
