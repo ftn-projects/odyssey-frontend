@@ -53,27 +53,7 @@ export class RegistrationComponent {
     ngOnDestroy() { this.sharedService.showNavbar(); }
 
     onRegister(): void {
-        if (this.registrationForm.valid) {
-            if (this.passwordInput == this.confirmedInput) {
-                this.register().subscribe({
-                    next: () => {
-                        this.sharedService.displaySnack('Successful registration!');
-                        this.router.navigate(['']);
-                    },
-                    error: (err) => this.sharedService.displayFirstError(err)
-                });
-            }
-            else this.sharedService.displayError('Passwords must match!');
-        } else {
-            this.sharedService.displayError('Fill out every input correctly.');
-
-            const controls = this.registrationForm.controls;
-            for (const name in controls) {
-                if (controls[name].invalid) {
-                    console.log(controls[name])
-                }
-            }
-        }
+        console.log('Deprecated.');
     }
 
     register(): Observable<RegisteredUser> {

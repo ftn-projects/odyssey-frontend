@@ -7,6 +7,7 @@ import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
 import { AuthService } from '../../infrastructure/auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SharedService } from '../../shared/shared.service';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
     selector: 'app-accommodation-list',
@@ -18,13 +19,14 @@ export class AccommodationListComponent {
     searchParameters: FormGroup;
     amenities: number[] = []
     constructor(
-        private dialog: MatDialog, 
-        private service: AccommodationService, 
+        private dialog: MatDialog,
+        private service: AccommodationService,
         private fb: FormBuilder,
         private authService: AuthService,
         private snackbar: MatSnackBar,
-        private sharedService: SharedService
-        ) {
+        private sharedService: SharedService,
+        private keycloakService: KeycloakService
+    ) {
         this.searchParameters = fb.group({
             location: fb.group({
                 address: [''],
@@ -46,7 +48,7 @@ export class AccommodationListComponent {
             }),
             favorite: new FormControl<boolean>(false)
         });
-        
+
     }
 
     get dateRangeFormGroup(): FormGroup {
@@ -63,26 +65,29 @@ export class AccommodationListComponent {
             next: (data: Accommodation[]) => {
                 this.accommodations = data;
             },
-            error: (err) => { 
+            error: (err) => {
                 let errorMessage = this.sharedService.getError(err, 'Error while loading accommodations');
-            this.sharedService.displaySnackWithButton(errorMessage, "OK"); }
+                this.sharedService.displaySnackWithButton(errorMessage, "OK");
+            }
         })
     }
 
 
-    searchUpgraded(){
-        if(this.authService.isLoggedIn() && this.authService.getRole() == "GUEST"){
+    searchUpgraded() {
+        if (this.authService.isLoggedIn() && this.authService.getRole() == "GUEST") {
             this.service.getFavorites(this.authService.getId()).subscribe({
                 next: (data: Accommodation[]) => {
                     this.favoriteAccommodationIds = data.map(accommodation => accommodation.id);
                     this.search();
                 },
-                error: (err) => { console.log(err);
+                error: (err) => {
+                    console.log(err);
                     let errorMessage = this.sharedService.getError(err, 'Error while getting accommodations');
-                    this.sharedService.displaySnackWithButton(errorMessage, "OK"); }
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
+                }
             })
         }
-        else{
+        else {
             this.search();
         }
     }
@@ -102,17 +107,19 @@ export class AccommodationListComponent {
 
         this.service.getAll(locationAddress, startDate, endDate, guestNumber, amenitiesParam, accommodationType, priceMin, priceMax).subscribe({
             next: (data: Accommodation[]) => {
-                if(this.favoriteAccommodationIds && this.searchParameters.get('favorite')?.value == true){
+                if (this.favoriteAccommodationIds && this.searchParameters.get('favorite')?.value == true) {
                     console.log("All favorites: ", this.favoriteAccommodationIds);
                     this.accommodations = data.filter(accommodation => this.favoriteAccommodationIds?.includes(accommodation.id));
                 }
-                else{
+                else {
                     this.accommodations = data;
                 }
             },
-            error: (err) => { console.log(err);
-            let errorMessage = this.sharedService.getError(err, 'Error while getting accommodations');
-                    this.sharedService.displaySnackWithButton(errorMessage, "OK");  }
+            error: (err) => {
+                console.log(err);
+                let errorMessage = this.sharedService.getError(err, 'Error while getting accommodations');
+                this.sharedService.displaySnackWithButton(errorMessage, "OK");
+            }
         })
     }
 

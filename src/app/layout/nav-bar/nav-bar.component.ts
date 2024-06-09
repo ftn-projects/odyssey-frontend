@@ -5,6 +5,7 @@ import { environment } from '../../../env/env';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../notification/notification.service';
 import { WebSocketService } from '../../shared/web-socket.service';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
     selector: 'app-nav-bar',
@@ -25,7 +26,8 @@ export class NavBarComponent implements OnInit {
         private sharedService: SharedService,
         private notificationService: NotificationService,
         private webSocketService: WebSocketService,
-        private router: Router) {
+        private router: Router,
+        private keycloakService: KeycloakService) {
     }
 
     getLoggedId(): string {
@@ -33,7 +35,7 @@ export class NavBarComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.authService.role.subscribe((role) => {this.role = role;      console.log("ROLE", this.role);});
+        this.authService.role.subscribe((role) => { this.role = role; console.log("ROLE", this.role); });
         this.sharedService.navbarVisible.subscribe(
             (visible) => this.visible = visible
         );
@@ -62,9 +64,17 @@ export class NavBarComponent implements OnInit {
     loggedIn(): boolean { return ['ADMIN', 'HOST', 'GUEST', 'SUPERADMIN'].includes(this.role); }
 
     onLogout() {
-        this.authService.removeUser();
+        this.authService.logout();
         this.notificationSocket.disconnect();
         this.router.navigate(['']);
+    }
+
+    login() {
+        this.keycloakService.login();
+    }
+
+    register() {
+        this.keycloakService.register();
     }
 }
 

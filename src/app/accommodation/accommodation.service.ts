@@ -6,6 +6,7 @@ import { environment } from '../../env/env';
 import { Amenity } from './model/amenity.model';
 import { AccommodationRequestCreation } from './model/accommodation-request-create.model';
 import { AvailabilitySlot } from './model/availability-slot.model';
+import { KeycloakService } from 'keycloak-angular';
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +14,10 @@ import { AvailabilitySlot } from './model/availability-slot.model';
 export class AccommodationService {
     private path: string = environment.apiHost + 'accommodations';
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient
+        , private keycloak: KeycloakService
+    ) {
+        console.log(this.keycloak.getToken());
     }
 
     getAll(

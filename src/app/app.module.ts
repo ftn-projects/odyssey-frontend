@@ -1,8 +1,7 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,14 +11,29 @@ import { AccommodationModule } from './accommodation/accommodation.module';
 import { MaterialModule } from './infrastructure/material/material.module';
 import { LayoutModule } from './layout/layout.module';
 import { ReservationModule } from './reservation/reservation.module';
-import { Interceptor } from './infrastructure/auth/interceptor';
 import { ReportModule } from './report/report.module';
 import { NotificationModule } from './notification/notification.module';
 import { WebSocketService } from './shared/web-socket.service';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { SuperadminModule } from './superadmin/superadmin.module';
+import { KeycloakBearerInterceptor, KeycloakService } from 'keycloak-angular';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
+function initializeKeycloak(keycloak: KeycloakService) {
+    return () => keycloak.init({
+        config: {
+            url: 'https://localhost:8443',
+            realm: 'Odyssey',
+            clientId: 'odyssey-frontend',
+        },
+        initOptions: {
+            onLoad: 'check-sso',
+            silentCheckSsoRedirectUri:
+                window.location.origin + '/assets/silent-check-sso.html'
+        },
+    });
+}
 
 @NgModule({
     declarations: [
@@ -36,26 +50,28 @@ import { SuperadminModule } from './superadmin/superadmin.module';
         AuthModule,
         ReservationModule,
         ReportModule,
-        NotificationModule,   
+        NotificationModule,
         SuperadminModule,
         NgxEchartsModule.forRoot({
-            /**
-             * This will import all modules from echarts.
-             * If you only need custom modules,
-             * please refer to [Custom Build] section.
-             */
-            echarts: () => import('echarts'), // or import('./path-to-my-custom-echarts')
-          })   
-        
+            echarts: () => import('echarts'),
+        })
+
     ],
     providers: [
         provideClientHydration(),
         {
-            provide: HTTP_INTERCEPTORS,
-            useClass: Interceptor,
-            multi: true
+            provide: APP_INITIALIZER,
+            useFactory: initializeKeycloak,
+            multi: true,
+            deps: [KeycloakService],
         },
-        WebSocketService
+        KeycloakService,
+        WebSocketService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: KeycloakBearerInterceptor,
+            multi: true
+        }
     ],
     bootstrap: [AppComponent]
 })

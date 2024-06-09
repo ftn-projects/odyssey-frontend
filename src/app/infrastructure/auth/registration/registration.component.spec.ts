@@ -121,7 +121,7 @@ describe('RegistrationComponent', () => {
 
         const req = httpClient.expectNone({
             method: 'POST',
-            url: `http://localhost:8080/api/v1/users/register`
+            url: `http://localhost:8081/api/v1/users/register`
         });
     });
 
@@ -144,7 +144,7 @@ describe('RegistrationComponent', () => {
 
         const req = httpClient.expectNone({
             method: 'POST',
-            url: `http://localhost:8080/api/v1/users/register`
+            url: `http://localhost:8081/api/v1/users/register`
         });
     });
 
@@ -168,7 +168,7 @@ describe('RegistrationComponent', () => {
 
         const req = httpClient.expectNone({
             method: 'POST',
-            url: `http://localhost:8080/api/v1/users/register`
+            url: `http://localhost:8081/api/v1/users/register`
         });
 
     });
@@ -192,7 +192,7 @@ describe('RegistrationComponent', () => {
 
         const req = httpClient.expectOne({
             method: 'POST',
-            url: `http://localhost:8080/api/v1/users/register`
+            url: `http://localhost:8081/api/v1/users/register`
         });
         req.flush({ status: 201, statusText: 'CREATED' });
 
@@ -220,7 +220,7 @@ describe('RegistrationComponent', () => {
 
         const req = httpClient.expectOne({
             method: 'POST',
-            url: `http://localhost:8080/api/v1/users/register`
+            url: `http://localhost:8081/api/v1/users/register`
         });
         req.flush({ status: 400, statusText: 'BAD_REQUEST' });
 

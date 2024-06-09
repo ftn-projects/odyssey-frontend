@@ -139,7 +139,7 @@ export class AccountManagementComponent implements OnInit {
     }
 
     protected onLogout() {
-        this.authService.removeUser();
+        this.authService.logout();
         this.router.navigate(['']);
     }
 

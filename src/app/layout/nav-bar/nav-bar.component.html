@@ -25,8 +25,8 @@
                 </div>
             </div>
         </div>
-        <a [routerLink]="'/login'" *ngIf="!loggedIn()">Log in</a>
-        <a [routerLink]="'/registration'" *ngIf="!loggedIn()">Sign up</a>
+        <a *ngIf="!loggedIn()" (click)="login()">Log in</a>
+        <a *ngIf="!loggedIn()" (click)="register()">Sign up</a>
     </div>
 </mat-toolbar>
 <mat-menu #accountMenu="matMenu" class="account-menu" xPosition="before" yPosition="above" [overlapTrigger]="false"

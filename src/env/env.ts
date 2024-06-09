@@ -1,5 +1,5 @@
 export const environment = {
-    apiHost: 'http://localhost:8080/api/v1/',
-    wsHost: 'ws://localhost:8080/websocket',
+    apiHost: 'https://localhost:8081/api/v1/',
+    wsHost: 'ws://localhost:8081/websocket',
     certificateApi: "https://localhost:8433/api/v1/"
 }
