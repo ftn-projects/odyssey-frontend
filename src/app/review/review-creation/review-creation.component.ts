@@ -76,7 +76,7 @@ export class ReviewCreationComponent implements OnInit {
                     });
                 }
                 else if (this.type == 'HOST') {
-                    this.userService.findById(this.id).subscribe({
+                    this.userService.findById((this.id).toString()).subscribe({
                         next: (data: User) => {
                             this.host = data;
                             this.sendReview();
@@ -118,8 +118,8 @@ export class ReviewCreationComponent implements OnInit {
                 error: (error) => {
                     this.sharedService.displaySnackWithButton(error.error, "OK");
                     console.log('Error sending the review', error);
-                    
-                    
+
+
                 }
             });
         }

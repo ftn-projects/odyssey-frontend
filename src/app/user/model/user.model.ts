@@ -9,6 +9,7 @@ export interface User {
     phone?: string;
     address: Address;
     bio?: string;
+    username?: string;
     settings?: NotificationSettings;
 }
 

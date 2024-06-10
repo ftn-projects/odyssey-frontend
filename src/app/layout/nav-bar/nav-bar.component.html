@@ -16,7 +16,8 @@
         <a [routerLink]="'/accommodationRequests'" *ngIf="role == 'ADMIN'">Accommodations</a>
         <a [routerLink]="'/certificateRequests'" *ngIf="role == 'SUPERADMIN'">Certificate requests</a>
         <a [routerLink]="'/certificates'" *ngIf="role == 'SUPERADMIN'">Certificates</a>
-        <a [routerLink]="'/users'" *ngIf="role == 'ADMIN'">Users</a>
+        <a style="cursor: pointer;" href="https://localhost:8443/admin/master/console/#/Odyssey/users"
+            *ngIf="role == 'ADMIN'">Users</a>
         <div style="margin-inline: 15px;" *ngIf="loggedIn()">
             <div [matBadge]="unreadCount" matBadgeColor="warn" matBadgePosition="before" matBadgeSize="small"
                 [matBadgeHidden]="!unreadCount" style="width: 22px;">
@@ -31,7 +32,7 @@
 </mat-toolbar>
 <mat-menu #accountMenu="matMenu" class="account-menu" xPosition="before" yPosition="above" [overlapTrigger]="false"
     style="margin-top: 100px;">
-    <a mat-menu-item [routerLink]="'/account/' + getLoggedId()" *ngIf="loggedIn()">
+    <a mat-menu-item href="https://localhost:8443/realms/Odyssey/account" *ngIf="loggedIn()">
         <mat-icon>person</mat-icon>
         <span class="closable-menu-span">Account</span>
     </a>

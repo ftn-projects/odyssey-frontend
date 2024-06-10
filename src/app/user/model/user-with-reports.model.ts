@@ -12,6 +12,7 @@ export class UserWithReports implements User {
     phone?: string;
     address: Address;
     bio?: string;
+    username?: string;
     settings?: NotificationSettings;
     status?: 'PENDING' | 'ACTIVE' | 'BLOCKED' | 'DEACTIVATED';
     image?: string;
@@ -26,9 +27,10 @@ export class UserWithReports implements User {
         this.phone = user.phone;
         this.address = user.address;
         this.bio = user.bio;
+        this.username = user.username;
         this.settings = user.settings;
         this.status = user.status;
-        this.image = `${environment.apiHost}users/image/${user.id}`;
+        this.image = `${environment.apiHost}users/image/${user.username}`;
         this.reports = user.reports;
     }
 }

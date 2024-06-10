@@ -21,10 +21,10 @@ import * as pkijs from 'pkijs';
 export class AccountManagementComponent implements OnInit {
     sections = [false, false, false, false, false];
     selectedCountry: Country = { alpha2Code: 'RS' };
-    id = -1;
+    id: string = '';
     role = '';
     viewverRole = '';
-    viewverId = -1;
+    viewverId = '';
     protected image = '';
     protected imageUpload = '';
     protected user: User = { address: {}, settings: {} };
@@ -48,7 +48,8 @@ export class AccountManagementComponent implements OnInit {
 
     ngOnInit(): void {
         this.route.params.subscribe(params => {
-            this.id = +params['id'];
+            console.log(params);
+            this.id = params['id'];
         });
         this.viewverId = this.authService.getId();
         this.viewverRole = this.authService.getRole();

@@ -24,7 +24,7 @@ export class AuthGuard {
         const role = this.authService.getRole();
 
         if (!role) {
-            this.router.navigate(['login']);
+            this.router.navigate(['']);
             return false;
         }
         if (!route.data['role'].includes(role)) {
