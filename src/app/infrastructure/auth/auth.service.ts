@@ -24,8 +24,11 @@ export class AuthService {
             console.log('KEYCLOAK EVENT:', event);
         });
 
-        this.keycloakService.loadUserProfile().then(user =>
-            this.login(user, keycloakService.getUserRoles()));
+
+        if (this.keycloakService.isLoggedIn()) {
+            this.keycloakService.loadUserProfile().then(user =>
+                this.login(user, keycloakService.getUserRoles()));
+        }
     }
 
     getId(): any { return this.user.username; }
