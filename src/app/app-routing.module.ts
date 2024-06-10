@@ -73,11 +73,26 @@ const routes: Routes = [
         path: 'notifications', component: NotificationListComponent,
         canActivate: [AuthGuard], data: { role: ['ADMIN', 'HOST', 'GUEST'] }
     },
-    { path: 'reservations/host', component: AccreditReservationComponent },
-    { path: 'reservations/guest', component: GuestsReservationsComponent },
-    { path: 'reviews/guest', component: GuestReviewsComponent },
-    { path: 'reviews/host', component: HostReviewsComponent },
-    { path: 'stats', component: StatsPageComponent }
+    {
+        path: 'reservations/host', component: AccreditReservationComponent,
+        canActivate: [AuthGuard], data: { role: ['HOST'] }
+    },
+    {
+        path: 'reservations/guest', component: GuestsReservationsComponent,
+        canActivate: [AuthGuard], data: { role: ['GUEST'] }
+    },
+    {
+        path: 'reviews/guest', component: GuestReviewsComponent,
+        canActivate: [AuthGuard], data: { role: ['GUEST'] }
+    },
+    {
+        path: 'reviews/host', component: HostReviewsComponent,
+        canActivate: [AuthGuard], data: { role: ['HOST'] }
+    },
+    {
+        path: 'stats', component: StatsPageComponent,
+        canActivate: [AuthGuard], data: { role: ['HOST'] }
+    }
 ];
 
 @NgModule({

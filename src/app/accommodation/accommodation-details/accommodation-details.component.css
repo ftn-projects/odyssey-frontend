@@ -220,7 +220,6 @@ mat-divider {
     gap: 15px;
     width: 100%;
     min-width: 400px;
-    cursor:pointer;
 }
 
 .host-image-container {
@@ -254,7 +253,7 @@ mat-divider {
     display: flex;
     align-items: center;
     gap: 10px;
-    
+
 }
 
 .hosted-by-container>span {

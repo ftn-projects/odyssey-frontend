@@ -7,44 +7,44 @@ import { Review } from '../model/review.model';
 import { HostReview } from '../model/hostReview.model';
 import { ReviewService } from '../review.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { SharedService } from '../../shared/shared.service';
 
 @Component({
-  selector: 'app-accommodation-review',
-  templateUrl: './accommodation-review.component.html',
-  styleUrl: './accommodation-review.component.css'
+    selector: 'app-accommodation-review',
+    templateUrl: './accommodation-review.component.html',
+    styleUrl: './accommodation-review.component.css'
 })
-export class AccommodationReviewComponent implements OnInit{
+export class AccommodationReviewComponent implements OnInit {
     private userStringPath: string = environment.apiHost + 'users';
     @Input() review!: Review;
-    submitterImageSrc! : string;
+    submitterImageSrc!: string;
     hostMode: boolean = false;
     guestMode: boolean = false;
     reportSuccess: boolean = false;
     deleteSuccess: boolean = false;
 
     constructor(
-        private authService : AuthService,
-        private reviewService : ReviewService,
-        private snackbar : MatSnackBar,
-        private dialog : MatDialog,
+        private authService: AuthService,
+        private reviewService: ReviewService,
+        private snackbar: MatSnackBar,
+        private dialog: MatDialog,
         private sharedService: SharedService
-    ) { 
-        
+    ) {
+
     }
 
     ngOnInit(): void {
-        if(this.review && this.review.submitter){
-            this.submitterImageSrc = `${environment.apiHost}users/image/${this.review.submitter.id}`;
+        if (this.review && this.review.submitter) {
+            this.submitterImageSrc = `${environment.apiHost}users/image/${this.review.submitter.username}`;
             this.guestMode = this.review.submitter?.id == this.authService.getId();
         }
 
-        if(this.isAccommodationReview(this.review)){
+        if (this.isAccommodationReview(this.review)) {
             this.hostMode = this.authService.getId() == this.review.accommodation?.host?.id;
         }
-        if(this.isHostReview(this.review)){
+        if (this.isHostReview(this.review)) {
             this.hostMode = this.authService.getId() == this.review.host?.id;
         }
     }
@@ -52,60 +52,60 @@ export class AccommodationReviewComponent implements OnInit{
 
     isAccommodationReview(review: Review): review is AccommodationReview {
         return 'accommodation' in review;
-      }
-      
-      isHostReview(review: Review): review is HostReview {
+    }
+
+    isHostReview(review: Review): review is HostReview {
         return 'host' in review;
-      }
+    }
 
 
-    deleteReview() : void {
+    deleteReview(): void {
         const dialogData = {
             message: 'Are you sure you want to delete this review?',
             buttonText: {
-              ok: 'Yes',
-              cancel: 'No'
+                ok: 'Yes',
+                cancel: 'No'
             }
-          };
-        
-          const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        };
+
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
             width: '300px',
             data: dialogData
-          });
-        
-          dialogRef.afterClosed().subscribe(dialogResult => {
-            if(dialogResult) {
-              this.handleDeleteReview();
+        });
+
+        dialogRef.afterClosed().subscribe(dialogResult => {
+            if (dialogResult) {
+                this.handleDeleteReview();
             }
-          });
+        });
     }
 
 
-    reportReview() : void {
+    reportReview(): void {
         const dialogData = {
             message: 'Are you sure you want to report this review?',
             buttonText: {
-              ok: 'Yes',
-              cancel: 'No'
+                ok: 'Yes',
+                cancel: 'No'
             }
-          };
-        
-          const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        };
+
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
             width: '300px',
             data: dialogData
-          });
-        
-          dialogRef.afterClosed().subscribe(dialogResult => {
-            if(dialogResult) {
-              this.handleReportReview();
+        });
+
+        dialogRef.afterClosed().subscribe(dialogResult => {
+            if (dialogResult) {
+                this.handleReportReview();
             }
-          });
+        });
     }
-      
-    handleReportReview() : void {
-        if(this.isAccommodationReview(this.review)){
+
+    handleReportReview(): void {
+        if (this.isAccommodationReview(this.review)) {
             this.reviewService.reportAccommodationReview(this.review.id).subscribe({
-                next: (data : void) => {
+                next: (data: void) => {
                     this.openSnackBar("Review reported!", "Close");
                     this.reportSuccess = true;
                 },
@@ -115,9 +115,9 @@ export class AccommodationReviewComponent implements OnInit{
                 }
             });
         }
-        if(this.isHostReview(this.review)){
+        if (this.isHostReview(this.review)) {
             this.reviewService.reportHostReview(this.review.id).subscribe({
-                next: (data : void) => {
+                next: (data: void) => {
                     this.openSnackBar("Review reported!", "Close");
                     this.reportSuccess = true;
                 },
@@ -129,10 +129,10 @@ export class AccommodationReviewComponent implements OnInit{
         }
     }
 
-    handleDeleteReview() : void {
-        if(this.isAccommodationReview(this.review)){
+    handleDeleteReview(): void {
+        if (this.isAccommodationReview(this.review)) {
             this.reviewService.deleteAccommodationReview(this.review.id).subscribe({
-                next: (data : void) => {
+                next: (data: void) => {
                     this.openSnackBar("Review deleted!", "Close");
                     this.deleteSuccess = true;
                 },
@@ -142,9 +142,9 @@ export class AccommodationReviewComponent implements OnInit{
                 }
             });
         }
-        if(this.isHostReview(this.review)){
+        if (this.isHostReview(this.review)) {
             this.reviewService.deleteHostReview(this.review.id).subscribe({
-                next: (data : void) => {
+                next: (data: void) => {
                     this.openSnackBar("Review deleted!", "Close");
                     this.deleteSuccess = true;
                 },

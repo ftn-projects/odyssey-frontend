@@ -35,6 +35,10 @@ export class NavBarComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        if (this.keycloakService.isLoggedIn()) {
+            this.keycloakService.loadUserProfile().then(user =>
+                this.authService.login(user, this.keycloakService.getUserRoles()));
+        }
         this.authService.role.subscribe((role) => { this.role = role; console.log("ROLE", this.role); });
         this.sharedService.navbarVisible.subscribe(
             (visible) => this.visible = visible

@@ -96,12 +96,12 @@ export class AccommodationDetailsComponent {
             },
             error: (err) => {
                 let errorMessage = this.sharedService.getError(err, 'Error while fetching images');
-                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
+                this.sharedService.displaySnackWithButton(errorMessage, "OK");
             },
         });
 
         this.accommodation.subscribe((accommodation: Accommodation) => {
-            this.hostImage = `${environment.apiHost}users/image/${accommodation.host.id}`;
+            this.hostImage = `${environment.apiHost}users/image/${accommodation.host.username}`;
             this.hostId = accommodation.host.id;
 
             const address: Address = accommodation.address;
@@ -117,7 +117,7 @@ export class AccommodationDetailsComponent {
                     },
                     error: (err) => {
                         let errorMessage = this.sharedService.getError(err, 'Error while getting map data');
-                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
+                        this.sharedService.displaySnackWithButton(errorMessage, "OK");
                     }
                 });
             }
@@ -132,8 +132,10 @@ export class AccommodationDetailsComponent {
                             amenity: a
                         }));
                 },
-                error: (err) => {let errorMessage = this.sharedService.getError(err, 'Error while getting amenities');
-                this.sharedService.displaySnackWithButton(errorMessage, "OK");}
+                error: (err) => {
+                    let errorMessage = this.sharedService.getError(err, 'Error while getting amenities');
+                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
+                }
             });
 
             this.ownerMode = accommodation.host.id == this.authService.getId();
@@ -149,7 +151,7 @@ export class AccommodationDetailsComponent {
             },
             error: (error) => {
                 let errorMessage = this.sharedService.getError(error, 'Error while fetching accommodations');
-                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
+                this.sharedService.displaySnackWithButton(errorMessage, "OK");
             }
         });
     }
@@ -217,7 +219,7 @@ export class AccommodationDetailsComponent {
                     },
                     error: (err) => {
                         let errorMessage = this.sharedService.getError(err, 'Error while getting accommodations');
-                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
+                        this.sharedService.displaySnackWithButton(errorMessage, "OK");
                     }
                 });
             });

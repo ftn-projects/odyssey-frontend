@@ -5,17 +5,17 @@ import { ReviewService } from '../review.service';
 import { SharedService } from '../../shared/shared.service';
 
 @Component({
-  selector: 'app-guest-reviews',
-  templateUrl: './guest-reviews.component.html',
-  styleUrl: './guest-reviews.component.css'
+    selector: 'app-guest-reviews',
+    templateUrl: './guest-reviews.component.html',
+    styleUrl: './guest-reviews.component.css'
 })
 export class GuestReviewsComponent implements OnInit {
     id: number = 0;
     reviews?: Review[];
 
     constructor(
-        private authServuce : AuthService,
-        private reviewService : ReviewService,
+        private authServuce: AuthService,
+        private reviewService: ReviewService,
         private sharedService: SharedService
     ) { }
 
@@ -25,25 +25,27 @@ export class GuestReviewsComponent implements OnInit {
         this.populateReviews();
     }
 
-    populateReviews(){
-        let userReviews : Review [] = [];
+    populateReviews() {
+        let userReviews: Review[] = [];
         this.reviewService.findAllAccommodationReviewsFiltered(null, this.id, ['ACCEPTED']).subscribe({
-            next: (data : Review[]) => {
+            next: (data: Review[]) => {
                 userReviews.push(...data);
             },
             error: (error) => {
                 let errorMessage = this.sharedService.getError(error, 'Error while getting review');
-                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
+                console.log(errorMessage);
+                // this.sharedService.displaySnackWithButton(errorMessage, "OK");
             }
         });
 
         this.reviewService.findAllHostReviewsFiltered(null, this.id, ['ACCEPTED']).subscribe({
-            next: (data : Review[]) => {
+            next: (data: Review[]) => {
                 userReviews.push(...data);
             },
             error: (error) => {
                 let errorMessage = this.sharedService.getError(error, 'Error while getting reviews');
-                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
+                console.log(errorMessage);
+                // this.sharedService.displaySnackWithButton(errorMessage, "OK");
             }
         });
 

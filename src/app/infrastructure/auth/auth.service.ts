@@ -11,9 +11,6 @@ import { KeycloakProfile } from 'keycloak-js';
     providedIn: 'root'
 })
 export class AuthService {
-    private user: any | null;
-    private roles: string[] = [];
-
     private role$ = new BehaviorSubject('');
     role = this.role$.asObservable();
     private id$ = new BehaviorSubject(-1);
@@ -22,38 +19,52 @@ export class AuthService {
     constructor(private keycloakService: KeycloakService) {
         this.keycloakService.keycloakEvents$.subscribe(event => {
             console.log('KEYCLOAK EVENT:', event);
+            if (event.type == KeycloakEventType.OnTokenExpired)
+                keycloakService.updateToken(30);
         });
 
 
         if (this.keycloakService.isLoggedIn()) {
             this.keycloakService.loadUserProfile().then(user =>
-                this.login(user, keycloakService.getUserRoles()));
+                this.login(user, this.keycloakService.getUserRoles()));
         }
     }
 
-    getId(): any { return this.user.username; }
+    getId(): any { return this.getUser()?.username; }
     getRole(): any {
-        return this.roles.find((r: string) =>
+        return this.getRoles()?.find((r: string) =>
             ['superadmin', 'admin', 'host', 'guest'].includes(r))?.toUpperCase();
     }
-    getEmail(): any { return this.user.email; }
+    getEmail(): any { return this.getUser()?.email; }
 
     isLoggedIn(): boolean {
-        return this.user != null;
+        return this.getUser() != null;
+    }
+
+    private getUser() {
+        return localStorage.getItem('user')
+            ? JSON.parse(localStorage.getItem('user') || '')
+            : null;
+    }
+
+    private getRoles() {
+        return localStorage.getItem('roles')
+            ? JSON.parse(localStorage.getItem('roles') || '')
+            : null;
     }
 
     login(user: KeycloakProfile, roles: string[]): void {
         console.log(user, roles);
-        this.user = user;
-        this.roles = roles;
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('roles', JSON.stringify(roles));
         this.role$.next(this.getRole());
         this.id$.next(this.getId());
     }
 
     logout(): void {
         this.keycloakService.logout().then(() => {
-            this.user = null;
-            this.roles = []
+            localStorage.removeItem('user');
+            localStorage.removeItem('roles');
             this.role$.next(this.getRole());
             this.id$.next(this.getId())
         });
