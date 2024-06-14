@@ -1,0 +1,7 @@
+.destination-container {
+    height: auto;
+    width: 100%;
+    padding: 30px;
+    padding-inline: 80px;
+    display: inline-block;
+}

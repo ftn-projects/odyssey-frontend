@@ -20,6 +20,8 @@ import { UserManagementComponent } from './user/user-management/user-management.
 import { NotificationListComponent } from './notification/notification-list/notification-list.component';
 import { StatsPageComponent } from './stats/stats-page/stats-page.component';
 import { HostAccommodationsViewComponent } from './accommodation/host-accommodations-view/host-accommodations-view.component';
+import { ProfileManagementComponent } from './user/profile-management/profile-management.component';
+import { UserProfileComponent } from './user/user-profile/user-profile.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'accommodations' },
@@ -54,7 +56,11 @@ const routes: Routes = [
         canActivate: [AuthGuard], data: { role: ['ADMIN'] }
     },
     {
-        path: 'account/:id', component: AccountManagementComponent,
+        path: 'host/:id', component: ProfileManagementComponent,
+        canActivate: [AuthGuard], data: { role: ['ADMIN', 'HOST', 'GUEST'] }
+    },
+    {
+        path: 'account', component: ProfileManagementComponent,
         canActivate: [AuthGuard], data: { role: ['ADMIN', 'HOST', 'GUEST'] }
     },
     {
@@ -67,10 +73,10 @@ const routes: Routes = [
     },
     { path: 'reservations/host', component: AccreditReservationComponent },
     { path: 'reservations/guest', component: GuestsReservationsComponent },
-    { path: 'reviews/guest', component: GuestReviewsComponent},
-    { path: 'reviews/host', component: HostReviewsComponent},
+    { path: 'reviews/guest', component: GuestReviewsComponent },
+    { path: 'reviews/host', component: HostReviewsComponent },
     { path: 'login', component: LoginComponent },
-    { path: 'stats', component: StatsPageComponent},
+    { path: 'stats', component: StatsPageComponent },
     { path: 'registration', component: RegistrationComponent },
     { path: 'emailConfirmation/:id', component: EmailConfirmationComponent }
 ];

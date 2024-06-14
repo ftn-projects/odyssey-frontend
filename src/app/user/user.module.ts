@@ -9,13 +9,19 @@ import { SharedModule } from '../shared/shared.module';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReviewModule } from '../review/review.module';
+import { NotificationsManagementComponent } from './notifications-management/notifications-management.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ProfileManagementComponent } from './profile-management/profile-management.component';
 
 
 
 @NgModule({
     declarations: [
         AccountManagementComponent,
-        UserManagementComponent
+        UserManagementComponent,
+        NotificationsManagementComponent,
+        UserProfileComponent,
+        ProfileManagementComponent
     ],
     imports: [
         CommonModule,
