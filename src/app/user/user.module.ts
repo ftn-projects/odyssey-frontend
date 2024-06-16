@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../infrastructure/material/material.module';
 import { AccountManagementComponent } from './account-management/account-management.component';
@@ -33,6 +33,7 @@ import { ProfileManagementComponent } from './profile-management/profile-managem
         FormsModule,
         BrowserAnimationsModule,
         ReviewModule
-    ]
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class UserModule { }

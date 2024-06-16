@@ -8,6 +8,7 @@ import { AuthService } from '../../infrastructure/auth/auth.service';
 import { SharedService } from '../../shared/shared.service';
 import { environment } from '../../../env/env';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AccountService } from '../account.service';
 
 
 @Component({
@@ -64,14 +65,14 @@ export class AccountManagementComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private userService: UserService,
+        private accountService: AccountService,
         private authService: AuthService,
         private sharedService: SharedService,
     ) {
     }
 
     ngOnInit(): void {
-        this.userService.findById(this.authService.getId()).subscribe({
+        this.accountService.findById(this.authService.getId()).subscribe({
             next: (user) => {
                 this.user = user;
                 this.isOwner = this.authService.getId() == this.user.id;
@@ -101,7 +102,7 @@ export class AccountManagementComponent implements OnInit {
             newPassword: this.passwordForm.value.newPassword
         };
 
-        this.userService.updatePassword(password).subscribe({
+        this.accountService.updatePassword(password).subscribe({
             next: () => {
                 this.passwordForm.reset();
                 this.sharedService.displaySnack('Password changed!');
@@ -122,7 +123,7 @@ export class AccountManagementComponent implements OnInit {
         this.user.address.country = this.userInfoForm.value.country;
         this.user.bio = this.userInfoForm.value.bio;
 
-        this.userService.update(this.user).subscribe({
+        this.accountService.update(this.user).subscribe({
             next: () => {
                 this.setFormDisabled(true);
                 this.sharedService.displaySnack(message);
@@ -161,7 +162,7 @@ export class AccountManagementComponent implements OnInit {
         if (!confirm('Are you sure you want to deactivate your account?')) return;
 
         if (!this.user.id) return;
-        this.userService.deactivate(this.user.id).subscribe({
+        this.accountService.deactivate(this.user.id).subscribe({
             next: () => this.onLogout(),
             error: (err) => console.log(err)
         })
