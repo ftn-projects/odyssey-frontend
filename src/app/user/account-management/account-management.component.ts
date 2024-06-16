@@ -22,7 +22,7 @@ export class AccountManagementComponent implements OnInit {
     isDisabled: boolean = true;
     isOwner: boolean = false;
 
-    userInfoForm: FormGroup = new FormGroup({
+    userForm: FormGroup = new FormGroup({
         name: new FormControl({
             value: '',
             disabled: this.isDisabled
@@ -78,7 +78,7 @@ export class AccountManagementComponent implements OnInit {
                 this.isOwner = this.authService.getId() == this.user.id;
                 this.image = `${environment.apiHost}users/image/${this.user.id}`;
                 this.setFormData();
-                this.userInfoForm.updateValueAndValidity();
+                this.userForm.updateValueAndValidity();
             },
             error: (err) => console.log(err)
         });
@@ -112,19 +112,24 @@ export class AccountManagementComponent implements OnInit {
     }
 
     protected onSave(message: string = 'Changes saved!') {
-        if (!this.userInfoForm.valid) return;
+        if (!this.userForm.valid) return;
 
-        this.user.name = this.userInfoForm.value.name;
-        this.user.surname = this.userInfoForm.value.surname;
-        this.user.email = this.userInfoForm.value.email;
-        this.user.phone = this.userInfoForm.value.phone;
-        this.user.address.street = this.userInfoForm.value.street;
-        this.user.address.city = this.userInfoForm.value.city;
-        this.user.address.country = this.userInfoForm.value.country;
-        this.user.bio = this.userInfoForm.value.bio;
+        const updated: User = {
+            name: this.userForm.value.name,
+            surname: this.userForm.value.surname,
+            email: this.userForm.value.email,
+            phone: this.userForm.value.phone,
+            address: {
+                street: this.userForm.value.street,
+                city: this.userForm.value.city,
+                country: this.userForm.value.country
+            },
+            bio: this.userForm.value.bio
+        }
 
-        this.accountService.update(this.user).subscribe({
+        this.accountService.update(updated).subscribe({
             next: () => {
+                this.user = updated;
                 this.setFormDisabled(true);
                 this.sharedService.displaySnack(message);
             },
@@ -136,22 +141,22 @@ export class AccountManagementComponent implements OnInit {
 
     setFormDisabled(disabled: boolean) {
         this.isDisabled = disabled;
-        this.userInfoForm.updateValueAndValidity();
+        this.userForm.updateValueAndValidity();
         const state = disabled ? 'disable' : 'enable';
-        Object.keys(this.userInfoForm.controls).forEach((controlName: string) =>
-            this.userInfoForm.controls[controlName][state]()
+        Object.keys(this.userForm.controls).forEach((controlName: string) =>
+            this.userForm.controls[controlName][state]()
         );
     }
 
     private setFormData(): void {
-        this.userInfoForm.get('name')?.setValue(this.user.name);
-        this.userInfoForm.get('surname')?.setValue(this.user.surname);
-        this.userInfoForm.get('email')?.setValue(this.user.email);
-        this.userInfoForm.get('phone')?.setValue(this.user.phone);
-        this.userInfoForm.get('street')?.setValue(this.user.address.street);
-        this.userInfoForm.get('city')?.setValue(this.user.address.city);
-        this.userInfoForm.get('country')?.setValue(this.user.address?.country);
-        this.userInfoForm.get('bio')?.setValue(this.user.bio);
+        this.userForm.get('name')?.setValue(this.user.name);
+        this.userForm.get('surname')?.setValue(this.user.surname);
+        this.userForm.get('email')?.setValue(this.user.email);
+        this.userForm.get('phone')?.setValue(this.user.phone);
+        this.userForm.get('street')?.setValue(this.user.address.street);
+        this.userForm.get('city')?.setValue(this.user.address.city);
+        this.userForm.get('country')?.setValue(this.user.address?.country);
+        this.userForm.get('bio')?.setValue(this.user.bio);
     }
 
     protected onEdit(): void {
@@ -169,8 +174,8 @@ export class AccountManagementComponent implements OnInit {
     }
 
     protected onCancel() {
-        this.setFormDisabled(true);
         this.setFormData();
+        this.setFormDisabled(true);
     }
 
     protected onLogout() {

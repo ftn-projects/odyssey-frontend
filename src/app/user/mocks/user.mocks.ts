@@ -1,3 +1,4 @@
+import { PasswordUpdate } from "../model/password-update.model"
 import { User } from "../model/user.model"
 
 const user1: User = {
@@ -69,6 +70,12 @@ const user3: User = {
     }
 }
 
+const passwordUpdate: PasswordUpdate = {
+    userId: 1,
+    oldPassword: 'admin',
+    newPassword: 'newPassword'
+}
 
-export { user1, user2, user3 }
+
+export { user1, user2, user3, passwordUpdate }
 
