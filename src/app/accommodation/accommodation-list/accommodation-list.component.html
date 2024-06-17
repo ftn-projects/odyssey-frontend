@@ -34,9 +34,18 @@
     </div>
 
     <div class="list-section-container">
-        <div class="list-section">
-            <app-accommodation-card *ngFor="let accommodation of accommodations" [accommodation]="accommodation"
-                class="accommodation-card" />
-        </div>
+            <ng-container *ngIf="accommodations.length === 0; else showAccommodations">
+                <div class="no-results">No results found</div>
+            </ng-container>
+    
+            <ng-template #showAccommodations>
+                <div class="list-section">
+                    <app-accommodation-card *ngFor="let accommodation of accommodations"
+                                            [accommodation]="accommodation"
+                                            class="accommodation-card">
+                    </app-accommodation-card>
+                 </div>
+            </ng-template>
     </div>
+    
 </div>

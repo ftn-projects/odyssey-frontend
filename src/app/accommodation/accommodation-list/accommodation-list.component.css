@@ -119,3 +119,13 @@
     width: fit-content;
     height: fit-content;
 }
+
+.no-results{
+    margin-top: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: #787575;
+}
