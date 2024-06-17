@@ -45,4 +45,8 @@ export class ReservationRequestService {
     updateStatus(id: number, status: string): Observable<Reservation> {
         return this.http.put<Reservation>(`${this.path}/status/${id}?status=${status}`, null);
     }
+
+    accept(id: number): Observable<Reservation> {
+        return this.http.put<Reservation>(`${this.path}/accept/${id}`, null);
+    }
 }

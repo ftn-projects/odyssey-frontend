@@ -49,16 +49,19 @@ export class AccreditReservationComponent {
     }
 
     approveRequest(id: number, isApprove: boolean) {
-        let status = isApprove ? "ACCEPTED" : "DECLINED";
-        this.service.updateStatus(id, status).subscribe({
-            next: () => this.loadData()
-        });
+        if (isApprove)
+            this.service.accept(id).subscribe({
+                next: () => this.loadData()
+            });
+        else
+            this.service.updateStatus(id, "DECLINED").subscribe({
+                next: () => this.loadData()
+            });
     }
 
     loadData() {
         this.service.findByHostId(this.authService.getId()).subscribe({
             next: (data: AccreditReservation[]) => {
-                console.log(data);
                 this.requests = data;
                 this.dataSource = new MatTableDataSource(this.requests);
                 this.dataSource.paginator = this.paginator;
@@ -99,7 +102,7 @@ export class AccreditReservationComponent {
             new Date(request.start!) > new Date();
     }
 
-    canCancel(request: AccreditReservation): boolean {
+    canDecline(request: AccreditReservation): boolean {
         return ['REQUESTED', 'ACCEPTED'].includes(request.status!) &&
             new Date(request.start!) > new Date();
     }
@@ -112,10 +115,8 @@ export class AccreditReservationComponent {
             data: { reportedId: guestId },
         });
     }
+
     canReport(request: AccreditReservation): boolean {
-        if (request.status! == 'ACCEPTED') {
-            console.log(new Date(request.start!) <= new Date())
-        }
         return request.status! == 'ACCEPTED' &&
             new Date(request.start!) <= new Date();
     }
