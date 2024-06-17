@@ -1,0 +1,49 @@
+<div class="reserve-container">
+    <div class="reserve-header-container">
+        <div class="header-price-unit" *ngIf="perPricingPrice > 0">
+            <span class="header-price">$</span>
+            <span class="header-price-value">{{ perPricingPrice }} </span>
+            <span class="header-price-unit">{{ accommodationData.pricing.replace('_', ' ').toLowerCase() }}</span>
+        </div>
+        <div class="header-guest-count">
+            {{ accommodationData.minGuests }} - {{ accommodationData.maxGuests }} guests
+        </div>
+    </div>
+    <div class="reserve-input-section" [formGroup]="reservationDetails">
+        <app-search-daterange-picker [availableSlots]="accommodationData.availableSlots" [form]="dateRangeFormGroup" class="reservation-range-input"></app-search-daterange-picker>
+        <mat-form-field class="reservation-guests-input" subscriptSizing="dynamic" formGroupName="guestGroup">
+            <span matPrefix class="material-symbols-outlined input-prefix">
+                people
+            </span>
+            <mat-label>Guests</mat-label>
+            <input matInput type="number" formControlName="guests">
+        </mat-form-field>
+    </div>
+    <div class="reservation-pricing-section" *ngIf="totalPrice">
+        <div class="pricing-item-section">
+            <div class="pricing-reason">
+                <ng-container *ngIf="accommodationData.pricing === 'PER_PERSON'; else perNight">
+                    ${{ perPricingPrice }} x {{ reservationDetails.get('guestGroup.guests')?.value }} guests x {{ numberOfDays }} nights
+                </ng-container>
+                <ng-template #perNight>
+                    ${{ perPricingPrice }} x {{ numberOfDays }} nights
+                </ng-template>
+            </div>
+            <div class="pricing-value">
+                ${{ totalPrice }}
+            </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="pricing-item-section">
+            <div class="pricing-reason-total">
+                Total
+            </div>
+            <div class="pricing-value-total">
+                ${{ totalPrice }}
+            </div>
+        </div>
+    </div>
+    <div class="complete-button-container">
+        <button mat-flat-button color="primary" (click)="sendReservation()" [disabled]="currentRole == null || ['HOST', 'ADMIN'].includes(currentRole)">Complete</button>
+    </div>
+</div>

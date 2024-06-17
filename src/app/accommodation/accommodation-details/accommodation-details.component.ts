@@ -33,10 +33,6 @@ import { SharedService } from '../../shared/shared.service';
 export class AccommodationDetailsComponent {
     id!: number;
     accommodation!: Observable<Accommodation>;
-    reservationDetails: FormGroup;
-    perPricingPrice!: number;
-    totalPrice!: number;
-    numberOfDays!: number;
     allImageNames: string[] = [];
     imageNames: string[] = []
     fullAddress!: string;
@@ -61,19 +57,7 @@ export class AccommodationDetailsComponent {
         private snackbar: MatSnackBar,
         private sharedService: SharedService
     ) {
-        this.reservationDetails = new FormGroup({
-            dateRange: new FormGroup({
-                start: new FormControl<Date | null>(null),
-                end: new FormControl<Date | null>(null)
-            }),
-            guestGroup: new FormGroup({
-                guests: new FormControl(0)
-            })
-        });
-    }
 
-    get dateRangeFormGroup(): FormGroup {
-        return this.reservationDetails.get('dateRange') as FormGroup;
     }
 
     ngOnInit(): void {
@@ -81,10 +65,6 @@ export class AccommodationDetailsComponent {
         this.route.params.subscribe(params => {
             this.id = params['id'];
             this.accommodation = this.service.getById(this.id);
-        });
-
-        this.reservationDetails.valueChanges.subscribe(() => {
-            this.calculateTotalPrice();
         });
 
 
@@ -172,141 +152,12 @@ export class AccommodationDetailsComponent {
     }
 
 
-    sendReservation() {
-        if (this.authService.isLoggedIn() && this.authService.getRole() === 'GUEST') {
-            const accommodationSubscription = this.accommodation.subscribe((accommodation: Accommodation) => {
-                const startDate = this.reservationDetails.get('dateRange.start')?.value;
-                const endDate = this.reservationDetails.get('dateRange.end')?.value;
-                if (!startDate || !endDate || startDate >= endDate) {
-                    this.openSnackBar("Invalid date range. Please select valid dates.", "Close");
-                    return;
-                }
-
-                const currentDate = new Date();
-                if (startDate < currentDate || endDate < currentDate) {
-                    this.openSnackBar("Selected dates cannot be in the past. Please select future dates.", "Close");
-                    return;
-                }
-
-                const guests = this.reservationDetails.get('guestGroup.guests')?.value;
-                if (isNaN(guests) || guests <= 0 || guests < accommodation.minGuests || guests > accommodation.maxGuests) {
-                    this.openSnackBar("Invalid number of guests. Please enter a valid number.", "Close");
-                    return;
-                }
-
-                const timeSlot: TimeSlot = {
-                    start: startDate,
-                    end: endDate,
-                };
-
-                const newReservation: Reservation = {
-                    price: this.totalPrice,
-                    guestNumber: guests,
-                    requestDate: new Date(),
-                    status: 'REQUESTED',
-                    timeSlot: timeSlot,
-                    guestId: this.authService.getId(),
-                    accommodationId: accommodation.id,
-                };
-
-                console.log("Sending reservation:", newReservation);
-                this.resService.add(newReservation).subscribe({
-                    next: (reservation: Reservation) => {
-                        console.log("Reservation request created successfully:", reservation);
-                        this.openSnackBar('Reservation request created successfully', 'Close');
-                    },
-                    error: (err) => {
-                        let errorMessage = this.sharedService.getError(err, 'Error while getting accommodations');
-                    this.sharedService.displaySnackWithButton(errorMessage, "OK");
-                    }
-                });
-            });
-        } else {
-            this.openSnackBar("You must be logged in as a guest to make a reservation!", "Close");
-        }
-    }
-
-
-    calculateTotalPrice() {
-        this.accommodation.subscribe((accommodation: Accommodation) => {
-            const pricingType = accommodation.pricing;
-            const startDate = this.reservationDetails.get('dateRange.start')?.value;
-            const endDate = this.reservationDetails.get('dateRange.end')?.value;
-            const numberOfDays = this.calculateNumberOfDays(startDate, endDate);
-            this.numberOfDays = numberOfDays;
-            const guests = this.reservationDetails.get('guestGroup.guests')?.value;
-            accommodation.defaultPrice = this.getPriceForDateRange(accommodation, startDate, endDate) || -2;
-            this.perPricingPrice = accommodation.defaultPrice;
-
-            let totalPrice: number;
-            if (pricingType === 'PER_PERSON') {
-                totalPrice = numberOfDays * accommodation.defaultPrice * guests;
-            } else {
-                totalPrice = numberOfDays * accommodation.defaultPrice;
-            }
-
-            this.totalPrice = totalPrice;
-
-            this.detectChanges();
-        });
-    }
+    
 
     private detectChanges() {
         this.cdr.detectChanges();
     }
 
-    calculateNumberOfDays(start: Date | null, end: Date | null): number {
-        if (!start || !end) {
-            return 0;
-        }
-
-        const timeDifference = end.getTime() - start.getTime();
-
-        const numberOfDays = Math.ceil(timeDifference / (1000 * 3600 * 24));
-
-        return numberOfDays;
-    }
-
-    customDateFilter = (date: Date | null): boolean => {
-        if (!date) {
-            return false;
-        }
-
-
-        let isDateAvailable = false;
-
-        this.accommodation.subscribe(accommodation => {
-
-            if (accommodation.availableSlots) {
-                isDateAvailable = accommodation.availableSlots.some(
-                    slot => this.isDateInSlot(date, slot)
-                );
-
-            }
-        });
-
-        return isDateAvailable;
-    };
-
-    private isDateInSlot(date: Date, slot: AvailabilitySlot): boolean {
-        const startDate = new Date(slot.timeSlot.start);
-        const endDate = new Date(slot.timeSlot.end);
-        return date >= startDate && date <= endDate;
-    }
-
-    getPriceForDateRange(accommodation: Accommodation, startDate: Date, endDate: Date): number | null {
-        if (!accommodation.availableSlots || !startDate || !endDate) {
-            return null;
-        }
-        accommodation.availableSlots.forEach(slot => {
-            console.log(slot)
-        });
-        const matchingSlot = accommodation.availableSlots.find(slot =>
-            new Date(startDate) >= new Date(slot.timeSlot.start) && new Date(endDate) <= new Date(slot.timeSlot.end)
-        );
-
-        return matchingSlot ? matchingSlot.price : null;
-    }
 
     reportHost() {
         this.dialog.open(ReportDialogComponent, {

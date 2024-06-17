@@ -23,6 +23,7 @@ import { AccommodationRequestDetailsComponent } from './accommodation-request-de
 import { AccommodationRequestCreateComponent } from './accommodation-request-create/accommodation-request-create.component';
 import { ReviewModule } from '../review/review.module';
 import { HostAccommodationsViewComponent } from './host-accommodations-view/host-accommodations-view.component';
+import { ReserveContainerComponent } from './accommodation-details/reserve-container/reserve-container.component';
 
 
 
@@ -46,6 +47,7 @@ import { HostAccommodationsViewComponent } from './host-accommodations-view/host
         AccommodationRequestsComponent,
         AccommodationRequestDetailsComponent,
         HostAccommodationsViewComponent,
+        ReserveContainerComponent,
     ],
     imports: [
         RouterModule,
